@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "com.google.gms.google-services"
 
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
@@ -79,7 +80,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
  */
 
 project.ext.react = [
-    enableHermes: true,  // clean and rebuild if changing
+        enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -129,6 +130,9 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+Properties p = new Properties()
+p.load(new FileInputStream(rootProject.file('./release.properties')))
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -147,10 +151,10 @@ android {
             externalNativeBuild {
                 cmake {
                     arguments "-DPROJECT_BUILD_DIR=$buildDir",
-                        "-DREACT_ANDROID_DIR=$rootDir/../node_modules/react-native/ReactAndroid",
-                        "-DREACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build",
-                        "-DNODE_MODULES_DIR=$rootDir/../node_modules",
-                        "-DANDROID_STL=c++_shared"
+                            "-DREACT_ANDROID_DIR=$rootDir/../node_modules/react-native/ReactAndroid",
+                            "-DREACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build",
+                            "-DNODE_MODULES_DIR=$rootDir/../node_modules",
+                            "-DANDROID_STL=c++_shared"
                 }
             }
             if (!enableSeparateBuildPerCPUArchitecture) {
@@ -212,15 +216,23 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
+            storeFile file("../debug-keystore.jks")
             storePassword 'android'
-            keyAlias 'androiddebugkey'
+            keyAlias 'debug'
             keyPassword 'android'
+        }
+
+        release {
+            storeFile file(p.getProperty("KEYSTORE_PATH", "."))
+            storePassword p.getProperty("STORE_PASSWORD", ".")
+            keyAlias p.getProperty("ALIAS", ".")
+            keyPassword p.getProperty("KEY_PASSWORD", ".")
         }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            applicationIdSuffix ".debug"
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -228,6 +240,11 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+
+        qarelease {
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".qa"
         }
     }
 
@@ -277,6 +294,9 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation platform('com.google.firebase:firebase-bom:31.0.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
 
 if (isNewArchitectureEnabled()) {
