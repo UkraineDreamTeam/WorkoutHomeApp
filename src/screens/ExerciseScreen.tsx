@@ -7,7 +7,7 @@ import {ExerciseScreenProps, RootStackParamList} from '../types';
 const ExerciseScreen = ({navigation}: ExerciseScreenProps) => {
   return (
     <SafeAreaView>
-      <Button title="Back" onPress={() => navigation.goBack()} />
+      {/* <Button title="Back" onPress={() => navigation.goBack()} /> */}
     </SafeAreaView>
   );
 };
