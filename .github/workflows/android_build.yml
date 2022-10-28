@@ -79,13 +79,13 @@ jobs:
           echo "VERSION_CODE=${{ github.run_number }}" > release.properties
 
       - name: Run test
-        run: ./gradlew test
+        run: cd android && gradlew test 
 
       - name: Run lint
-        run: ./gradlew lint
+        run: cd android && gradlew lint 
 
       - name: build release
-        run: ./gradlew assembleQa
+        run: cd android && ./gradlew assembleQa
 
       - name: upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
