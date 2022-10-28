@@ -31,6 +31,10 @@ local.properties
 *.iml
 *.hprof
 .cxx/
+*.apk
+android/app/debug
+android/app/qarelease
+android/app/release
 
 # node.js
 #
