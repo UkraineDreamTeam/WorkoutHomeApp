@@ -1,18 +1,6 @@
-import {
-  BottomTabBarProps,
-  BottomTabNavigationConfig,
-  BottomTabScreenProps,
-} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
-import {
-  NavigationContainerRefWithCurrent,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useMemo, useRef} from 'react';
-import {View, Text, TouchableOpacity, Image, Animated} from 'react-native';
-import {ICONS_PATHS} from '../constants';
-import {RootStackParamList} from '../types';
+import React, { useRef } from 'react';
+import { Animated, TouchableOpacity, View } from 'react-native';
+import { ICONS_PATHS } from '../constants';
 
 function MyTabBar({
   state,
@@ -20,10 +8,10 @@ function MyTabBar({
   navigation,
   navigationRef,
 }: BottomTabBarProps & {
-  navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+  navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
 }) {
   return (
-    <View style={{flexDirection: 'row', backgroundColor: '#343D54'}}>
+    <View style={{ flexDirection: 'row', backgroundColor: '#343D54', }}>
       {state.routes.map((route, index) => {
         const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -44,7 +32,7 @@ function MyTabBar({
             useNativeDriver: true,
           }).start();
         };
-        const {options} = descriptors[route.key];
+        const { options, } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -74,19 +62,12 @@ function MyTabBar({
             target: route.key,
           });
         };
-        useEffect(() => {
-          if (isFocused) {
-            fadeOut();
-          } else {
-            fadeIn();
-          }
-        }, [state]);
 
         return (
           <TouchableOpacity
             key={index}
             accessibilityRole="button"
-            accessibilityState={isFocused ? {selected: true} : {}}
+            accessibilityState={isFocused ? { selected: true, } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
@@ -101,7 +82,8 @@ function MyTabBar({
               height: 60,
 
               paddingVertical: 5,
-            }}>
+            }}
+          >
             <Animated.Image
               source={ICONS_PATHS[route.name]}
               style={{
@@ -109,14 +91,14 @@ function MyTabBar({
                 transform: [
                   {
                     translateY: fadeAnim.interpolate({
-                      inputRange: [0, 10, 20],
-                      outputRange: [10, 5, 0],
+                      inputRange: [0, 10, 20,],
+                      outputRange: [10, 5, 0,],
                     }),
                   },
                   {
                     scale: fadeAnim.interpolate({
-                      inputRange: [0, 10, 20],
-                      outputRange: [1.2, 1.1, 1],
+                      inputRange: [0, 10, 20,],
+                      outputRange: [1.2, 1.1, 1,],
                     }),
                   },
                 ],
@@ -124,22 +106,23 @@ function MyTabBar({
             />
             <Animated.Text
               style={[
-                {color: isFocused ? 'white' : 'transparent'},
+                { color: isFocused ? 'white' : 'transparent', },
                 {
                   transform: [
                     {
                       translateY: fadeAnim.interpolate({
-                        inputRange: [0, 10, 20],
-                        outputRange: [20, 10, 0],
+                        inputRange: [0, 10, 20,],
+                        outputRange: [20, 10, 0,],
                       }),
                     },
                   ],
                   opacity: fadeAnim.interpolate({
-                    inputRange: [0, 15, 20],
-                    outputRange: [0, 0.4, 1],
+                    inputRange: [0, 15, 20,],
+                    outputRange: [0, 0.4, 1,],
                   }),
                 },
-              ]}>
+              ]}
+            >
               {label.toString()}
             </Animated.Text>
             {/* <Animated.Text
