@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Signed APK
         run: |
-          echo "KEYSTORE_PATH=$GITHUB_WORKSPACE/upload-keystore.jks" > android/release.properties
+          echo "KEYSTORE_PATH=$GITHUB_WORKSPACE/android/upload-keystore.jks" > android/release.properties
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> android/release.properties
           echo "STORE_PASSWORD=${{secrets.STORE_PASSWORD}}" >> android/release.properties
           echo "ALIAS=${{ secrets.ALIAS }}" >> android/release.properties
