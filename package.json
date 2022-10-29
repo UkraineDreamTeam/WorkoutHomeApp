@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "clean-install": "git update-index --assume-unchanged android/release.properties && watchman watch-del-all && rm -rf ./node_modules && yarn && cd ios && pod install",
     "android": "react-native run-android --appIdSuffix 'debug'",
     "ios": "react-native run-ios",
     "start": "react-native start",
