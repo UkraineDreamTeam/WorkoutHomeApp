@@ -57,7 +57,7 @@ jobs:
           file: app/build/outputs/apk/release/app-release.apk
 
   un_signed:
-    name: build signed APK
+    name: build signed APK2
     runs-on: ubuntu-latest
     if: github.ref_name == 'test-ci-cd'
     steps:
@@ -79,13 +79,16 @@ jobs:
           echo "VERSION_CODE=${{ github.run_number }}" > release.properties
 
       - name: Run test
-        run: cd android && gradlew test 
+        working-directory: ./android
+        run: ./gradlew test 
 
       - name: Run lint
-        run: cd android && gradlew lint 
+        working-directory: ./android
+        run: ./gradlew lint 
 
       - name: build release
-        run: cd android && ./gradlew assembleQa
+        working-directory: ./android
+        run: ./gradlew assembleQa
 
       - name: upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
