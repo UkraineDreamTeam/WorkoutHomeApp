@@ -3,14 +3,14 @@ name: Android Build
 on:
   push:
     branches:
+      - qa
       - test-ci-cd
-      - main
 
 jobs:
   signed:
     name: build signed APK
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'test-ci-cd'
     steps:
       - uses: actions/checkout@v1
 
@@ -57,7 +57,7 @@ jobs:
   un_signed:
     name: build signed APK2
     runs-on: ubuntu-latest
-    if: github.ref_name == 'test-ci-cd'
+    if: github.ref_name == 'qa'
     steps:
       - uses: actions/checkout@v1
 
