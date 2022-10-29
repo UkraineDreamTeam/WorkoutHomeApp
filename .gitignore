@@ -31,6 +31,10 @@ local.properties
 *.iml
 *.hprof
 .cxx/
+*.apk
+android/app/debug
+android/app/qarelease
+android/app/release
 
 # node.js
 #
@@ -42,6 +46,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+upload-keystore.jks
 !debug.keystore
 
 # fastlane
