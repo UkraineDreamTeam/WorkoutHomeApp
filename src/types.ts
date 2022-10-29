@@ -1,15 +1,15 @@
-import {RouteProp} from '@react-navigation/native';
-import type {
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import {
   CompositeScreenProps,
   NavigatorScreenParams,
+  RouteProp,
 } from '@react-navigation/native';
-import type {StackScreenProps} from '@react-navigation/stack';
-import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import { StackScreenProps } from '@react-navigation/stack';
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>;
   Statistics: undefined;
-  ListOfExercise: {caption: string};
+  ListOfExercise: { caption: string };
   Profile: undefined;
 };
 
@@ -29,13 +29,14 @@ export type ExerciseScreenProps = StackScreenProps<
   HomeTabParamList,
   'Exercise'
 >;
+export type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 export type ListOfExerciseRoute = RouteProp<HomeTabParamList, 'ListOfExercise'>;
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
 
 export type HomeTabParamList = {
-  CurrentWorkout: {caption: string};
-  ListOfExercise: {caption: string};
+  CurrentWorkout: { caption: string };
+  ListOfExercise: { caption: string };
   Exercise: undefined;
 };
 

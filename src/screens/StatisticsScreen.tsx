@@ -1,9 +1,8 @@
 import React from 'react';
-import {Button} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {StatisticsScreenProps} from '../types';
+import { Button, SafeAreaView } from 'react-native';
+import { StatisticsScreenProps } from '../types';
 
-const StatisticsScreen = ({navigation}: StatisticsScreenProps) => {
+const StatisticsScreen = ({ navigation }: StatisticsScreenProps) => {
   return (
     <SafeAreaView>
       <Button
@@ -11,12 +10,11 @@ const StatisticsScreen = ({navigation}: StatisticsScreenProps) => {
         onPress={() =>
           navigation.navigate('Home', {
             screen: 'CurrentWorkout',
-            params: {caption: 'fe'},
+            params: { caption: 'fe' },
           })
         }
       />
     </SafeAreaView>
   );
 };
-
 export default StatisticsScreen;
