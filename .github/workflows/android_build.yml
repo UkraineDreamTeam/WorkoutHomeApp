@@ -29,14 +29,14 @@ jobs:
         shell: bash
 
       - shell: bash
-        run: echo "${{ secrets.KEYSTORE }}" | base64 -d > $GITHUB_WORKSPACE/upload-keystore.jks
+        run: echo "${{ secrets.KEYSTORE }}" | base64 -d > $GITHUB_WORKSPACE/android/upload-keystore.jks
 
       - name: Build Signed APK
         run: |
-          echo "KEYSTORE_PATH=$GITHUB_WORKSPACE/upload-keystore.jks" > release.properties
-          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> release.properties
-          echo "STORE_PASSWORD=${{secrets.STORE_PASSWORD}}" >> release.properties
-          echo "ALIAS=${{ secrets.ALIAS }}" >> release.properties
+          echo "KEYSTORE_PATH=$GITHUB_WORKSPACE/upload-keystore.jks" > android/release.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> android/release.properties
+          echo "STORE_PASSWORD=${{secrets.STORE_PASSWORD}}" >> android/release.properties
+          echo "ALIAS=${{ secrets.ALIAS }}" >> android/release.properties
 
       - name: build release
         working-directory: ./android
@@ -44,7 +44,7 @@ jobs:
 
       - name: remove keystore.jks
         shell: bash
-        run: rm $GITHUB_WORKSPACE/upload-keystore.jks
+        run: rm $GITHUB_WORKSPACE/android/upload-keystore.jks
 
       - name: upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
