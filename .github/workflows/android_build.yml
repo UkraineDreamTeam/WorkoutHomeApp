@@ -91,5 +91,5 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID_QA }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: app/build/outputs/apk/qarelease/app-qarelease.apk
+          file: android/app/build/outputs/apk/qarelease/app-qarelease.apk
           releaseNotes: ${{ github.event.head_commit.message }}
