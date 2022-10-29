@@ -25,11 +25,8 @@ jobs:
       - run: sudo apt-get -y install openjdk-11-jdk
         shell: bash
 
-      - name: Run test
-        run: ./gradlew test
-
-      - name: Run lint
-        run: ./gradlew lint
+      - run: yarn
+        shell: bash
 
       - shell: bash
         run: echo "${{ secrets.KEYSTORE }}" | base64 -d > $GITHUB_WORKSPACE/upload-keystore.jks
@@ -42,6 +39,7 @@ jobs:
           echo "ALIAS=${{ secrets.ALIAS }}" >> release.properties
 
       - name: build release
+        working-directory: ./android
         run: ./gradlew assembleRelease
 
       - name: remove keystore.jks
