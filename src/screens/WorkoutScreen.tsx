@@ -2,17 +2,15 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Button, SafeAreaView } from 'react-native';
-import { RootStackParamList } from '../types';
+import { RootStackParamList } from '../types/types';
 
 const WorkoutScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ zIndex: 0 }}>
       <Button
         title="Workout"
-        onPress={() =>
-          navigation.navigate('ListOfExercise', { caption: 'sfd' })
-        }
+        onPress={() => navigation.navigate('ListOfExercise')}
       />
     </SafeAreaView>
   );

@@ -1,145 +1,105 @@
-import React, { useRef } from 'react';
-import { Animated, TouchableOpacity, View } from 'react-native';
-import { ICONS_PATHS } from '../constants';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import {
+  NavigationContainerRefWithCurrent,
+  useTheme,
+} from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { Animated, StyleSheet } from 'react-native';
+import { PATH_TO_SHOW_BOTTOM_BAR } from '../constants';
+import { RootStackParamList } from '../types/types';
+import TabBarItem from './TabBarItem';
 
-function MyTabBar({
-  state,
-  descriptors,
-  navigation,
-  navigationRef,
-}: BottomTabBarProps & {
-  navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
-}) {
+function MyTabBar(
+  props: BottomTabBarProps & {
+    navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
+  }
+) {
+  const theme = useTheme();
+  const { navigationRef, state } = props;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const fadeIn = useCallback(() => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  const fadeOut = useCallback(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 20,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  useEffect(() => {
+    const routeName = navigationRef.getCurrentRoute()?.name;
+    console.log(routeName);
+
+    if (routeName && typeof routeName === 'string') {
+      if (PATH_TO_SHOW_BOTTOM_BAR[routeName]) {
+        fadeIn();
+      } else {
+        fadeOut();
+      }
+    }
+  }, [fadeAnim, fadeIn, fadeOut, navigationRef, state]);
+
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: '#343D54', }}>
-      {state.routes.map((route, index) => {
-        const fadeAnim = useRef(new Animated.Value(0)).current;
-
-        const fadeIn = () => {
-          // Will change fadeAnim value to 1 in 5 seconds
-          Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }).start();
-        };
-
-        const fadeOut = () => {
-          // Will change fadeAnim value to 0 in 3 seconds
-          Animated.timing(fadeAnim, {
-            toValue: 20,
-            duration: 300,
-            useNativeDriver: true,
-          }).start();
-        };
-        const { options, } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
-
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          fadeOut();
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate(route.name);
-          }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
-        return (
-          <TouchableOpacity
-            key={index}
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true, } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{
-              flex: 1,
-
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 60,
-
-              paddingVertical: 5,
-            }}
-          >
-            <Animated.Image
-              source={ICONS_PATHS[route.name]}
-              style={{
-                opacity: !isFocused ? 0.6 : 1,
-                transform: [
-                  {
-                    translateY: fadeAnim.interpolate({
-                      inputRange: [0, 10, 20,],
-                      outputRange: [10, 5, 0,],
-                    }),
-                  },
-                  {
-                    scale: fadeAnim.interpolate({
-                      inputRange: [0, 10, 20,],
-                      outputRange: [1.2, 1.1, 1,],
-                    }),
-                  },
-                ],
-              }}
+    <Animated.View
+      style={[
+        style.tabBarContainer,
+        {
+          backgroundColor: theme.colors.background,
+          position: 'absolute',
+          bottom: 0,
+          zIndex: fadeAnim.interpolate({
+            inputRange: [0, 20],
+            outputRange: [10, -1],
+          }),
+        },
+      ]}
+    >
+      <Animated.View
+        style={[
+          style.tabBarContainer,
+          {
+            transform: [
+              {
+                translateY: fadeAnim.interpolate({
+                  inputRange: [0, 20],
+                  outputRange: [0, 100],
+                }),
+              },
+            ],
+          },
+        ]}
+      >
+        {props.state.routes.map((route, index) => {
+          return (
+            <TabBarItem
+              key={index}
+              route={route as any}
+              index={index}
+              {...props}
             />
-            <Animated.Text
-              style={[
-                { color: isFocused ? 'white' : 'transparent', },
-                {
-                  transform: [
-                    {
-                      translateY: fadeAnim.interpolate({
-                        inputRange: [0, 10, 20,],
-                        outputRange: [20, 10, 0,],
-                      }),
-                    },
-                  ],
-                  opacity: fadeAnim.interpolate({
-                    inputRange: [0, 15, 20,],
-                    outputRange: [0, 0.4, 1,],
-                  }),
-                },
-              ]}
-            >
-              {label.toString()}
-            </Animated.Text>
-            {/* <Animated.Text
-              style={[
-                {color: isFocused ? 'white' : 'transparent'},
-                {
-                  height: fadeAnim,
-                  opacity: 0.6,
-                },
-              ]}>
-              {label.toString()}
-            </Animated.Text> */}
-          </TouchableOpacity>
-        );
-      })}
-    </View>
+          );
+        })}
+      </Animated.View>
+    </Animated.View>
   );
 }
-
+const style = StyleSheet.create({
+  tabBarContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#343D54',
+    width: '100%',
+  },
+  tabContainer: {
+    flex: 1,
+    backgroundColor: '#343D54',
+  },
+});
 export default MyTabBar;

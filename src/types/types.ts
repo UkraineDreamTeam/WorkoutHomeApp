@@ -9,8 +9,9 @@ import { StackScreenProps } from '@react-navigation/stack';
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>;
   Statistics: undefined;
-  ListOfExercise: { caption: string };
+  ListOfExercise: undefined;
   Profile: undefined;
+  Exercise: undefined;
 };
 
 export type WorkoutScreenProps = StackScreenProps<
@@ -35,8 +36,8 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
 
 export type HomeTabParamList = {
-  CurrentWorkout: { caption: string };
-  ListOfExercise: { caption: string };
+  CurrentWorkout: undefined;
+  ListOfExercise: undefined;
   Exercise: undefined;
 };
 
@@ -45,9 +46,3 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
     BottomTabScreenProps<HomeTabParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}

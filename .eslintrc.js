@@ -18,6 +18,12 @@ module.exports = {
             argsIgnorePattern: '^_',
           },
         ],
+        'prettier/prettier': [
+          'error',
+          {
+            endOfLine: 'auto',
+          },
+        ],
         // 'prettier/prettier': 'off',
         // 'comma-dangle': [
         //   'error',

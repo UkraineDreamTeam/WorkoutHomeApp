@@ -1,20 +1,85 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
-import { Button, SafeAreaView, Text } from 'react-native';
-import { HomeTabParamList, ListOfExerciseRoute } from '../types';
+import { Button, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { HomeTabParamList } from '../types/types';
 
 const ListOfExercisesScreen = () => {
   const navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
-  const route = useRoute<ListOfExerciseRoute>();
+
   return (
-    <SafeAreaView>
-      <Text>List of exercises {route.params.caption} </Text>
+    <ScrollView style={{ zIndex: 1 }}>
+      <Text>List of exercises </Text>
       <Button
         title="Back"
-        onPress={() => navigation.push('CurrentWorkout', { caption: 'feef' })}
+        onPress={() => navigation.navigate('CurrentWorkout')}
       />
-    </SafeAreaView>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      {/* <Image
+        source={require('../assets/icons/Home.png')}
+        style={{ width: 100, height: 500 }}
+      /> */}
+
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+      <Text>List of exercises last </Text>
+    </ScrollView>
   );
 };
 export default ListOfExercisesScreen;
