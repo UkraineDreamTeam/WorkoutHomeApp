@@ -1,20 +1,22 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import Workout from './WorkoutScreen';
 import ListOfExercisesScreen from './ListOfExercisesScreen';
 import ExerciseScreen from './ExerciseScreen';
-import { HomeTabParamList } from '../types';
+import { HomeTabParamList } from '../types/types';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const HomeStack = createStackNavigator<HomeTabParamList>();
+const HomeStack = createBottomTabNavigator<HomeTabParamList>();
 
 const HomeNavigator = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      sceneContainerStyle={{ position: 'relative' }}
+      tabBar={() => null}
+    >
       <HomeStack.Screen
         name="CurrentWorkout"
         component={Workout}
         navigationKey="CurrentWorkout"
-        listeners={{}}
         options={{
           title: '',
           headerShown: false,
