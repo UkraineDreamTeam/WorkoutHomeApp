@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Button, SafeAreaView } from 'react-native';
 
-import { RootStackParamList } from '../types';
+import { RootStackParamList } from '../types/types';
 
 const Profile = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -14,7 +14,6 @@ const Profile = () => {
         onPress={() =>
           navigation.navigate('Home', {
             screen: 'CurrentWorkout',
-            params: { caption: 'dwer' },
           })
         }
       />
