@@ -1,7 +1,9 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
-import { ICONS_PATHS } from '../constants';
+import Home from '../assets/icons/Home.svg';
+import Profile from '../assets/icons/Profile.svg';
+import Statistics from '../assets/icons/Statistics.svg';
 
 const TabBarItem = ({
   descriptors,
@@ -82,7 +84,7 @@ const TabBarItem = ({
         {
           scale: tabAnim.interpolate({
             inputRange: [0, 10, 20],
-            outputRange: [1.2, 1.1, 1],
+            outputRange: [1, 0.8, 0.7],
           }),
         },
       ],
@@ -107,6 +109,30 @@ const TabBarItem = ({
       },
     ];
   }, [tabAnim, isFocused]);
+  const getTabIcon = () => {
+    if (route.name === 'Home') {
+      return (
+        <Animated.View style={{ ...tabIconAnimation() }}>
+          <Home width={40} height={30} />
+        </Animated.View>
+      );
+    }
+    if (route.name === 'Statistics') {
+      return (
+        <Animated.View style={{ ...tabIconAnimation() }}>
+          <Statistics width={40} height={30} />
+        </Animated.View>
+      );
+    }
+
+    if (route.name === 'Profile') {
+      return (
+        <Animated.View style={{ ...tabIconAnimation() }}>
+          <Profile width={40} height={30} />
+        </Animated.View>
+      );
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -119,23 +145,10 @@ const TabBarItem = ({
       onLongPress={onLongPress}
       style={style.tab}
     >
-      <Animated.Image
-        source={ICONS_PATHS[route.name]}
-        style={{ ...tabIconAnimation() }}
-      />
+      {getTabIcon()}
       <Animated.Text style={tabTextAnimation()}>
         {label.toString()}
       </Animated.Text>
-      {/* <Animated.Text
-              style={[
-                {color: isFocused ? 'white' : 'transparent'},
-                {
-                  height: tabAnim,
-                  opacity: 0.6,
-                },
-              ]}>
-              {label.toString()}
-            </Animated.Text> */}
     </TouchableOpacity>
   );
 };
