@@ -15,7 +15,6 @@ const TabBarItem = ({
 }) => {
   const tabAnim = useRef(new Animated.Value(0)).current;
   const fadeIn = useCallback(() => {
-    // Will change tabAnim value to 1 in 5 seconds
     Animated.timing(tabAnim, {
       toValue: 0,
       duration: 300,
@@ -107,6 +106,21 @@ const TabBarItem = ({
       },
     ];
   }, [tabAnim, isFocused]);
+<<<<<<< HEAD
+=======
+  const getTabIcon = () => {
+    if (route.name === 'Home') {
+      return <Home width={40} height={40} />;
+    }
+    if (route.name === 'Statistics') {
+      return <Statistics width={40} height={40} />;
+    }
+
+    if (route.name === 'Profile') {
+      return <Profile width={40} height={40} />;
+    }
+  };
+>>>>>>> cc1c943 (colorscheme + theme)
 
   return (
     <TouchableOpacity
@@ -119,10 +133,16 @@ const TabBarItem = ({
       onLongPress={onLongPress}
       style={style.tab}
     >
+<<<<<<< HEAD
       <Animated.Image
         source={ICONS_PATHS[route.name]}
         style={{ ...tabIconAnimation() }}
       />
+=======
+      <Animated.View style={{ ...tabIconAnimation() }}>
+        {getTabIcon()}
+      </Animated.View>
+>>>>>>> cc1c943 (colorscheme + theme)
       <Animated.Text style={tabTextAnimation()}>
         {label.toString()}
       </Animated.Text>

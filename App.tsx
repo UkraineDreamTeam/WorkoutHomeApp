@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  DarkTheme,
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
@@ -12,6 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StatisticsScreen from './src/screens/StatisticsScreen';
 import Profile from './src/screens/Profile';
 import MyTabBar from './src/components/TabBar';
+import { CustomTheme } from './src/theme';
 
 const TabStack = createBottomTabNavigator<RootStackParamList>();
 
@@ -24,7 +24,7 @@ const App = () => {
       ref={navigationRef}
       theme={{
         dark: false,
-        colors: { ...DarkTheme.colors, background: '#36404F' },
+        colors: { ...CustomTheme.colors },
       }}
     >
       <TabStack.Navigator
