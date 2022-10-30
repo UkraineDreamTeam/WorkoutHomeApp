@@ -56,8 +56,10 @@ function MyTabBar(
           position: 'absolute',
           bottom: 0,
           zIndex: fadeAnim.interpolate({
-            inputRange: [0, 20],
-            outputRange: [10, -1],
+
+            inputRange: [0, 3, 5, 10, 20],
+            outputRange: [1, -1, -1, -1, -1],
+
           }),
         },
       ]}
@@ -96,6 +98,9 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#343D54',
     width: '100%',
+
+    zIndex: 1,
+
   },
   tabContainer: {
     flex: 1,
