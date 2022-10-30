@@ -17,7 +17,6 @@ const TabBarItem = ({
 }) => {
   const tabAnim = useRef(new Animated.Value(0)).current;
   const fadeIn = useCallback(() => {
-    // Will change tabAnim value to 1 in 5 seconds
     Animated.timing(tabAnim, {
       toValue: 0,
       duration: 300,
@@ -111,26 +110,14 @@ const TabBarItem = ({
   }, [tabAnim, isFocused]);
   const getTabIcon = () => {
     if (route.name === 'Home') {
-      return (
-        <Animated.View style={{ ...tabIconAnimation() }}>
-          <Home width={40} height={30} />
-        </Animated.View>
-      );
+      return <Home width={40} height={40} />;
     }
     if (route.name === 'Statistics') {
-      return (
-        <Animated.View style={{ ...tabIconAnimation() }}>
-          <Statistics width={40} height={30} />
-        </Animated.View>
-      );
+      return <Statistics width={40} height={40} />;
     }
 
     if (route.name === 'Profile') {
-      return (
-        <Animated.View style={{ ...tabIconAnimation() }}>
-          <Profile width={40} height={30} />
-        </Animated.View>
-      );
+      return <Profile width={40} height={40} />;
     }
   };
 
@@ -145,7 +132,9 @@ const TabBarItem = ({
       onLongPress={onLongPress}
       style={style.tab}
     >
-      {getTabIcon()}
+      <Animated.View style={{ ...tabIconAnimation() }}>
+        {getTabIcon()}
+      </Animated.View>
       <Animated.Text style={tabTextAnimation()}>
         {label.toString()}
       </Animated.Text>
