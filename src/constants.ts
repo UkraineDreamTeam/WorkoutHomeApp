@@ -1,13 +1,15 @@
-import { ImageSourcePropType } from 'react-native';
+import { CustomTheme } from './theme';
 
-export const ICONS_PATHS: { [key: string]: ImageSourcePropType | undefined } = {
-  Home: require('./assets/icons/Home.png'),
-  Profile: require('./assets/icons/Profile.png'),
-  Statistics: require('./assets/icons/Statistics.png'),
-};
 export const PATH_TO_SHOW_BOTTOM_BAR: { [key: string]: string } = {
   CurrentWorkout: 'CurrentWorkout',
   Statistics: 'Statistics',
-
   Profile: 'Profile',
+};
+
+export const COLOR_SCHEME = {
+  BACKGROUND: CustomTheme.colors.background,
+  TAB_BAR: CustomTheme.colors.card,
+  MODAL_BACKGROUND: CustomTheme.colors.card,
+  WORKOUT_ACTIONS: CustomTheme.colors.primary,
+  ANOTHER_ACTIONS: '#DA0AAC',
 };

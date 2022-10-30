@@ -1,11 +1,9 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import {
-  NavigationContainerRefWithCurrent,
-  useTheme,
-} from '@react-navigation/native';
+import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { PATH_TO_SHOW_BOTTOM_BAR } from '../constants';
+import { COLOR_SCHEME, PATH_TO_SHOW_BOTTOM_BAR } from '../constants';
+
 import { RootStackParamList } from '../types/types';
 import TabBarItem from './TabBarItem';
 
@@ -14,11 +12,9 @@ function MyTabBar(
     navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
   }
 ) {
-  const theme = useTheme();
   const { navigationRef, state } = props;
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const fadeIn = useCallback(() => {
-    // Will change fadeAnim value to 1 in 5 seconds
+  const show = useCallback(() => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
@@ -26,7 +22,7 @@ function MyTabBar(
     }).start();
   }, [fadeAnim]);
 
-  const fadeOut = useCallback(() => {
+  const hide = useCallback(() => {
     Animated.timing(fadeAnim, {
       toValue: 20,
       duration: 300,
@@ -36,25 +32,22 @@ function MyTabBar(
 
   useEffect(() => {
     const routeName = navigationRef.getCurrentRoute()?.name;
-    console.log(routeName);
-
     if (routeName && typeof routeName === 'string') {
       if (PATH_TO_SHOW_BOTTOM_BAR[routeName]) {
-        fadeIn();
+        show();
       } else {
-        fadeOut();
+        hide();
       }
     }
-  }, [fadeAnim, fadeIn, fadeOut, navigationRef, state]);
+  }, [fadeAnim, show, hide, navigationRef, state]);
 
   return (
     <Animated.View
       style={[
         style.tabBarContainer,
+
         {
-          backgroundColor: theme.colors.background,
-          position: 'absolute',
-          bottom: 0,
+          backgroundColor: COLOR_SCHEME.BACKGROUND,
           zIndex: fadeAnim.interpolate({
             inputRange: [0, 3, 20],
             outputRange: [1, -1, -1],
@@ -65,6 +58,7 @@ function MyTabBar(
       <Animated.View
         style={[
           style.tabBarContainer,
+
           {
             transform: [
               {
@@ -74,6 +68,7 @@ function MyTabBar(
                 }),
               },
             ],
+            backgroundColor: COLOR_SCHEME.TAB_BAR,
           },
         ]}
       >
@@ -94,13 +89,15 @@ function MyTabBar(
 const style = StyleSheet.create({
   tabBarContainer: {
     flexDirection: 'row',
-    backgroundColor: '#343D54',
+
     width: '100%',
     zIndex: 1,
   },
   tabContainer: {
     flex: 1,
-    backgroundColor: '#343D54',
+
+    position: 'absolute',
+    bottom: 0,
   },
 });
 export default MyTabBar;
