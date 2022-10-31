@@ -246,7 +246,7 @@ android {
 
         qarelease {
             initWith release
-            matchingFallbacks = ['debug', 'release']
+            matchingFallbacks = ['release']
             signingConfig signingConfigs.debug
             applicationIdSuffix ".qa"
 
