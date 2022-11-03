@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
-import { Button, Text, StyleSheet, Image, FlatList } from 'react-native';
+import { Button, Text, StyleSheet, Image, FlatList, View } from 'react-native';
 
 import { HomeTabParamList } from '../types/types';
 
@@ -19,7 +19,7 @@ const ListOfExercisesScreen = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <View>
       <Text>List of exercises </Text>
       <Button
         title="Back"
@@ -43,7 +43,7 @@ const ListOfExercisesScreen = () => {
         data={gifs}
         renderItem={({ item }) => <ExerciseItem key={item.id} {...item} />}
       />
-    </>
+    </View>
   );
 };
 const style = StyleSheet.create({
