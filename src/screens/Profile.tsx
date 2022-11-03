@@ -11,11 +11,12 @@ const Profile = () => {
     <SafeAreaView style={{ backgroundColor: 'black' }}>
       <Button
         title="To Home"
-        onPress={() =>
+        onPress={e => {
+          e.preventDefault();
           navigation.navigate('Home', {
             screen: 'CurrentWorkout',
-          })
-        }
+          });
+        }}
       />
     </SafeAreaView>
   );

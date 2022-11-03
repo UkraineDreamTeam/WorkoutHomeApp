@@ -1,9 +1,14 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
-import Home from '../assets/icons/Home.svg';
-import Profile from '../assets/icons/Profile.svg';
-import Statistics from '../assets/icons/Statistics.svg';
+import {
+  Animated,
+  GestureResponderEvent,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import Home from '../../assets/icons/Home.svg';
+import Profile from '../../assets/icons/Profile.svg';
+import Statistics from '../../assets/icons/Statistics.svg';
 
 const TabBarItem = ({
   descriptors,
@@ -43,7 +48,8 @@ const TabBarItem = ({
     return state.index === index;
   }, [state, index]);
 
-  const onPress = () => {
+  const onPress = (e: GestureResponderEvent) => {
+    e.preventDefault();
     fadeOut();
     const event = navigation.emit({
       type: 'tabPress',
@@ -128,7 +134,7 @@ const TabBarItem = ({
       accessibilityState={isFocused ? { selected: true } : {}}
       accessibilityLabel={options.tabBarAccessibilityLabel}
       testID={options.tabBarTestID}
-      onPress={onPress}
+      onPress={e => onPress(e)}
       onLongPress={onLongPress}
       style={style.tab}
     >

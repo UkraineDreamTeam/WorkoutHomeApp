@@ -1,15 +1,23 @@
-import React from 'react';
-import Workout from './WorkoutScreen';
-import ListOfExercisesScreen from './ListOfExercisesScreen';
-import ExerciseScreen from './ExerciseScreen';
+import React, { useEffect } from 'react';
+import Workout from '../screens/WorkoutScreen';
+import ListOfExercisesScreen from '../screens/ListOfExercisesScreen';
+import ExerciseScreen from '../screens/ExerciseScreen';
 import { HomeTabParamList } from '../types/types';
+import { useAppDispatch } from '../redux/store';
+import { getExercises } from '../redux/exercises/exrcises.thunk';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const HomeStack = createStackNavigator<HomeTabParamList>();
 
 const HomeNavigator = () => {
+  const dispatch = useAppDispatch();
+  // const exercisesList = useAppSelector(state => state.exercises.exercises);
+  useEffect(() => {
+    dispatch(getExercises());
+  }, [dispatch]);
+
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator initialRouteName="CurrentWorkout">
       <HomeStack.Screen
         name="CurrentWorkout"
         component={Workout}

@@ -6,71 +6,50 @@ import {
 } from '@react-navigation/native';
 
 import { RootStackParamList } from './src/types/types';
-import HomeNavigator from './src/screens/HomeStack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import StatisticsScreen from './src/screens/StatisticsScreen';
-import Profile from './src/screens/Profile';
-import MyTabBar from './src/components/TabBar';
 import { CustomTheme } from './src/theme';
-
-const TabStack = createBottomTabNavigator<RootStackParamList>();
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
+import BottomStackNavigator from './src/stackNavigators/BotomStack';
 
 const App = () => {
   const navigationRef = useNavigationContainerRef<RootStackParamList>();
+  // const [initializing, setInitializing] = useState(true);
+  // const [user, setUser] = useState();
+  // const onAuthStateChanged = useCallback(
+  //   (userDat: any) => {
+  //     setUser(userDat);
+  //     if (initializing) {
+  //       setInitializing(false);
+  //     }
+  //   },
+  //   [initializing]
+  // );
+
+  // const signIn = async () => {
+  //   try {
+  //     const userSub = async () => await firebase.auth().signInAnonymously();
+  //     return userSub;
+  //   } catch (error) {}
+  // };
+
+  // useEffect(() => {
+  //   const userDAta = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+
+  //   return userDAta;
+  // }, []);
 
   return (
-    // <Provider store={store}>
-    <NavigationContainer
-      ref={navigationRef}
-      theme={{
-        dark: false,
-        colors: { ...CustomTheme.colors },
-      }}
-    >
-      <TabStack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          tabBarStyle: {
-            backgroundColor: '#343D54',
-            position: 'absolute',
-            height: 30,
-          },
+    <Provider store={store}>
+      <NavigationContainer
+        ref={navigationRef}
+        theme={{
+          dark: false,
+          colors: { ...CustomTheme.colors },
         }}
-        tabBar={props => <MyTabBar {...props} navigationRef={navigationRef} />}
       >
-        <TabStack.Screen
-          name="Home"
-          component={HomeNavigator}
-          options={{
-            title: 'My workout',
-            headerShown: false,
-            tabBarActiveTintColor: 'white',
-            tabBarInactiveTintColor: 'transparent',
-          }}
-        />
-        <TabStack.Screen
-          name="Statistics"
-          component={StatisticsScreen}
-          options={{
-            title: 'Statistics',
-            headerShown: false,
-            tabBarActiveTintColor: 'white',
-            tabBarInactiveTintColor: 'transparent',
-          }}
-        />
-        <TabStack.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            title: 'Profile',
-            headerShown: false,
-            tabBarActiveTintColor: 'white',
-            tabBarInactiveTintColor: 'transparent',
-          }}
-        />
-      </TabStack.Navigator>
-    </NavigationContainer>
-    // </Provider>
+        <BottomStackNavigator navigationRef={navigationRef} />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
