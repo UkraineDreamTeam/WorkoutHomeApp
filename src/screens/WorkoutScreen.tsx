@@ -6,13 +6,14 @@ import { Pressable, SafeAreaView, Text } from 'react-native';
 import { RootStackParamList } from '../types/types';
 
 import RNFS from 'react-native-fs';
-import storage from '@react-native-firebase/storage';
 import { firebase } from '@react-native-firebase/auth';
+import { useAppDispatch } from '../redux/store';
+import { getExercises } from '../redux/exercises/exrcises.thunk';
 
 const WorkoutScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const theme = useTheme();
-
+  const dispatch = useAppDispatch();
   const signIn = async () => {
     try {
       const userSub = async () => await firebase.auth().signInAnonymously();
@@ -23,23 +24,9 @@ const WorkoutScreen = () => {
   return (
     <SafeAreaView style={{ zIndex: 0 }}>
       <Pressable
-        onPress={e => {
+        onPress={async e => {
           e.preventDefault();
-          const path = RNFS.DocumentDirectoryPath + '/test.txt';
-          console.log('Working');
-
-          // write the file
-          RNFS.writeFile(path, 'Lorem ipsum dolor sit amet', 'utf8')
-            .then(async () => {
-              console.log('FILE WRITTEN!');
-              const reference = storage().ref('/test.txt');
-              const pathToFile = `${RNFS.DocumentDirectoryPath}/test.txt`;
-              // uploads file
-              await reference.putFile(pathToFile);
-            })
-            .catch(err => {
-              console.log(err.message);
-            });
+          await dispatch(getExercises());
           navigation.navigate('ListOfExercise');
         }}
         style={{

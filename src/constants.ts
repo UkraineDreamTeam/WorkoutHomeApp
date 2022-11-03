@@ -1,6 +1,6 @@
 import { CustomTheme } from './theme';
 
-export const URL = 'https://pacific-fortress-00744.herokuapp.com/';
+export const URL = 'https://pacific-fortress-00744.herokuapp.com';
 
 export const PATH_TO_SHOW_BOTTOM_BAR: { [key: string]: string } = {
   CurrentWorkout: 'CurrentWorkout',
