@@ -5,3 +5,7 @@ declare module '*.svg' {
   const content: React.FC<SvgProps>;
   export default content;
 }
+declare module '@env' {
+  const content: 'module:react-native-dotenv';
+  export const { EMAIL, PASSWORD } = content;
+}

@@ -7,11 +7,12 @@ const StatisticsScreen = ({ navigation }: StatisticsScreenProps) => {
     <SafeAreaView>
       <Button
         title="to Home from Statistic"
-        onPress={() =>
+        onPress={e => {
+          e.preventDefault();
           navigation.navigate('Home', {
             screen: 'CurrentWorkout',
-          })
-        }
+          });
+        }}
       />
     </SafeAreaView>
   );

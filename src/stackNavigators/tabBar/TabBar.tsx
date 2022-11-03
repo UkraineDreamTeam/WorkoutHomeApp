@@ -2,9 +2,9 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { COLOR_SCHEME, PATH_TO_SHOW_BOTTOM_BAR } from '../constants';
+import { COLOR_SCHEME, PATH_TO_SHOW_BOTTOM_BAR } from '../../constants';
 
-import { RootStackParamList } from '../types/types';
+import { RootStackParamList } from '../../types/types';
 import TabBarItem from './TabBarItem';
 
 function MyTabBar(
@@ -57,7 +57,7 @@ function MyTabBar(
     >
       <Animated.View
         style={[
-          style.tabBarContainer,
+          style.tabContainer,
 
           {
             transform: [
@@ -88,14 +88,12 @@ function MyTabBar(
 }
 const style = StyleSheet.create({
   tabBarContainer: {
-    flexDirection: 'row',
-
     width: '100%',
-    zIndex: 1,
   },
   tabContainer: {
     flex: 1,
-
+    flexDirection: 'row',
+    width: '100%',
     position: 'absolute',
     bottom: 0,
   },
