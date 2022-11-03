@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Exercise, Filter } from './types';
 import { URL } from '../../constants';
 import RNFS from 'react-native-fs';
-import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getFileLocationPath,
@@ -12,13 +11,13 @@ import {
 
 export const getExercises = createAsyncThunk<Exercise[], Filter | undefined>(
   'exercises/getByQuery',
-  async query => {
-    let queryParams = '?';
-    for (const key in query) {
-      queryParams += `${key}=${query[key]}`;
-    }
+  async () => {
+    // let queryParams = '?';
+    // for (const key in query) {
+    //   queryParams += `${key}=${query[key]}`;
+    // }
     try {
-      const response = await fetch(`${URL}${queryParams}`);
+      const response = await fetch(`${URL}`);
       const data = await response.json();
       const imagePath = getFileLocationPath();
 
@@ -27,24 +26,23 @@ export const getExercises = createAsyncThunk<Exercise[], Filter | undefined>(
         const locationUri = getFileLocationUri(data[i].gifUrl, data[i].id);
 
         if (!value) {
-          await AsyncStorage.setItem(
-            data[i].id,
-            JSON.stringify({
-              ...data[i],
-              gifUrl: locationUri,
-            })
-          );
+          try {
+            await AsyncStorage.setItem(
+              data[i].id,
+              JSON.stringify({
+                ...data[i],
+                gifUrl: locationUri,
+              })
+            );
+          } catch (error) {}
         }
         const isUploaded = await RNFS.exists(
           imagePath + '/' + data[i].id + getFileType(data[i].gifUrl)
         );
 
         if (!isUploaded) {
-          const url = await storage()
-            .ref(data[i].id + getFileType(data[i].gifUrl))
-            .getDownloadURL();
           RNFS.downloadFile({
-            fromUrl: url,
+            fromUrl: data[i].gifUrl,
             toFile: imagePath + '/' + data[i].id + getFileType(data[i].gifUrl),
           });
         }
