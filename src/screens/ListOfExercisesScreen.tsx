@@ -1,14 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
-import {
-  Button,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import { Button, Text, StyleSheet, Image, FlatList } from 'react-native';
 
 import { HomeTabParamList } from '../types/types';
 
@@ -26,7 +19,7 @@ const ListOfExercisesScreen = () => {
   }, [dispatch]);
 
   return (
-    <ScrollView>
+    <>
       <Text>List of exercises </Text>
       <Button
         title="Back"
@@ -48,9 +41,9 @@ const ListOfExercisesScreen = () => {
         : null}
       <FlatList
         data={gifs}
-        renderItem={({ item }) => <ExerciseItem {...item} />}
+        renderItem={({ item }) => <ExerciseItem key={item.id} {...item} />}
       />
-    </ScrollView>
+    </>
   );
 };
 const style = StyleSheet.create({
