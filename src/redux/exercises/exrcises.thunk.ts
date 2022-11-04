@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Exercise, Filter } from './types';
-import { URL } from '../../constants';
+import { ASYNC_STORAGE_KEYS, URL } from '../../constants';
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -8,47 +8,61 @@ import {
   getFileLocationUri,
   getFileType,
 } from '../../utils/utils';
+import storage from '@react-native-firebase/storage';
 
 export const getExercises = createAsyncThunk<Exercise[], Filter | undefined>(
   'exercises/getByQuery',
   async () => {
-    // let queryParams = '?';
-    // for (const key in query) {
-    //   queryParams += `${key}=${query[key]}`;
-    // }
     try {
-      const response = await fetch(`${URL}`);
-      const data = await response.json();
-      const imagePath = getFileLocationPath();
+      const dataUploadState = await AsyncStorage.getItem(
+        ASYNC_STORAGE_KEYS.DATA
+      );
+      if (dataUploadState) {
+        return JSON.parse(dataUploadState);
+      } else {
+        const response = await fetch(`${URL}`);
+        const data = await response.json();
+        const imagePath = getFileLocationPath();
 
-      for (let i = 0; i < data.length; i++) {
-        const value = await AsyncStorage.getItem(data[i].id);
-        const locationUri = getFileLocationUri(data[i].gifUrl, data[i].id);
+        const newCollection = [];
 
-        if (!value) {
-          try {
-            await AsyncStorage.setItem(
-              data[i].id,
-              JSON.stringify({
-                ...data[i],
-                gifUrl: locationUri,
-              })
-            );
-          } catch (error) {}
+        for (let i = 0; i < data.length; i++) {
+          const locationUri = getFileLocationUri(data[i].gifUrl, data[i].id);
+
+          newCollection.push({
+            ...data[i],
+            gifUrl: locationUri,
+          });
+
+          const isUploaded = await RNFS.exists(
+            imagePath + '/' + data[i].id + getFileType(data[i].gifUrl)
+          );
+
+          if (!isUploaded) {
+            try {
+              const reference = storage().ref(
+                data[i].id + getFileType(data[i].gifUrl)
+              );
+              const url = await reference.getDownloadURL();
+              if (reference && url) {
+                RNFS.downloadFile({
+                  fromUrl: url,
+                  toFile:
+                    imagePath + '/' + data[i].id + getFileType(data[i].gifUrl),
+                });
+              }
+            } catch (error) {
+              return { error };
+            }
+          }
         }
-        const isUploaded = await RNFS.exists(
-          imagePath + '/' + data[i].id + getFileType(data[i].gifUrl)
+        await AsyncStorage.setItem(
+          ASYNC_STORAGE_KEYS.DATA,
+          JSON.stringify(data)
         );
 
-        if (!isUploaded) {
-          RNFS.downloadFile({
-            fromUrl: data[i].gifUrl,
-            toFile: imagePath + '/' + data[i].id + getFileType(data[i].gifUrl),
-          });
-        }
+        return data;
       }
-
-      return data;
     } catch (error) {
       return { error };
     }
