@@ -17,6 +17,7 @@ export const exercisesSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(getExercises.fulfilled, (state, action) => {
       state.exercises = action.payload;
+
       state.loading = false;
     });
     builder.addCase(getExercises.pending, state => {
