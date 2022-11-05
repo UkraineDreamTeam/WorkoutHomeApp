@@ -24,14 +24,39 @@ const ExerciseItem = memo((data: Exercise) => {
         />
       </View>
 
-      <View>
-        <View>
-          <Text style={[{ color: theme.colors.text }, style.exerciseName]}>
+      <View
+        style={[
+          {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            // paddingBottom: 15,
+            // paddingTop: 6,
+            flexShrink: 1,
+          },
+        ]}
+      >
+        <View style={{ flexShrink: 1 }}>
+          <Text
+            style={[
+              {
+                color: theme.colors.text,
+                fontWeight: '600',
+                // flexShrink: 1,
+                // width: Dimensions.get('screen').width * 0.8,
+              },
+              style.exerciseName,
+            ]}
+          >
             {name}
           </Text>
-          <Text> {bodyPart}</Text>
+          <Text style={[{ color: theme.colors.text, fontWeight: '200' }]}>
+            {bodyPart}
+          </Text>
         </View>
-        <Text> {target}</Text>
+        <Text style={[{ color: theme.colors.text, fontWeight: '200' }]}>
+          {target}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -46,11 +71,18 @@ const style = StyleSheet.create({
     height: 80,
     borderRadius: 10,
     overflow: 'hidden',
+    marginRight: 10,
   },
   cardContainer: {
     display: 'flex',
     flexDirection: 'row',
-    width: Dimensions.get('screen').width * 0.9,
+    width: Dimensions.get('screen').width * 0.95,
+    marginVertical: 6,
+    marginHorizontal: Dimensions.get('screen').width * 0.025,
+    backgroundColor: 'black',
+    flexShrink: 1,
+    padding: 20,
+    borderRadius: 20,
   },
   exerciseName: {
     textTransform: 'capitalize',

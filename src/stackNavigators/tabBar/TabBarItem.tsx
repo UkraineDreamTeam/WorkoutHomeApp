@@ -155,8 +155,8 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 60,
-    paddingVertical: 5,
+    height: 70,
+    paddingVertical: 10,
   },
 });
 

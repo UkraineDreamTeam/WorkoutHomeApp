@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Dimensions, StyleSheet } from 'react-native';
+import { Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ExerciseScreenProps } from '../types/types';
 
@@ -18,7 +18,5 @@ const ExerciseScreen = ({ navigation }: ExerciseScreenProps) => {
     </SafeAreaView>
   );
 };
-
-
 
 export default ExerciseScreen;

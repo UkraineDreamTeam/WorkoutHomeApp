@@ -2,20 +2,15 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Button, SafeAreaView, Text } from 'react-native';
+import ExerciseList from '../components/ExerciseList.component';
 
 import { HomeTabParamList } from '../types/types';
-
-import { useAppSelector } from '../redux/store';
-import { exercises } from '../redux/exercises/exercises.slice';
-import ExerciseList from '../components/ExerciseList.component';
 
 const ListOfExercisesScreen = () => {
   const navigation = useNavigation<StackNavigationProp<HomeTabParamList>>();
 
-  const gifs = useAppSelector(exercises);
-
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <Text>List of exercises </Text>
       <Button
         title="Back"
@@ -24,7 +19,7 @@ const ListOfExercisesScreen = () => {
           navigation.navigate('CurrentWorkout');
         }}
       />
-      {gifs?.length ? <ExerciseList gifs={gifs} /> : null}
+      <ExerciseList />
     </SafeAreaView>
   );
 };
