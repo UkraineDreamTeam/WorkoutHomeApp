@@ -10,6 +10,8 @@ import { CustomTheme } from './src/theme';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import BottomStackNavigator from './src/stackNavigators/BotomStack';
+import { LoadingGifs } from './src/components/modals/LoadingGifs';
+import { View } from 'react-native';
 
 const App = () => {
   const navigationRef = useNavigationContainerRef<RootStackParamList>();
@@ -40,15 +42,18 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <NavigationContainer
-        ref={navigationRef}
-        theme={{
-          dark: false,
-          colors: { ...CustomTheme.colors },
-        }}
-      >
-        <BottomStackNavigator navigationRef={navigationRef} />
-      </NavigationContainer>
+      <View style={{ flex: 1, backgroundColor: CustomTheme.colors.background }}>
+        <LoadingGifs />
+        <NavigationContainer
+          ref={navigationRef}
+          theme={{
+            dark: false,
+            colors: { ...CustomTheme.colors },
+          }}
+        >
+          <BottomStackNavigator navigationRef={navigationRef} />
+        </NavigationContainer>
+      </View>
     </Provider>
   );
 };

@@ -26,4 +26,6 @@ export type ExercisesState = {
   exercises: Exercise[];
   loading: boolean;
   error: string;
+  exercisesLoaded: number;
+  totalExercisesCount: number;
 };
