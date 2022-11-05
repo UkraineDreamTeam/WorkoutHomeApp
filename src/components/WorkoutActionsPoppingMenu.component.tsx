@@ -1,28 +1,22 @@
 import React, { Dispatch, useCallback, useEffect, useRef } from 'react';
 import {
-  StyleSheet,
-  Pressable,
-  View,
-  Text,
-  TouchableOpacity,
   Animated,
   Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../theme';
-import Edit from '../assets/icons/Edit.svg';
 import DotsWhite from '../assets/icons/DotsWhite.svg';
-import Reorder from '../assets/icons/Reorder.svg';
-import Rename from '../assets/icons/Rename.svg';
-import Delete from '../assets/icons/Delete.svg';
+import { RoutineControlButton } from './RoutineControlButton.component';
+import { ROUTINE_ACTIONS } from '../constants';
 
 const WorkoutActionsPoppingMenu = ({
   modalVisible,
   setModalVisible,
-}: // menuBorders,
-{
+}: {
   modalVisible: boolean;
-
   setModalVisible: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const menuAnim = useRef(new Animated.Value(0)).current;
@@ -68,10 +62,11 @@ const WorkoutActionsPoppingMenu = ({
       fadeIn();
     }
   }, [setModalVisible, modalVisible, fadeIn, fadeOut]);
+
+  const handleVisibility = () => setModalVisible(!modalVisible);
+
   return (
     <View style={[styles.centeredView]}>
-      {/* <Modal animationType="slide" transparent={true} visible={modalVisible}> */}
-
       <View style={[styles.centeredView, styles.menu]}>
         <Animated.View
           style={[
@@ -90,40 +85,20 @@ const WorkoutActionsPoppingMenu = ({
             { ...opacity },
           ]}
         >
-          <Pressable
-            style={[styles.button]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Edit {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
-            <Text>Edit Superset</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Reorder {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
-            <Text>Reorder exercises</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Rename {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
-            <Text>Rename routine</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Delete {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
-            <Text>Delete routine</Text>
-          </Pressable>
+          {ROUTINE_ACTIONS.map((action, i) => {
+            return (
+              <RoutineControlButton
+                key={i}
+                setModalVisible={handleVisibility}
+                action={action}
+              />
+            );
+          })}
         </Animated.View>
       </View>
 
-      {/* </Modal> */}
       <TouchableOpacity
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={handleVisibility}
         style={{
           paddingHorizontal: WORKOUT_ACTIONS_LAYOUT.getPadding(),
           paddingVertical: 20,
@@ -149,34 +124,9 @@ const styles = StyleSheet.create({
     right: 0,
   },
   modalView: {
-    // marginBottom: 133,
     backgroundColor: COLOR_SCHEME.WORKOUT_ACTIONS,
-    // borderTopRightRadius: 10,
-    // borderTopLeftRadius: 10,
-    // alignItems: 'center',
     width: WORKOUT_ACTIONS_LAYOUT.WIDTH,
     alignItems: 'center',
-  },
-  button: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: WORKOUT_ACTIONS_LAYOUT.getPadding(),
-    paddingVertical: 10,
-    alignItems: 'center',
-    width: WORKOUT_ACTIONS_LAYOUT.WIDTH,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
   },
 });
 

@@ -10,9 +10,11 @@ import { CustomTheme } from './src/theme';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import BottomStackNavigator from './src/stackNavigators/BotomStack';
+import { Appearance } from 'react-native';
 
 const App = () => {
   const navigationRef = useNavigationContainerRef<RootStackParamList>();
+
   // const [initializing, setInitializing] = useState(true);
   // const [user, setUser] = useState();
   // const onAuthStateChanged = useCallback(
@@ -42,10 +44,17 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer
         ref={navigationRef}
-        theme={{
-          dark: false,
-          colors: { ...CustomTheme.colors },
-        }}
+        theme={
+          Appearance.getColorScheme()
+            ? {
+                dark: true,
+                colors: { ...CustomTheme.colors },
+              }
+            : {
+                dark: true,
+                colors: { ...CustomTheme.colors },
+              }
+        }
       >
         <BottomStackNavigator navigationRef={navigationRef} />
       </NavigationContainer>
