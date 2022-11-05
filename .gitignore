@@ -69,3 +69,5 @@ upload-keystore.jks
 /ios/Pods/
 /vendor/bundle/
 src/images
+
+.vscode
