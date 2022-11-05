@@ -85,7 +85,7 @@ const RoutineControl = () => {
 const style = StyleSheet.create({
   actionsContainer: {
     position: 'absolute',
-    bottom: 70,
+    bottom: 80,
     left: (Dimensions.get('screen').width - WORKOUT_ACTIONS_LAYOUT.WIDTH) / 2,
     width: WORKOUT_ACTIONS_LAYOUT.WIDTH,
     display: 'flex',
