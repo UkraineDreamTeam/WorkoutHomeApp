@@ -15,6 +15,7 @@ export const COLOR_SCHEME = {
   MODAL_BACKGROUND: CustomTheme.colors.card,
   WORKOUT_ACTIONS: CustomTheme.colors.primary,
   ANOTHER_ACTIONS: '#DA0AAC',
+  WHITE100: '#D9D9D9',
 };
 export const WORKOUT_ACTIONS_LAYOUT: {
   WIDTH: number;
