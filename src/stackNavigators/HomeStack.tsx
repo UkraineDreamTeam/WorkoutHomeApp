@@ -6,14 +6,21 @@ import { HomeTabParamList } from '../types/types';
 import { useAppDispatch } from '../redux/store';
 import { getExercises } from '../redux/exercises/exrcises.thunk';
 import { createStackNavigator } from '@react-navigation/stack';
+import { firebase } from '@react-native-firebase/auth';
 
 const HomeStack = createStackNavigator<HomeTabParamList>();
 
 const HomeNavigator = () => {
   const dispatch = useAppDispatch();
-  // const exercisesList = useAppSelector(state => state.exercises.exercises);
+  const signIn = async () => {
+    try {
+      const userSub = async () => await firebase.auth().signInAnonymously();
+      return userSub;
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    dispatch(getExercises());
+    signIn().then(() => dispatch(getExercises()));
   }, [dispatch]);
 
   return (

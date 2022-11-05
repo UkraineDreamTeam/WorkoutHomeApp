@@ -2,7 +2,8 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { COLOR_SCHEME, PATH_TO_SHOW_BOTTOM_BAR } from '../../constants';
+import { PATH_TO_SHOW_BOTTOM_BAR } from '../../constants';
+import { COLOR_SCHEME } from '../../theme';
 
 import { RootStackParamList } from '../../types/types';
 import TabBarItem from './TabBarItem';
