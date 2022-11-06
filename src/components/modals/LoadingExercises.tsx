@@ -7,14 +7,18 @@ import {
 } from '../../redux/exercises/exercises.slice';
 import { View, StyleSheet } from 'react-native';
 
-export const LoadingGifs = () => {
+export const LoadingExercises = () => {
   const total = useAppSelector(totalExercisesCount);
   const loaded = useAppSelector(exercisesLoaded);
 
   const isModalVisible = loaded !== total && total !== 0;
   return isModalVisible ? (
     <View style={style.loadingProgressContainer}>
-      <LoadingProgress title="loading gifs" received={loaded} total={total} />
+      <LoadingProgress
+        title="Loading exercises"
+        received={loaded}
+        total={total}
+      />
     </View>
   ) : null;
 };

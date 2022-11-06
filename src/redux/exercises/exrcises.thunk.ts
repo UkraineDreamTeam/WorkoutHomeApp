@@ -10,7 +10,8 @@ import {
 } from '../../utils/utils';
 import storage from '@react-native-firebase/storage';
 import { AppDispatch } from '../store';
-import { setExercisesLoaded, setTotalExercisesCount } from './exercises.slice';
+import { increment, total } from './actions';
+import { firebase } from '@react-native-firebase/auth';
 
 export const getExercises = createAsyncThunk<
   Exercise[],
@@ -18,15 +19,15 @@ export const getExercises = createAsyncThunk<
   { dispatch: AppDispatch }
 >('exercises/getByQuery', async (_, { dispatch }) => {
   try {
-    let loadedItems = 0;
     const dataUploadState = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA);
     if (dataUploadState) {
       return JSON.parse(dataUploadState);
     } else {
+      await firebase.auth().signInAnonymously();
       const response = await fetch(`${URL}`);
       const data = await response.json();
       const imagePath = getFileLocationPath();
-      dispatch(setTotalExercisesCount(data.length));
+      dispatch(total(data.length));
       const newCollection = [];
 
       for (let i = 0; i < data.length; i++) {
@@ -53,8 +54,7 @@ export const getExercises = createAsyncThunk<
                 toFile:
                   imagePath + '/' + data[i].id + getFileType(data[i].gifUrl),
               }).promise.then(() => {
-                loadedItems++;
-                dispatch(setExercisesLoaded(loadedItems));
+                dispatch(increment());
               });
             }
           } catch (error) {

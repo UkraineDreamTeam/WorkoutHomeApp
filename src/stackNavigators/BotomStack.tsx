@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { RootStackParamList } from '../types/types';
 import HomeNavigator from './HomeStack';
@@ -7,6 +7,8 @@ import StatisticsScreen from '../screens/StatisticsScreen';
 import Profile from '../screens/Profile';
 import MyTabBar from './tabBar/TabBar';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
+import { useAppDispatch } from '../redux/store';
+import { getExercises } from '../redux/exercises/exrcises.thunk';
 
 const TabStack = createBottomTabNavigator<RootStackParamList>();
 
@@ -15,6 +17,12 @@ const BottomStackNavigator = ({
 }: {
   navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
 }) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getExercises());
+  }, [dispatch]);
+
   return (
     <TabStack.Navigator
       initialRouteName="Home"

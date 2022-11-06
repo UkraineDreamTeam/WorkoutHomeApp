@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Button, SafeAreaView, Text } from 'react-native';
-import ExerciseList from '../components/ExerciseList.component';
+import ExerciseList from '../components/exercises/ExerciseList.component';
 
 import { HomeTabParamList } from '../types/types';
 

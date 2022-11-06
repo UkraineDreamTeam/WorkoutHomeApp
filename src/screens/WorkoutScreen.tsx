@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, SafeAreaView } from 'react-native';
-import RoutineControl from '../components/RoutineControl.component';
+import RoutineControl from '../components/routineActions/routineControl/RoutineControl.component';
 
 const WorkoutScreen = () => {
   return (

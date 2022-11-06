@@ -7,10 +7,10 @@ import {
   View,
 } from 'react-native';
 
-import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../theme';
-import DotsWhite from '../assets/icons/DotsWhite.svg';
-import { RoutineControlButton } from './RoutineControlButton.component';
-import { ROUTINE_ACTIONS } from '../constants';
+import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../../theme';
+import DotsWhite from '../../assets/icons/DotsWhite.svg';
+import { RoutineControlButton } from './routineControl/RoutineControlButton.component';
+import { ROUTINE_ACTIONS } from '../../constants';
 
 const WorkoutActionsPoppingMenu = ({
   modalVisible,

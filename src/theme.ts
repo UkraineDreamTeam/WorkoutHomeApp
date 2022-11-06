@@ -4,7 +4,7 @@ export const CustomTheme = {
     primary: '#BA6BD8',
     background: '#36404F',
     card: '#343D54',
-    text: 'white',
+    text: '#FFFFF',
     border: '#BA6BD8',
     notification: 'rgb(255, 69, 58)',
   },
