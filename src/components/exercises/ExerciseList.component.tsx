@@ -1,8 +1,8 @@
 import React from 'react';
 import { memo } from 'react';
 import { FlatList, Dimensions, StyleSheet } from 'react-native';
-import { exercises } from '../redux/exercises/exercises.slice';
-import { useAppSelector } from '../redux/store';
+import { exercises } from '../../redux/exercises/exercises.slice';
+import { useAppSelector } from '../../redux/store';
 import ExerciseItem from './ExerciseItem.component';
 
 const ExerciseList = memo(() => {

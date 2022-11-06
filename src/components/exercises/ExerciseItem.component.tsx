@@ -7,8 +7,8 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import { Exercise } from '../redux/exercises/types';
-import { getFileLocationUri } from '../utils/utils';
+import { Exercise } from '../../redux/exercises/types';
+import { getFileLocationUri } from '../../utils/utils';
 import FastImage from 'react-native-fast-image';
 
 const ExerciseItem = memo((data: Exercise) => {

@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { increment, total } from './actions';
 import { getExercises } from './exrcises.thunk';
 import { ExercisesState } from './types';
 
@@ -14,14 +15,7 @@ const initialState: ExercisesState = {
 export const exercisesSlice = createSlice({
   name: 'exercises',
   initialState,
-  reducers: {
-    setExercisesLoaded: (state, action: PayloadAction<number>) => {
-      state.exercisesLoaded = action.payload;
-    },
-    setTotalExercisesCount: (state, action: PayloadAction<number>) => {
-      state.totalExercisesCount = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(getExercises.fulfilled, (state, action) => {
       state.exercises = action.payload;
@@ -35,12 +29,17 @@ export const exercisesSlice = createSlice({
       state.loading = false;
       state.error = JSON.stringify({ error: action.payload });
     });
+    builder.addCase(increment, state => {
+      state.exercisesLoaded++;
+    });
+    builder.addCase(total, (state, action) => {
+      state.totalExercisesCount = action.payload;
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setExercisesLoaded, setTotalExercisesCount } =
-  exercisesSlice.actions;
+export const {} = exercisesSlice.actions;
 
 export const exercises = (state: RootState) => state.exercises.exercises;
 export const exercisesLoaded = (state: RootState) =>
