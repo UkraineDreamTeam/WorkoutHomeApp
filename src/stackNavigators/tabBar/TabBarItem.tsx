@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
@@ -6,9 +7,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import Home from '../../assets/icons/Home.svg';
+import { Svg } from 'react-native-svg';
+import Profile from '../../assets/icons/Profile.svg';
 import Statistics from '../../assets/icons/Statistics.svg';
-import ProfileIcon from '../../components/icons/ProfileIcon';
+import Home from '../../assets/icons/Home.svg';
+const AnimateSvg = Animated.createAnimatedComponent(Svg);
 
 const TabBarItem = ({
   descriptors,
@@ -21,11 +24,12 @@ const TabBarItem = ({
   route: { [key: string]: string };
 }) => {
   const tabAnim = useRef(new Animated.Value(0)).current;
+
   const fadeIn = useCallback(() => {
     Animated.timing(tabAnim, {
       toValue: 0,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   }, [tabAnim]);
 
@@ -33,9 +37,10 @@ const TabBarItem = ({
     Animated.timing(tabAnim, {
       toValue: 20,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   }, [tabAnim]);
+
   const { options } = descriptors[route.key];
   const label =
     options.tabBarLabel !== undefined
@@ -76,31 +81,7 @@ const TabBarItem = ({
     }
   }, [fadeIn, fadeOut, isFocused]);
 
-  const tabIconAnimation = useMemo(() => {
-    return {
-      opacity: !isFocused ? 0.6 : 1,
-      transform: [
-        {
-          translateY: tabAnim.interpolate({
-            inputRange: [0, 10, 20],
-            outputRange: [10, 5, 0],
-          }),
-        },
-        {
-          scale: tabAnim.interpolate({
-            inputRange: [0, 10, 20],
-            outputRange: [1, 0.9, 0.8],
-          }),
-        },
-      ],
-      // height: tabAnim.interpolate({
-      //   inputRange: [0, 10, 20],
-      //   outputRange: [40, 35, 30],
-      // }),
-    };
-  }, [tabAnim, isFocused]);
-
-  const tabTextAnimation = useMemo(() => {
+  const tabTextAnimation = useCallback(() => {
     return [
       { color: isFocused ? 'white' : 'transparent' },
       {
@@ -129,7 +110,7 @@ const TabBarItem = ({
     }
 
     if (route.name === 'Profile') {
-      return <ProfileIcon />;
+      return <Profile />;
     }
   };
 
@@ -144,8 +125,28 @@ const TabBarItem = ({
       onLongPress={onLongPress}
       style={style.tab}
     >
-      <Animated.View>{getTabIcon()}</Animated.View>
-      <Animated.Text style={tabTextAnimation}>{label.toString()}</Animated.Text>
+      <AnimateSvg
+        viewBox="0 0 30 30"
+        width={tabAnim.interpolate({
+          inputRange: [0, 10, 20],
+          outputRange: [30, 24, 21],
+        })}
+        height={tabAnim.interpolate({
+          inputRange: [0, 10, 20],
+          outputRange: [30, 24, 21],
+        })}
+        translateY={tabAnim.interpolate({
+          inputRange: [0, 10, 20],
+          outputRange: [10, 5, 0],
+        })}
+        opacity={!isFocused ? 0.6 : 1}
+      >
+        {getTabIcon()}
+      </AnimateSvg>
+
+      <Animated.Text style={tabTextAnimation()}>
+        {label.toString()}
+      </Animated.Text>
     </TouchableOpacity>
   );
 };
