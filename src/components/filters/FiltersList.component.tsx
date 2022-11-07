@@ -9,8 +9,8 @@ const FiltersList: FC<Props> = ({ list }) => {
   return (
     <View style={[style.section]}>
       {list.map(target => (
-        <View style={[style.itemContainer]}>
-          <FilterItem key={target} text={target} />
+        <View key={target} style={[style.itemContainer]}>
+          <FilterItem text={target} />
         </View>
       ))}
     </View>

@@ -15,7 +15,10 @@ const BackIcon = () => {
           alignItems: 'center',
           flexGrow: 1,
           justifyContent: 'center',
-          //   padding: 20,
+          // //   padding: 20,
+          paddingRight: 15,
+          paddingLeft: 10,
+          maxWidth: 50,
         },
       ]}
       onPress={() => navigation.goBack()}

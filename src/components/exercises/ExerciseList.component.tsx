@@ -1,10 +1,10 @@
+import { FlashList } from '@shopify/flash-list';
 import React, { useCallback, useEffect, useState } from 'react';
 import { memo } from 'react';
-import { FlatList, Dimensions, StyleSheet } from 'react-native';
+
 import { exercises } from '../../redux/exercises/exercises.slice';
 import { Exercise } from '../../redux/exercises/types';
 import { useAppSelector } from '../../redux/store';
-import FilterItem from '../filters/FilterItem.component';
 import ExerciseItem from './ExerciseItem.component';
 import SearchInput from './SearchInput.component';
 
@@ -31,21 +31,20 @@ const ExerciseList = memo(() => {
   return (
     <>
       <SearchInput text={text} onChangeText={onChangeText} />
-      <FilterItem text="g" />
-      <FlatList
-        initialNumToRender={10}
-        style={style.container}
+
+      <FlashList
         data={exercisesToDisplay}
         renderItem={({ item }) => <ExerciseItem {...item} />}
         keyExtractor={item => item.id}
+        estimatedItemSize={132}
       />
     </>
   );
 });
-const style = StyleSheet.create({
-  container: {
-    width: Dimensions.get('screen').width,
-  },
-});
+// const style = StyleSheet.create({
+//   container: {
+//     width: Dimensions.get('screen').width,
+//   },
+// });
 
 export default ExerciseList;
