@@ -7,8 +7,9 @@ import StatisticsScreen from '../screens/StatisticsScreen';
 import Profile from '../screens/Profile';
 import MyTabBar from './tabBar/TabBar';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
-import { useAppDispatch } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../redux/store';
 import { getExercises } from '../redux/exercises/exrcises.thunk';
+import { exercises } from '../redux/exercises/exercises.slice';
 
 const TabStack = createBottomTabNavigator<RootStackParamList>();
 
@@ -18,10 +19,12 @@ const BottomStackNavigator = ({
   navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
 }) => {
   const dispatch = useAppDispatch();
-
+  const exerciseList = useAppSelector(exercises);
   useEffect(() => {
-    dispatch(getExercises());
-  }, [dispatch]);
+    if (!exerciseList.length) {
+      dispatch(getExercises());
+    }
+  }, [dispatch, exerciseList]);
 
   return (
     <TabStack.Navigator

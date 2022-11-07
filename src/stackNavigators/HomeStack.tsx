@@ -4,6 +4,7 @@ import ListOfExercisesScreen from '../screens/ListOfExercisesScreen';
 import ExerciseScreen from '../screens/ExerciseScreen';
 import { HomeTabParamList } from '../types/types';
 import { createStackNavigator } from '@react-navigation/stack';
+import FiltersScreen from '../screens/FiltersScreen';
 
 const HomeStack = createStackNavigator<HomeTabParamList>();
 
@@ -33,6 +34,14 @@ const HomeNavigator = () => {
         component={ExerciseScreen}
         options={{
           title: 'Exercise',
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Filters"
+        component={FiltersScreen}
+        options={{
+          title: '',
           headerShown: false,
         }}
       />

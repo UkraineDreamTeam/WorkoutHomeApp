@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
+import { TYPOGRAPHY } from '../../../../theme';
 import { LoadingProgressExpandedLine } from './LoadingProgressExpandedLine';
 
 type Props = {
@@ -21,7 +22,7 @@ export const LoadingProgressExpanded: FC<Props> = ({
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>
-        uploaded {received} from {total}
+        uploaded {received} of {total}
       </Text>
 
       <LoadingProgressExpandedLine
@@ -36,7 +37,7 @@ export const LoadingProgressExpanded: FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
-    borderRadius: 8,
+    borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
     paddingHorizontal: 10,
     paddingTop: 15,
     paddingBottom: 5,
