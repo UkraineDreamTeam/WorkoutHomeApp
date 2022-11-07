@@ -28,4 +28,8 @@ export type ExercisesState = {
   error: string;
   exercisesLoaded: number;
   totalExercisesCount: number;
+  targets: string[];
+  bodyParts: string[];
+  equipment: string[];
+  types: string[];
 };

@@ -12,6 +12,7 @@ export type RootStackParamList = {
   ListOfExercise: undefined;
   Profile: undefined;
   Exercise: undefined;
+  Filters: undefined;
 };
 
 export type WorkoutScreenProps = StackScreenProps<
@@ -39,6 +40,7 @@ export type HomeTabParamList = {
   CurrentWorkout: undefined;
   ListOfExercise: undefined;
   Exercise: undefined;
+  Filters: undefined;
 };
 
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> =

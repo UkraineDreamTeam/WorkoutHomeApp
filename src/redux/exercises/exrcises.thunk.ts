@@ -1,30 +1,68 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Exercise, Filter } from './types';
-import { ASYNC_STORAGE_KEYS, URL } from '../../constants';
+
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import storage from '@react-native-firebase/storage';
+import { firebase } from '@react-native-firebase/auth';
+
+import { Exercise, Filter } from './types';
+import { ASYNC_STORAGE_KEYS, URL } from '../../constants';
 import {
   getFileLocationPath,
   getFileLocationUri,
   getFileType,
 } from '../../utils/utils';
-import storage from '@react-native-firebase/storage';
 import { AppDispatch } from '../store';
-import { increment, total } from './actions';
-import { firebase } from '@react-native-firebase/auth';
+import {
+  bodyParts,
+  equipment,
+  increment,
+  targets,
+  total,
+  types,
+} from './actions';
 
+const setFilters = (exercises: Exercise[], dispatch: AppDispatch) => {
+  const equipmentList: string[] = [];
+  const targetsList: string[] = [];
+  const typesList: string[] = [];
+  const bodyPartsList: string[] = [];
+  for (const exercise of exercises) {
+    if (!equipmentList.includes(exercise.equipment)) {
+      equipmentList.push(exercise.equipment);
+    }
+    if (!targetsList.includes(exercise.target)) {
+      targetsList.push(exercise.target);
+    }
+    if (!typesList.includes(exercise.type)) {
+      typesList.push(exercise.type);
+    }
+
+    if (!bodyPartsList.includes(exercise.bodyPart)) {
+      bodyPartsList.push(exercise.bodyPart);
+    }
+  }
+  dispatch(equipment(equipmentList));
+  dispatch(types(typesList));
+  dispatch(bodyParts(bodyPartsList));
+  dispatch(targets(targetsList));
+};
+type Res = { res: { data?: Exercise[]; error?: any } };
 export const getExercises = createAsyncThunk<
-  Exercise[],
+  Res,
   Filter | undefined,
   { dispatch: AppDispatch }
 >('exercises/getByQuery', async (_, { dispatch }) => {
   try {
     const dataUploadState = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA);
     if (dataUploadState) {
-      return JSON.parse(dataUploadState);
+      const exercises: Exercise[] = JSON.parse(dataUploadState);
+      setFilters(exercises, dispatch);
+      return { res: { data: exercises } };
     } else {
       await firebase.auth().signInAnonymously();
       const response = await fetch(`${URL}`);
+      console.log(dataUploadState);
       const data = await response.json();
       const imagePath = getFileLocationPath();
       dispatch(total(data.length));
@@ -58,15 +96,15 @@ export const getExercises = createAsyncThunk<
               });
             }
           } catch (error) {
-            return { error };
+            return { res: { error } };
           }
         }
       }
       await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(data));
-
-      return data;
+      setFilters(data, dispatch);
+      return { res: { data, error: undefined } };
     }
   } catch (error) {
-    return { error };
+    return { res: { data: undefined, error } };
   }
 });

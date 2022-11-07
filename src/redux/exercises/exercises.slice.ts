@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { increment, total } from './actions';
+import {
+  bodyParts,
+  equipment,
+  increment,
+  targets,
+  total,
+  types,
+} from './actions';
 import { getExercises } from './exrcises.thunk';
 import { ExercisesState } from './types';
 
@@ -10,6 +17,10 @@ const initialState: ExercisesState = {
   error: '',
   exercisesLoaded: 0,
   totalExercisesCount: 0,
+  targets: [],
+  bodyParts: [],
+  equipment: [],
+  types: [],
 };
 
 export const exercisesSlice = createSlice({
@@ -18,7 +29,13 @@ export const exercisesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(getExercises.fulfilled, (state, action) => {
-      state.exercises = action.payload;
+      if (action.payload.res?.error) {
+        state.error = action.payload.res?.error;
+      } else {
+        if (action.payload.res?.data?.length) {
+          state.exercises = action.payload.res?.data;
+        }
+      }
 
       state.loading = false;
     });
@@ -35,6 +52,18 @@ export const exercisesSlice = createSlice({
     builder.addCase(total, (state, action) => {
       state.totalExercisesCount = action.payload;
     });
+    builder.addCase(targets, (state, action) => {
+      state.targets = action.payload;
+    });
+    builder.addCase(bodyParts, (state, action) => {
+      state.bodyParts = action.payload;
+    });
+    builder.addCase(types, (state, action) => {
+      state.types = action.payload;
+    });
+    builder.addCase(equipment, (state, action) => {
+      state.equipment = action.payload;
+    });
   },
 });
 
@@ -46,5 +75,12 @@ export const exercisesLoaded = (state: RootState) =>
   state.exercises.exercisesLoaded;
 export const totalExercisesCount = (state: RootState) =>
   state.exercises.totalExercisesCount;
+
+export const filters = {
+  equipmentList: (state: RootState) => state.exercises.equipment,
+  bodyPartsList: (state: RootState) => state.exercises.bodyParts,
+  typesList: (state: RootState) => state.exercises.types,
+  targetsList: (state: RootState) => state.exercises.targets,
+};
 
 export const { reducer } = exercisesSlice;

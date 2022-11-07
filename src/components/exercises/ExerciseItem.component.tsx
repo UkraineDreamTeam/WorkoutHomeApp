@@ -1,4 +1,3 @@
-import { useTheme } from '@react-navigation/native';
 import React, { memo } from 'react';
 import {
   View,
@@ -10,9 +9,9 @@ import {
 import { Exercise } from '../../redux/exercises/types';
 import { getFileLocationUri } from '../../utils/utils';
 import FastImage from 'react-native-fast-image';
+import { CustomTheme } from '../../theme';
 
 const ExerciseItem = memo((data: Exercise) => {
-  const theme = useTheme();
   const { gifUrl, name, bodyPart, target, id } = data;
   return (
     <TouchableOpacity style={style.cardContainer}>
@@ -21,42 +20,15 @@ const ExerciseItem = memo((data: Exercise) => {
           source={{ uri: getFileLocationUri(gifUrl, id) }}
           style={style.image}
           accessible={true}
+          fallback={true}
         />
       </View>
-
-      <View
-        style={[
-          {
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            // paddingBottom: 15,
-            // paddingTop: 6,
-            flexShrink: 1,
-          },
-        ]}
-      >
-        <View style={{ flexShrink: 1 }}>
-          <Text
-            style={[
-              {
-                color: theme.colors.text,
-                fontWeight: '600',
-                // flexShrink: 1,
-                // width: Dimensions.get('screen').width * 0.8,
-              },
-              style.exerciseName,
-            ]}
-          >
-            {name}
-          </Text>
-          <Text style={[{ color: theme.colors.text, fontWeight: '200' }]}>
-            {bodyPart}
-          </Text>
+      <View style={[style.textContainer]}>
+        <View>
+          <Text style={[style.exerciseName, style.text]}>{name}</Text>
+          <Text style={[style.text, style.subtitle]}>{bodyPart}</Text>
         </View>
-        <Text style={[{ color: theme.colors.text, fontWeight: '200' }]}>
-          {target}
-        </Text>
+        <Text style={[style.text, style.subtitle]}>{target}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -86,6 +58,15 @@ const style = StyleSheet.create({
   },
   exerciseName: {
     textTransform: 'capitalize',
+    fontWeight: '600',
   },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flexShrink: 1,
+  },
+  text: { color: CustomTheme.colors.text, flexShrink: 1 },
+  subtitle: { fontWeight: '200' },
 });
 export default ExerciseItem;
