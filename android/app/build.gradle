@@ -224,17 +224,12 @@ android {
         }
 
         release {
-<<<<<<< HEAD
-//            storeFile file(p.getProperty("KEYSTORE_PATH", "."))
-//            storePassword p.getProperty("STORE_PASSWORD", ".")
-//            keyAlias p.getProperty("ALIAS", ".")
-//            keyPassword p.getProperty("KEY_PASSWORD", ".")
-=======
+
             storeFile file(p.getProperty("KEYSTORE_PATH", "."))
             storePassword p.getProperty("STORE_PASSWORD", ".")
             keyAlias p.getProperty("ALIAS", ".")
             keyPassword p.getProperty("KEY_PASSWORD", ".")
->>>>>>> eea7b091795d3e11e12ad2b2aafce9b312c9b830
+
         }
     }
     buildTypes {
