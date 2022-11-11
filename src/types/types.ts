@@ -5,12 +5,15 @@ import {
   RouteProp,
 } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { Exercise } from '../redux/exercises/types';
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>;
   Statistics: undefined;
-  ListOfExercise: { caption: string };
+  ListOfExercise: undefined;
   Profile: undefined;
+  Exercise: undefined;
+  Filters: undefined;
 };
 
 export type WorkoutScreenProps = StackScreenProps<
@@ -35,9 +38,10 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
 
 export type HomeTabParamList = {
-  CurrentWorkout: { caption: string };
-  ListOfExercise: { caption: string };
+  CurrentWorkout: undefined;
+  ListOfExercise: { list?: Exercise[] };
   Exercise: undefined;
+  Filters: undefined;
 };
 
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
@@ -45,9 +49,3 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
     BottomTabScreenProps<HomeTabParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}

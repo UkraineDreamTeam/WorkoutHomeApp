@@ -1,74 +1,35 @@
 import React from 'react';
 
 import {
-  DarkTheme,
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
-
-import { RootStackParamList } from './src/types';
-import HomeNavigator from './src/screens/HomeStack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import StatisticsScreen from './src/screens/StatisticsScreen';
-import Profile from './src/screens/Profile';
-import MyTabBar from './src/components/TabBar';
-import { store } from './src/redux/store';
+import { RootStackParamList } from './src/types/types';
+import { CustomTheme } from './src/theme';
 import { Provider } from 'react-redux';
-
-const TabStack = createBottomTabNavigator<RootStackParamList>();
+import { store } from './src/redux/store';
+import BottomStackNavigator from './src/stackNavigators/BotomStack';
+import { LoadingExercises } from './src/components/modals/LoadingExercises';
+import { Text, View } from 'react-native';
 
 const App = () => {
-  const navigationRef = useNavigationContainerRef();
-  // You can also use a regular ref with `React.useRef()`
+  const navigationRef = useNavigationContainerRef<RootStackParamList>();
 
   return (
     <Provider store={store}>
-      <NavigationContainer
-        ref={navigationRef}
-        theme={{
-          dark: false,
-          colors: { ...DarkTheme.colors, background: '#36404F' },
-        }}>
-        <TabStack.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            tabBarStyle: { backgroundColor: '#343D54' },
+      <View style={{ flex: 1, backgroundColor: CustomTheme.colors.background }}>
+        <LoadingExercises />
+        <NavigationContainer
+          ref={navigationRef}
+          theme={{
+            dark: false,
+            colors: { ...CustomTheme.colors, text: '#FFFFFF' },
           }}
-          tabBar={props => (
-            <MyTabBar {...props} navigationRef={navigationRef} />
-          )}>
-          <TabStack.Screen
-            name="Home"
-            component={HomeNavigator}
-            options={{
-              title: 'My workout',
-              headerShown: false,
-              tabBarActiveTintColor: 'white',
-              tabBarInactiveTintColor: 'transparent',
-            }}
-          />
-          <TabStack.Screen
-            name="Statistics"
-            component={StatisticsScreen}
-            options={{
-              title: 'Statistics',
-              headerShown: false,
-              tabBarActiveTintColor: 'white',
-              tabBarInactiveTintColor: 'transparent',
-            }}
-          />
-          <TabStack.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              title: 'Profile',
-              headerShown: false,
-              tabBarActiveTintColor: 'white',
-              tabBarInactiveTintColor: 'transparent',
-            }}
-          />
-        </TabStack.Navigator>
-      </NavigationContainer>
+          fallback={<Text>Loading..</Text>}
+        >
+          <BottomStackNavigator navigationRef={navigationRef} />
+        </NavigationContainer>
+      </View>
     </Provider>
   );
 };

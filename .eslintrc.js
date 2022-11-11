@@ -7,7 +7,7 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
-        'max-len': ['error', 80],
+        'max-len': ['error', 120],
         'unused-imports/no-unused-imports-ts': 'error',
         'unused-imports/no-unused-vars-ts': [
           'warn',
@@ -18,6 +18,13 @@ module.exports = {
             argsIgnorePattern: '^_',
           },
         ],
+        'prettier/prettier': [
+          'error',
+          {
+            endOfLine: 'auto',
+          },
+        ],
+
         // 'prettier/prettier': 'off',
         // 'comma-dangle': [
         //   'error',

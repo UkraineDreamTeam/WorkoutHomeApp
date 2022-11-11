@@ -28,6 +28,7 @@ build/
 .idea
 .gradle
 local.properties
+release.properties
 *.iml
 *.hprof
 .cxx/
@@ -68,3 +69,5 @@ upload-keystore.jks
 /ios/Pods/
 /vendor/bundle/
 src/images
+
+.vscode
