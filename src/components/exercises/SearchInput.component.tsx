@@ -9,19 +9,15 @@ import {
 } from 'react-native';
 import { COLOR_SCHEME, TYPOGRAPHY } from '../../theme';
 import BackIcon from '../icons/BackIcon.component';
-import SearchIcon from '../icons/SearchIcon.component';
 import FilterIcon from '../icons/Filter.component';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../types/types';
-import { useNavigation } from '@react-navigation/native';
+import SearchIcon from '../icons/SearchIcon.component';
 
 type Props = {
   text: string;
   onChangeText: Dispatch<React.SetStateAction<string>>;
+  showFilters: Dispatch<React.SetStateAction<boolean>>;
 };
-const SearchInput: FC<Props> = ({ onChangeText, text }) => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+const SearchInput: FC<Props> = ({ onChangeText, text, showFilters }) => {
   return (
     <SafeAreaView style={[styles.header]}>
       <BackIcon />
@@ -35,42 +31,21 @@ const SearchInput: FC<Props> = ({ onChangeText, text }) => {
         <SearchIcon />
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Filters')}
         style={[
           {
             display: 'flex',
             flexDirection: 'row',
             height: 40,
             alignItems: 'center',
-            // marginHorizontal: 20,
             maxWidth: Dimensions.get('screen').width / 3,
-            // backgroundColor: COLORS.PINK,
             borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-            // paddingHorizontal: 20,
-            // marginVertical: 10,
+
             alignSelf: 'center',
-            // borderWidth: 1,
-            // padding: 5,
-            // borderColor: COLORS.WHITE,
-            // backgroundColor: COLORS.PINK,
-            // position: 'absolute',
           },
         ]}
+        onPress={() => showFilters(true)}
       >
         <FilterIcon />
-        {/* <Text
-          style={[
-            {
-              // fontWeight: '400',
-              fontSize: 14,
-              alignSelf: 'center',
-              marginLeft: 20,
-              color: COLORS.WHITE,
-            },
-          ]}
-        >
-          FILTERS
-        </Text> */}
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -86,6 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_SCHEME.CARD_COLOR,
     paddingLeft: 40,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
+    marginRight: 10,
   },
   header: { display: 'flex', flexDirection: 'row', marginTop: 12 },
 });

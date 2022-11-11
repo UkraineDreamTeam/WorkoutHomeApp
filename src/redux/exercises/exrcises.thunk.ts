@@ -4,9 +4,9 @@ import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from '@react-native-firebase/storage';
 import { firebase } from '@react-native-firebase/auth';
-
+import firestore from '@react-native-firebase/firestore';
 import { Exercise, Filter } from './types';
-import { ASYNC_STORAGE_KEYS, URL } from '../../constants';
+import { ASYNC_STORAGE_KEYS, COLLECTION_KEY } from '../../constants';
 import {
   getFileLocationPath,
   getFileLocationUri,
@@ -23,23 +23,39 @@ import {
 } from './actions';
 
 const setFilters = (exercises: Exercise[], dispatch: AppDispatch) => {
-  const equipmentList: string[] = [];
-  const targetsList: string[] = [];
-  const typesList: string[] = [];
-  const bodyPartsList: string[] = [];
+  const equipmentList: Filter[] = [];
+  const targetsList: Filter[] = [];
+  const typesList: Filter[] = [];
+  const bodyPartsList: Filter[] = [];
   for (const exercise of exercises) {
-    if (!equipmentList.includes(exercise.equipment)) {
-      equipmentList.push(exercise.equipment);
+    if (equipmentList.findIndex(el => el.value === exercise.equipment) === -1) {
+      equipmentList.push({
+        value: exercise.equipment,
+        selected: false,
+        isSelectable: true,
+      });
     }
-    if (!targetsList.includes(exercise.target)) {
-      targetsList.push(exercise.target);
+    if (targetsList.findIndex(el => el.value === exercise.target) === -1) {
+      targetsList.push({
+        value: exercise.target,
+        selected: false,
+        isSelectable: true,
+      });
     }
-    if (!typesList.includes(exercise.type)) {
-      typesList.push(exercise.type);
+    if (typesList.findIndex(el => el.value === exercise.type) === -1) {
+      typesList.push({
+        value: exercise.type,
+        selected: false,
+        isSelectable: true,
+      });
     }
 
-    if (!bodyPartsList.includes(exercise.bodyPart)) {
-      bodyPartsList.push(exercise.bodyPart);
+    if (bodyPartsList.findIndex(el => el.value === exercise.bodyPart) === -1) {
+      bodyPartsList.push({
+        value: exercise.bodyPart,
+        selected: false,
+        isSelectable: true,
+      });
     }
   }
   dispatch(equipment(equipmentList));
@@ -58,12 +74,14 @@ export const getExercises = createAsyncThunk<
     if (dataUploadState) {
       const exercises: Exercise[] = JSON.parse(dataUploadState);
       setFilters(exercises, dispatch);
+
       return { res: { data: exercises } };
     } else {
       await firebase.auth().signInAnonymously();
-      const response = await fetch(`${URL}`);
-      console.log(dataUploadState);
-      const data = await response.json();
+      const response = await firestore().collection(COLLECTION_KEY).get();
+
+      const data = response.docs.map(x => x.data() as Exercise);
+
       const imagePath = getFileLocationPath();
       dispatch(total(data.length));
       const newCollection = [];

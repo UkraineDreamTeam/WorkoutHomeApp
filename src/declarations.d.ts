@@ -9,3 +9,7 @@ declare module '@env' {
   const content: 'module:react-native-dotenv';
   export const { EMAIL, PASSWORD } = content;
 }
+declare module 'react-native-component-inview' {
+  const content: 'react-native-component-inview';
+  export const InView = content;
+}

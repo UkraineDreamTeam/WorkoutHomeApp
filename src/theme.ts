@@ -19,7 +19,7 @@ export const CustomTheme = {
 };
 
 export const TYPOGRAPHY = {
-  BORDER_RADIUS: { small: 5, average: 10 },
+  BORDER_RADIUS: { small: 5, average: 10, big: 20 },
 };
 
 export const COLOR_SCHEME = {

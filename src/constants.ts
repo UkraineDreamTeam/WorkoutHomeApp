@@ -4,7 +4,7 @@ import Rename from './assets/icons/Rename.svg';
 import Delete from './assets/icons/Delete.svg';
 
 export const URL = 'https://pacific-fortress-00744.herokuapp.com';
-
+export const COLLECTION_KEY = 'Exercises';
 export const PATH_TO_SHOW_BOTTOM_BAR: { [key: string]: string } = {
   CurrentWorkout: 'CurrentWorkout',
   Statistics: 'Statistics',
