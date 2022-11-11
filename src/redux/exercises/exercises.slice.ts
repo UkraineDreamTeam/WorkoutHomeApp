@@ -13,6 +13,7 @@ import { ExercisesState } from './types';
 
 const initialState: ExercisesState = {
   exercises: [],
+  filteredExercises: [],
   loading: false,
   error: '',
   exercisesLoaded: 0,
@@ -21,12 +22,42 @@ const initialState: ExercisesState = {
   bodyParts: [],
   equipment: [],
   types: [],
+  selectedFilters: {},
 };
 
 export const exercisesSlice = createSlice({
   name: 'exercises',
   initialState,
-  reducers: {},
+  reducers: {
+    selectFilter: () =>
+      // state,
+      // {
+      //   payload,
+      // }: {
+      //   payload: {
+      //     filterName: 'bodyPart' | 'target' | 'type' | 'equipment';
+      //     values: string;
+      //   };
+      // }
+      {
+        // state.selectedFilters = {
+        //   ...state.selectedFilters,
+        //   [payload.filterName]: (
+        //     state.selectedFilters?.[payload.filterName] || []
+        //   ).includes(payload.values)
+        //     ? state.selectedFilters?.[payload.filterName]?.filter(
+        //         value => value === payload.values
+        //       )
+        //     : [
+        //         ...(state.selectedFilters?.[payload.filterName] || []),
+        //         payload.values,
+        //       ],
+        // };
+      },
+    clearFilters: state => {
+      state.selectedFilters = {};
+    },
+  },
   extraReducers: builder => {
     builder.addCase(getExercises.fulfilled, (state, action) => {
       if (action.payload.res?.error) {
@@ -34,6 +65,7 @@ export const exercisesSlice = createSlice({
       } else {
         if (action.payload.res?.data?.length) {
           state.exercises = action.payload.res?.data;
+          state.filteredExercises = action.payload.res?.data;
         }
       }
 
@@ -67,20 +99,20 @@ export const exercisesSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const {} = exercisesSlice.actions;
+export const { selectFilter, clearFilters } = exercisesSlice.actions;
 
 export const exercises = (state: RootState) => state.exercises.exercises;
 export const exercisesLoaded = (state: RootState) =>
   state.exercises.exercisesLoaded;
 export const totalExercisesCount = (state: RootState) =>
   state.exercises.totalExercisesCount;
-
-export const filters = {
-  equipmentList: (state: RootState) => state.exercises.equipment,
-  bodyPartsList: (state: RootState) => state.exercises.bodyParts,
-  typesList: (state: RootState) => state.exercises.types,
-  targetsList: (state: RootState) => state.exercises.targets,
-};
+export const selectedFilters = (state: RootState) =>
+  state.exercises.selectedFilters;
+export const filters = (state: RootState) => ({
+  equipment: state.exercises.equipment,
+  bodyPart: state.exercises.bodyParts,
+  type: state.exercises.types,
+  target: state.exercises.targets,
+});
 
 export const { reducer } = exercisesSlice;

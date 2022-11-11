@@ -8,8 +8,17 @@ export type Exercise = {
   type: 'stretch' | 'exercise';
 };
 
-export type Filter = { [key: string]: string };
-
+export type Filter = {
+  value: string;
+  selected: boolean;
+  isSelectable: boolean;
+};
+export type Filters = {
+  bodyPart?: Filter[];
+  type?: Filter[];
+  target?: Filter[];
+  equipment?: Filter[];
+};
 export type ReadDirResponse = {
   isDirectory: null;
   isFile: null;
@@ -24,12 +33,14 @@ export type ReadDirResponse = {
 
 export type ExercisesState = {
   exercises: Exercise[];
+  filteredExercises: Exercise[];
   loading: boolean;
   error: string;
   exercisesLoaded: number;
   totalExercisesCount: number;
-  targets: string[];
-  bodyParts: string[];
-  equipment: string[];
-  types: string[];
+  targets: Filter[];
+  bodyParts: Filter[];
+  equipment: Filter[];
+  types: Filter[];
+  selectedFilters: Filters;
 };

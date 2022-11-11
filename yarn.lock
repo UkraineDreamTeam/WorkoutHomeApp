@@ -1391,6 +1391,11 @@
     "@expo/config-plugins" "^5.0.1"
     plist "^3.0.5"
 
+"@react-native-firebase/firestore@^16.4.3":
+  version "16.4.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-16.4.3.tgz#abc28c3a98e51b47ccd5af825109f55d6af56652"
+  integrity sha512-T68PkKZzTfXTU8cUJTUUBBKQ4rNZ+XUHGoh38FHqTOLeSATyKa22oDuS+eOtakUSZTUnUEcquJmH5AvqSfsO3A==
+
 "@react-native-firebase/storage@^16.4.0":
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-16.4.0.tgz#25beb39dc8ef345c19fefd105f01cb7ef089d67b"
@@ -1716,6 +1721,11 @@
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
+
+"@types/lodash@^4.14.188":
+  version "4.14.188"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.188.tgz#e4990c4c81f7c9b00c5ff8eae389c10f27980da5"
+  integrity sha512-zmEmF5OIM3rb7SbLCFYoQhO4dGt2FRM9AMkxvA3LaADOF1n8in/zGJlWji9fmafLoNyz+FoL6FE0SLtGIArD7w==
 
 "@types/node@*":
   version "18.11.7"
@@ -6330,6 +6340,11 @@ react-native-codegen@^0.70.5:
     flow-parser "^0.121.0"
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
+
+react-native-component-inview@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-component-inview/-/react-native-component-inview-1.0.2.tgz#da2140bb6c89f40706695ffaed2efbb007f491e7"
+  integrity sha512-BlzgpZDxpGx+5MQD0xA1jKzlej/0tOw72DEIHVb7FOEaGduXkWMIKag+nf50jgbez0S7qAFRH53ctF6q5xrrBw==
 
 react-native-dotenv@^3.3.1:
   version "3.3.1"
