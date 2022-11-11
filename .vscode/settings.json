@@ -1,10 +1,7 @@
 {
-<<<<<<< HEAD
+
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   }
 }
-=======
-    "java.configuration.updateBuildConfiguration": "automatic"
-}
->>>>>>> fd55d104332ebbdc8bf82dba35dcc4b770ab8f08
+

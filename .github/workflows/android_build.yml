@@ -28,6 +28,9 @@ jobs:
       - run: yarn
         shell: bash
 
+      - run: touch android/release.properties
+        shell: bash 
+
       - shell: bash
         run: echo "${{ secrets.KEYSTORE }}" | base64 -d > $GITHUB_WORKSPACE/android/upload-keystore.jks
 
@@ -74,6 +77,9 @@ jobs:
 
       - run: yarn
         shell: bash
+
+      - run: touch android/release.properties
+        shell: bash 
 
       - name: Setup versions code
         run: |
