@@ -4,7 +4,8 @@ export const COLORS = {
   WHITE: 'white',
   PINK: '#DA0AAC',
   GREY: '#36404F',
-  LIGHT_GREY: 'D9D9D9',
+  LIGHT_GREY: '#D9D9D9',
+  BLUE_GREY: '#343D54',
 };
 export const CustomTheme = {
   dark: false,

@@ -4,6 +4,7 @@ import {
   NavigatorScreenParams,
   RouteProp,
 } from '@react-navigation/native';
+
 import { StackScreenProps } from '@react-navigation/stack';
 import { Exercise } from '../redux/exercises/types';
 
@@ -13,7 +14,6 @@ export type RootStackParamList = {
   ListOfExercise: undefined;
   Profile: undefined;
   Exercise: undefined;
-  Filters: undefined;
 };
 
 export type WorkoutScreenProps = StackScreenProps<

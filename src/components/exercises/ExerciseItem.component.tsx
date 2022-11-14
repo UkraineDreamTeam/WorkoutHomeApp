@@ -10,11 +10,18 @@ import { Exercise } from '../../redux/exercises/types';
 import { getFileLocationUri } from '../../utils/utils';
 import FastImage from 'react-native-fast-image';
 import { CustomTheme } from '../../theme';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../types/types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const ExerciseItem = memo((data: Exercise) => {
   const { gifUrl, name, bodyPart, target, id } = data;
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
-    <TouchableOpacity style={style.cardContainer}>
+    <TouchableOpacity
+      style={style.cardContainer}
+      onPress={() => navigation.navigate('Exercise')}
+    >
       <View style={style.imageContainer}>
         <FastImage
           source={{ uri: getFileLocationUri(gifUrl, id) }}

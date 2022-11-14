@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
@@ -7,10 +6,12 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+
 import { Svg } from 'react-native-svg';
 import Profile from '../../assets/icons/Profile.svg';
 import Statistics from '../../assets/icons/Statistics.svg';
 import Home from '../../assets/icons/Home.svg';
+
 const AnimateSvg = Animated.createAnimatedComponent(Svg);
 
 const TabBarItem = ({

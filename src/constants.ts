@@ -44,3 +44,9 @@ export const ROUTINE_EDIT_SVGS = {
   rename: Rename,
   delete: Delete,
 };
+export const FILTER_TITLES = {
+  bodyPart: 'Category',
+  type: 'Type',
+  target: 'Muscle',
+  equipment: 'Equipment',
+};
