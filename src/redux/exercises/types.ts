@@ -14,11 +14,12 @@ export type Filter = {
   isSelectable: boolean;
 };
 export type Filters = {
-  bodyPart?: Filter[];
-  type?: Filter[];
-  target?: Filter[];
-  equipment?: Filter[];
+  bodyPart: Filter[];
+  type: Filter[];
+  target: Filter[];
+  equipment: Filter[];
 };
+export type FilterNames = keyof Filters;
 export type ReadDirResponse = {
   isDirectory: null;
   isFile: null;
@@ -43,4 +44,6 @@ export type ExercisesState = {
   equipment: Filter[];
   types: Filter[];
   selectedFilters: Filters;
+  modalVisible: boolean;
+  temporaryFiltered?: Exercise[];
 };

@@ -1,35 +1,27 @@
 import React, { FC } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Filter } from '../../redux/exercises/types';
+import { StyleSheet, View } from 'react-native';
+import { Filter, FilterNames } from '../../redux/exercises/types';
 import { COLORS } from '../../theme';
 import FilterItem from './FilterItem.component';
 type Props = {
   list: Filter[];
-  name: 'bodyPart' | 'type' | 'target' | 'equipment';
+  name: FilterNames;
 };
-const FiltersList: FC<Props> = ({ list }) => {
-  // const dispatch = useAppDispatch();
-  // const selected = useAppSelector(selectedFilters);
-  // const onSelect = (option: string) =>
-  //   dispatch(selectFilter({ filterName: name, values: option }));
-  // useEffect(() => {
-  //   console.log(list);
-  // }, []);
+const FiltersList: FC<Props> = ({ list, name }) => {
   return (
     <View style={[style.section]}>
-      {list.map(({ value, selected, isSelectable }) => (
-        <TouchableOpacity
-          key={value}
-          style={[style.itemContainer]}
-          disabled={!isSelectable}
-        >
+      {list.map(item => {
+        const { value, selected, isSelectable } = item;
+        return (
           <FilterItem
+            key={value}
             text={value}
             selected={selected}
             isSelectable={isSelectable}
+            name={name}
           />
-        </TouchableOpacity>
-      ))}
+        );
+      })}
     </View>
   );
 };
@@ -41,9 +33,8 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     flexShrink: 1,
-    // marginHorizontal: 50,
-    // flex: 1,
-    // height: Dimensions.get('screen').height * 0.4,
+
+    paddingBottom: 5,
   },
   title: { color: COLORS.WHITE, padding: 10, fontSize: 20 },
 });

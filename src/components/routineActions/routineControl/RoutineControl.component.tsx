@@ -5,17 +5,20 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import AddIconWhite from '../../../assets/icons/AddIconWhite.svg';
-import Start from '../../../assets/icons/Start.svg';
-import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../../../theme';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+
+import AddIconWhite from '../../../assets/icons/AddIconWhite.svg';
+import Start from '../../../assets/icons/Start.svg';
+
+import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../../../theme';
+
 import { RootStackParamList } from '../../../types/types';
+
 import WorkoutActionsPoppingMenu from '../WorkoutActionsPoppingMenu.component';
 
 const RoutineControl = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  // const [modalVisible, setModalVisible] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
   const menuAnim = useRef(new Animated.Value(0)).current;
@@ -76,7 +79,6 @@ const RoutineControl = () => {
         <WorkoutActionsPoppingMenu
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          // menuBorders={menuBorders}
         />
       </TouchableOpacity>
     </Animated.View>

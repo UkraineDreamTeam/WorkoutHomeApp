@@ -3,12 +3,14 @@ import { RootState } from '../store';
 import {
   bodyParts,
   equipment,
+  filter,
   increment,
   targets,
   total,
   types,
 } from './actions';
 import { getExercises } from './exrcises.thunk';
+import { filterExercises } from './reducerActions';
 import { ExercisesState } from './types';
 
 const initialState: ExercisesState = {
@@ -22,40 +24,29 @@ const initialState: ExercisesState = {
   bodyParts: [],
   equipment: [],
   types: [],
-  selectedFilters: {},
+  selectedFilters: { type: [], bodyPart: [], target: [], equipment: [] },
+  modalVisible: false,
+  temporaryFiltered: [],
 };
 
 export const exercisesSlice = createSlice({
   name: 'exercises',
   initialState,
   reducers: {
-    selectFilter: () =>
-      // state,
-      // {
-      //   payload,
-      // }: {
-      //   payload: {
-      //     filterName: 'bodyPart' | 'target' | 'type' | 'equipment';
-      //     values: string;
-      //   };
-      // }
-      {
-        // state.selectedFilters = {
-        //   ...state.selectedFilters,
-        //   [payload.filterName]: (
-        //     state.selectedFilters?.[payload.filterName] || []
-        //   ).includes(payload.values)
-        //     ? state.selectedFilters?.[payload.filterName]?.filter(
-        //         value => value === payload.values
-        //       )
-        //     : [
-        //         ...(state.selectedFilters?.[payload.filterName] || []),
-        //         payload.values,
-        //       ],
-        // };
-      },
+    setModalVisible: state => {
+      state.modalVisible = state.modalVisible ? false : true;
+    },
+    filterExercises,
     clearFilters: state => {
-      state.selectedFilters = {};
+      state.selectedFilters = {
+        bodyPart: [],
+        type: [],
+        target: [],
+        equipment: [],
+      };
+    },
+    applyFilters: state => {
+      state.filteredExercises = state.temporaryFiltered || state.exercises;
     },
   },
   extraReducers: builder => {
@@ -85,34 +76,34 @@ export const exercisesSlice = createSlice({
       state.totalExercisesCount = action.payload;
     });
     builder.addCase(targets, (state, action) => {
-      state.targets = action.payload;
+      state.selectedFilters.target = action.payload;
     });
     builder.addCase(bodyParts, (state, action) => {
-      state.bodyParts = action.payload;
+      state.selectedFilters.bodyPart = action.payload;
     });
     builder.addCase(types, (state, action) => {
-      state.types = action.payload;
+      state.selectedFilters.type = action.payload;
     });
     builder.addCase(equipment, (state, action) => {
-      state.equipment = action.payload;
+      state.selectedFilters.equipment = action.payload;
     });
+    builder.addCase(filter, filterExercises);
   },
 });
 
-export const { selectFilter, clearFilters } = exercisesSlice.actions;
+export const { setModalVisible, clearFilters, applyFilters } =
+  exercisesSlice.actions;
 
-export const exercises = (state: RootState) => state.exercises.exercises;
+export const modalVisibility = (state: RootState) =>
+  state.exercises.modalVisible;
+
+export const exercises = (state: RootState) =>
+  state.exercises.filteredExercises;
 export const exercisesLoaded = (state: RootState) =>
   state.exercises.exercisesLoaded;
 export const totalExercisesCount = (state: RootState) =>
   state.exercises.totalExercisesCount;
 export const selectedFilters = (state: RootState) =>
   state.exercises.selectedFilters;
-export const filters = (state: RootState) => ({
-  equipment: state.exercises.equipment,
-  bodyPart: state.exercises.bodyParts,
-  type: state.exercises.types,
-  target: state.exercises.targets,
-});
 
 export const { reducer } = exercisesSlice;

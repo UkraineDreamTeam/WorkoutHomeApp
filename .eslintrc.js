@@ -24,29 +24,6 @@ module.exports = {
             endOfLine: 'auto',
           },
         ],
-
-        // 'prettier/prettier': 'off',
-        // 'comma-dangle': [
-        //   'error',
-        //   {
-        //     arrays: 'never',
-        //     objects: 'always',
-        //     imports: 'never',
-        //     exports: 'never',
-        //     functions: 'always',
-        //   },
-        // ],
-
-        // 'comma-dangle': [
-        //   'error',
-        //   {
-        //     arrays: 'always',
-        //     objects: 'always',
-        //     imports: 'never',
-        //     exports: 'never',
-        //     functions: 'never',
-        //   },
-        // ],
       },
     },
   ],
