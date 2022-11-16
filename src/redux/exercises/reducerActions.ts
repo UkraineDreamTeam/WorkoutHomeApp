@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/internal';
-import { ExercisesState, Filter, FilterNames, Filters } from './types';
+import { ExercisesState, Filter, FilterNames, Filters } from '../types';
 
 type FilterAction = (
   state: WritableDraft<ExercisesState>,

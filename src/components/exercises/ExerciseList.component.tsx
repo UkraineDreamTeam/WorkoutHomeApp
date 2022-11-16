@@ -1,6 +1,6 @@
 import { FlashList } from '@shopify/flash-list';
 import React from 'react';
-import { Exercise } from '../../redux/exercises/types';
+import { Exercise } from '../../redux/types';
 import Loader from '../ActivityIndicator.component';
 import ExerciseItem from './ExerciseItem.component';
 

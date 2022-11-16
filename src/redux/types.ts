@@ -6,6 +6,7 @@ export type Exercise = {
   name: string;
   target: string;
   type: 'stretch' | 'exercise';
+  extraImages?: string[];
 };
 
 export type Filter = {

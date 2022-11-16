@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Filter, FilterNames } from './types';
+import { Filter, FilterNames } from '../types';
 
 export const increment = createAction('counter/increment');
 export const total = createAction<number>('total');

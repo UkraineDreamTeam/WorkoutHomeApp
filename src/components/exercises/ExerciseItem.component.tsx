@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import { Exercise } from '../../redux/exercises/types';
+import { Exercise } from '../../redux/types';
 import { getFileLocationUri } from '../../utils/utils';
 import FastImage from 'react-native-fast-image';
 import { CustomTheme } from '../../theme';
@@ -20,7 +20,7 @@ const ExerciseItem = memo((data: Exercise) => {
   return (
     <TouchableOpacity
       style={style.cardContainer}
-      onPress={() => navigation.navigate('Exercise')}
+      onPress={() => navigation.navigate('Exercise', data)}
     >
       <View style={style.imageContainer}>
         <FastImage

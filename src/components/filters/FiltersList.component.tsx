@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Filter, FilterNames } from '../../redux/exercises/types';
+import { Filter, FilterNames } from '../../redux/types';
 import { COLORS } from '../../theme';
 import FilterItem from './FilterItem.component';
 type Props = {
