@@ -1,11 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
-import RNFS from 'react-native-fs';
+import RNFS, { unlink } from 'react-native-fs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from '@react-native-firebase/storage';
 import { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { Exercise, Filter } from './types';
+import { Exercise, Filter } from '../types';
 import { ASYNC_STORAGE_KEYS, COLLECTION_KEY } from '../../constants';
 import {
   getFileLocationPath,
@@ -21,6 +20,10 @@ import {
   total,
   types,
 } from './actions';
+import {
+  ImageLibraryOptions,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 
 const setFilters = (exercises: Exercise[], dispatch: AppDispatch) => {
   const equipmentList: Filter[] = [];
@@ -83,6 +86,7 @@ export const getExercises = createAsyncThunk<
       const data = response.docs.map(x => x.data() as Exercise);
 
       const imagePath = getFileLocationPath();
+
       dispatch(total(data.length));
       const newCollection = [];
 
@@ -124,5 +128,102 @@ export const getExercises = createAsyncThunk<
     }
   } catch (error) {
     return { res: { data: undefined, error } };
+  }
+});
+export const addExtraImage = createAsyncThunk<Exercise[] | [], string>(
+  'gallery/getImages',
+  async id => {
+    try {
+      const params: { options: ImageLibraryOptions; source: string } = {
+        options: {
+          mediaType: 'photo',
+          selectionLimit: 0,
+        },
+        source: 'gallery',
+      };
+      const response = await launchImageLibrary(params.options);
+
+      if (response.assets) {
+        const exercises =
+          (await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA)) || '';
+        const parsedExercise: Exercise[] = exercises.length
+          ? JSON.parse(exercises)
+          : [];
+        const imagePath = getFileLocationPath();
+
+        const extraImages = response.assets.map(el => {
+          const match = el?.fileName?.match(/^.*?(?=[.])/gm);
+          if (el.uri && el.fileName && match && match.length) {
+            return `file:${imagePath + '/' + el.fileName}`;
+          } else {
+            return '';
+          }
+        });
+
+        for (const image of response.assets) {
+          if (image.fileName && image.uri) {
+            await RNFS.copyFile(image.uri, imagePath + '/' + image.fileName);
+          }
+        }
+        const newExercises = parsedExercise.map(el =>
+          el.id === id
+            ? {
+                ...el,
+                extraImages: [
+                  ...(el.extraImages ? el.extraImages : []),
+                  ...extraImages,
+                ],
+              }
+            : el
+        );
+        try {
+          await AsyncStorage.setItem(
+            ASYNC_STORAGE_KEYS.DATA,
+            JSON.stringify(newExercises)
+          );
+        } catch (error) {
+          return [];
+        }
+
+        return newExercises || [];
+      } else {
+        return [];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+);
+export const deleteImage = createAsyncThunk<
+  Exercise[] | [],
+  { id: string; imageUri: string }
+>('data/deleteExtraImage', async ({ id, imageUri }) => {
+  const exercises = (await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA)) || '';
+  const parsedExercises: Exercise[] = exercises.length
+    ? JSON.parse(exercises)
+    : [];
+  if (parsedExercises.length) {
+    const mapedExercises = parsedExercises.map(el =>
+      el.id === id
+        ? { ...el, extraImages: el.extraImages?.filter(el => el !== imageUri) }
+        : el
+    );
+    const imagePath = getFileLocationPath();
+    console.log(imagePath);
+    console.log(imageUri.replace('file:', ''));
+
+    try {
+      await unlink(imageUri.replace('file:', ''));
+    } catch (error) {
+      console.log(error);
+    }
+
+    await AsyncStorage.setItem(
+      ASYNC_STORAGE_KEYS.DATA,
+      JSON.stringify(mapedExercises)
+    );
+    return mapedExercises;
+  } else {
+    return [];
   }
 });

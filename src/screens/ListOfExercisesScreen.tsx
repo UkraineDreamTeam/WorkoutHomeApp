@@ -4,7 +4,7 @@ import Loader from '../components/ActivityIndicator.component';
 import ExerciseList from '../components/exercises/ExerciseList.component';
 import SearchInput from '../components/exercises/SearchInput.component';
 import { exercises } from '../redux/exercises/exercises.slice';
-import { Exercise } from '../redux/exercises/types';
+import { Exercise } from '../redux/types';
 import { useAppSelector } from '../redux/store';
 
 const ListOfExercisesScreen = () => {

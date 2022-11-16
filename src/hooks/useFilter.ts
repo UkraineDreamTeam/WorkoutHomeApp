@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { exercises } from '../redux/exercises/exercises.slice';
-import { Exercise, Filters } from '../redux/exercises/types';
+import { Exercise, Filters } from '../redux/types';
 import { useAppSelector } from '../redux/store';
 
 export const useFilter = () => {

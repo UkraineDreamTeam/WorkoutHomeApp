@@ -19,7 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import FiltersSection from './FiltersSection.component';
 import { FILTER_TITLES } from '../../constants';
-import { FilterNames } from '../../redux/exercises/types';
+import { FilterNames } from '../../redux/types';
 const FilterContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const filter = useAppSelector(selectedFilters);

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { filter } from '../../redux/exercises/actions';
-import { Filter, FilterNames } from '../../redux/exercises/types';
+import { Filter, FilterNames } from '../../redux/types';
 import { useAppDispatch } from '../../redux/store';
 import { COLORS, COLOR_SCHEME, TYPOGRAPHY } from '../../theme';
 type Props = {

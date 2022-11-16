@@ -9,9 +9,9 @@ import {
   total,
   types,
 } from './actions';
-import { getExercises } from './exrcises.thunk';
+import { addExtraImage, deleteImage, getExercises } from './exrcises.thunk';
 import { filterExercises } from './reducerActions';
-import { ExercisesState } from './types';
+import { ExercisesState } from '../types';
 
 const initialState: ExercisesState = {
   exercises: [],
@@ -88,6 +88,16 @@ export const exercisesSlice = createSlice({
       state.selectedFilters.equipment = action.payload;
     });
     builder.addCase(filter, filterExercises);
+    builder.addCase(addExtraImage.fulfilled, (state, action) => {
+      if (action.payload.length) {
+        state.exercises = action.payload;
+        state.filteredExercises = action.payload;
+      }
+    });
+    builder.addCase(deleteImage.fulfilled, (state, action) => {
+      state.filteredExercises = action.payload;
+      state.exercises = action.payload;
+    });
   },
 });
 
