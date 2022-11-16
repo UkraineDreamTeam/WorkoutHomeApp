@@ -14,11 +14,12 @@ import FilterIcon from '../icons/Filter.component';
 import Close from '../../assets/icons/Close.svg';
 import {
   applyFilters,
+  clearFilters,
   selectedFilters,
 } from '../../redux/exercises/exercises.slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import FiltersSection from './FiltersSection.component';
-import { FILTER_TITLES } from '../../constants';
+import { FILTER_TITLES } from '../../constants/constants';
 import { FilterNames } from '../../redux/types';
 const FilterContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,6 +34,7 @@ const FilterContainer = () => {
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
+          dispatch(clearFilters());
         }}
       >
         <Pressable
@@ -47,6 +49,7 @@ const FilterContainer = () => {
           ]}
           onPress={() => {
             setModalVisible(false);
+            dispatch(clearFilters());
           }}
         >
           <Close fill={'red'} />
@@ -63,6 +66,7 @@ const FilterContainer = () => {
           ]}
           onPress={() => {
             setModalVisible(false);
+            dispatch(clearFilters());
           }}
         />
 

@@ -10,7 +10,7 @@ import {
 import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../../theme';
 import DotsWhite from '../../assets/icons/DotsWhite.svg';
 import { RoutineControlButton } from './routineControl/RoutineControlButton.component';
-import { ROUTINE_ACTIONS } from '../../constants';
+import { ROUTINE_ACTIONS } from '../../constants/constants';
 
 const WorkoutActionsPoppingMenu = ({
   modalVisible,

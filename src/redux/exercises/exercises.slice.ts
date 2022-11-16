@@ -11,7 +11,7 @@ import {
 } from './actions';
 import { addExtraImage, deleteImage, getExercises } from './exrcises.thunk';
 import { filterExercises } from './reducerActions';
-import { ExercisesState } from '../types';
+import { ExercisesState, FilterNames } from '../types';
 
 const initialState: ExercisesState = {
   exercises: [],
@@ -37,16 +37,28 @@ export const exercisesSlice = createSlice({
       state.modalVisible = state.modalVisible ? false : true;
     },
     filterExercises,
-    clearFilters: state => {
-      state.selectedFilters = {
-        bodyPart: [],
-        type: [],
-        target: [],
-        equipment: [],
-      };
-    },
+    // clearFilters: state => {
+    //   state.selectedFilters = {
+    //     bodyPart: [],
+    //     type: [],
+    //     target: [],
+    //     equipment: [],
+    //   };
+    // },
     applyFilters: state => {
       state.filteredExercises = state.temporaryFiltered || state.exercises;
+      for (const key in state.selectedFilters) {
+        state.selectedFilters[key as FilterNames] = state.selectedFilters[
+          key as FilterNames
+        ].map(el => ({ ...el, selected: false, isSelectable: true }));
+      }
+    },
+    clearFilters: state => {
+      for (const key in state.selectedFilters) {
+        state.selectedFilters[key as FilterNames] = state.selectedFilters[
+          key as FilterNames
+        ].map(el => ({ ...el, selected: false, isSelectable: true }));
+      }
     },
   },
   extraReducers: builder => {
