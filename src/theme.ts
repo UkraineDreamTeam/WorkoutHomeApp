@@ -6,6 +6,7 @@ export const COLORS = {
   GREY: '#36404F',
   LIGHT_GREY: '#D9D9D9',
   BLUE_GREY: '#343D54',
+  BLOCK_GREY: '#252934',
 };
 export const CustomTheme = {
   dark: false,

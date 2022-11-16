@@ -1,76 +1,87 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HOURS, MINUTES, SECONDS } from '../../constants/options';
 import { RootState } from '../store';
-type ExerciseTypeTime = {
-  title: string;
-  units: {
-    sets: Unit;
-    time: Unit;
-    km: Unit;
-  };
-  selected: boolean;
-};
+export type WeightUnits = keyof typeof weightMode.units.set;
+export type TimeUnits = keyof typeof weightMode.units.time;
+
 type ExerciseTypeWeight = {
   title: string;
+
   units: {
-    sets: Unit;
-    reps: Unit;
-    kg: Unit;
+    set: {
+      sets: number;
+      reps: number;
+      kg: number;
+    };
+    time: {
+      h: number;
+      min: number;
+      sec: number;
+    };
   };
+
+  rest: boolean;
   selected: boolean;
 };
-type Unit = { minValue: number; maxValue: number; required: boolean };
-export type WorkoutTypes = {
-  weight: ExerciseTypeWeight;
-  time: ExerciseTypeTime;
-};
+
 type Exercise = {
-  workoutTypes: WorkoutTypes;
-  selectedMode: ExerciseTypeTime | ExerciseTypeWeight | {};
+  mode: ExerciseTypeWeight;
+  hours: { value: string; selected: boolean }[];
+  minutes: { value: string; selected: boolean }[];
+  seconds: { value: string; selected: boolean }[];
 };
 
 const weightMode = {
   title: 'Weights/Bodyweight',
+
   units: {
-    sets: { minValue: 1, maxValue: 999, required: true },
-    reps: { minValue: 1, maxValue: 999, required: true },
-    kg: { minValue: 0, maxValue: 999, required: false },
+    set: {
+      sets: 0,
+      reps: 0,
+      kg: 0,
+    },
+    time: {
+      h: 0,
+      min: 0,
+      sec: 0,
+    },
   },
+
+  rest: false,
   selected: true,
 };
-const timeMolde = {
-  title: 'Time/Distance',
-  units: {
-    sets: { minValue: 1, maxValue: 999, required: true },
-    time: { minValue: 1, maxValue: 999, required: true },
-    km: { minValue: 0, maxValue: 999, required: false },
-  },
-  selected: false,
-};
+
 const initialState: Exercise = {
-  workoutTypes: {
-    weight: weightMode,
-    time: timeMolde,
-  },
-  selectedMode: weightMode,
+  mode: weightMode,
+  hours: HOURS.map(el => ({ value: el, selected: false })),
+  minutes: MINUTES.map(el => ({ value: el, selected: false })),
+  seconds: SECONDS.map(el => ({ value: el, selected: false })),
 };
 
 export const exerciseSlice = createSlice({
   name: 'exerciseActions',
   initialState,
   reducers: {
-    selectType: (state, action: PayloadAction<keyof WorkoutTypes>) => {
-      state.selectedMode = state.workoutTypes[action.payload];
-      for (const key in state.workoutTypes) {
-        state.workoutTypes[key as keyof WorkoutTypes].selected =
-          key === action.payload ? true : false;
-      }
+    setSelected: (
+      state,
+      action: PayloadAction<{
+        name: 'hours' | 'minutes' | 'seconds';
+        option: string;
+      }>
+    ) => {
+      state[action.payload.name] = state[action.payload.name].map(el =>
+        el.value === action.payload.option
+          ? { ...el, selected: true }
+          : { ...el, selected: false }
+      );
     },
   },
 });
 
-export const { selectType } = exerciseSlice.actions;
+export const {} = exerciseSlice.actions;
 
-export const mode = (state: RootState) => state.exerciseActions.selectedMode;
-export const modes = (state: RootState) => state.exerciseActions.workoutTypes;
-
+export const mode = (state: RootState) => state.exerciseActions.mode;
+export const hours = (state: RootState) => state.exerciseActions.hours;
+export const minutes = (state: RootState) => state.exerciseActions.minutes;
+export const seconds = (state: RootState) => state.exerciseActions.seconds;
 export const { reducer } = exerciseSlice;

@@ -6,7 +6,7 @@ import {
   ROUTINE_ACTION_TYPE,
   ROUTINE_EDIT_ACTIONS,
   ROUTINE_EDIT_SVGS,
-} from '../../../constants';
+} from '../../../constants/constants';
 
 export const RoutineControlButton = ({
   setModalVisible,

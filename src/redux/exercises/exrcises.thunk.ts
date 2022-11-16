@@ -5,7 +5,7 @@ import storage from '@react-native-firebase/storage';
 import { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { Exercise, Filter } from '../types';
-import { ASYNC_STORAGE_KEYS, COLLECTION_KEY } from '../../constants';
+import { ASYNC_STORAGE_KEYS, COLLECTION_KEY } from '../../constants/keys';
 import {
   getFileLocationPath,
   getFileLocationUri,
@@ -208,9 +208,6 @@ export const deleteImage = createAsyncThunk<
         ? { ...el, extraImages: el.extraImages?.filter(el => el !== imageUri) }
         : el
     );
-    const imagePath = getFileLocationPath();
-    console.log(imagePath);
-    console.log(imageUri.replace('file:', ''));
 
     try {
       await unlink(imageUri.replace('file:', ''));
