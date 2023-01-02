@@ -1,6 +1,1 @@
-{
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "files.eol": true
-  }
-}
+{  "editor.codeActionsOnSave": {    "source.fixAll.eslint": true,    "files.eol": true  }}
