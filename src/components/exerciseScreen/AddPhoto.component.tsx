@@ -1,15 +1,9 @@
-import React, { FC } from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { addExtraImage } from '@redux/exercises/exrcises.thunk';
-import { useAppDispatch } from '@redux/store';
-import { COLORS, TYPOGRAPHY } from '@shared/theme';
-import AddPhotoIcon from '../icons/AddPhotoIcon';
+import React, { FC } from "react";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { addExtraImage } from "@redux/exercises/exrcises.thunk";
+import { useAppDispatch } from "@redux/store";
+import { COLORS, TYPOGRAPHY } from "@shared/theme";
+import AddPhotoIcon from "@icons-components/AddPhotoIcon";
 
 const AddPhoto: FC<{ id: string }> = ({ id }) => {
   const dispatch = useAppDispatch();

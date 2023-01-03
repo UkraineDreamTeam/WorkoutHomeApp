@@ -1,15 +1,9 @@
-import React, { Dispatch, FC } from 'react';
-import {
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
-import { COLOR_SCHEME, TYPOGRAPHY } from '@shared/theme';
-import FilterContainer from '../filters/FilterModal.component';
-import BackIcon from '../icons/BackIcon.component';
-import SearchIcon from '../icons/SearchIcon.component';
+import React, { Dispatch, FC } from "react";
+import { Dimensions, SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import { COLOR_SCHEME, TYPOGRAPHY } from "@shared/theme";
+import FilterContainer from "../filters/FilterModal.component";
+import BackIcon from "@icons-components/BackIcon.component";
+import SearchIcon from "@icons-components/SearchIcon.component";
 
 type Props = {
   text: string;

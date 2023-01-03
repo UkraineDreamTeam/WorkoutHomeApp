@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Dimensions, FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS, TYPOGRAPHY } from "@shared/theme";
-import FilterIcon from "../icons/Filter.component";
+import FilterIcon from "@icons-components/Filter.component";
 import Close from "@assets/icons/Close.svg";
 import { applyFilters, clearFilters, selectedFilters } from "@redux/exercises/exercises.slice";
 import { useAppDispatch, useAppSelector } from "@redux/store";

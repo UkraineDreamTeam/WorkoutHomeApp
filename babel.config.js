@@ -22,7 +22,8 @@ module.exports = {
         "@components": "./src/components",
         "@shared": "./src/shared",
         "@assets": "./src/assets",
-        "@redux": "./src/redux"
+        "@redux": "./src/redux",
+        "@icons-components": "./src/components/icons",
       }
       }
     ]
