@@ -1,15 +1,9 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import { COLORS, TYPOGRAPHY } from '@shared/theme';
-import BackIcon from '../icons/BackIcon.component';
-import DeleteIcon from '../icons/DeleteIcon.component';
-import DoneIcon from '../icons/DoneIcon.component';
+import React from "react";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS, TYPOGRAPHY } from "@shared/theme";
+import BackIcon from "@icons-components/BackIcon.component";
+import DeleteIcon from "@icons-components/DeleteIcon.component";
+import DoneIcon from "@icons-components/DoneIcon.component";
 
 const Header = () => {
   return (

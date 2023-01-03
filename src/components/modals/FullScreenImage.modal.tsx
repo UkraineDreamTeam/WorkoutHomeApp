@@ -1,18 +1,10 @@
-import React, { FC, useState } from 'react';
-import {
-  Dimensions,
-  Modal,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import { deleteImage } from '@redux/exercises/exrcises.thunk';
-import { useAppDispatch } from '@redux/store';
-import { COLORS, TYPOGRAPHY } from '@shared/theme';
-import DeleteIcon from '../icons/DeleteIcon.component';
+import React, { FC, useState } from "react";
+import { Dimensions, Modal, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { deleteImage } from "@redux/exercises/exrcises.thunk";
+import { useAppDispatch } from "@redux/store";
+import { COLORS, TYPOGRAPHY } from "@shared/theme";
+import DeleteIcon from "@icons-components/DeleteIcon.component";
 
 const FullScreenImage: FC<{ uri: string; deletable: boolean; id: string }> = ({
   uri,

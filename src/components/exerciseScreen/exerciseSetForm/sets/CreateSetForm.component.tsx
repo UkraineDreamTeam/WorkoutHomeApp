@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -9,12 +9,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { COLORS, TYPOGRAPHY } from '@shared/theme';
-import AddPhotoIcon from '../../../icons/AddPhotoIcon';
-import { TimeSelector } from './timeSelectorsGroup/TimeSelector.component';
-import { WeightSelectorsGroupComponent } from './weightSelectorsGroup/WeightSelectorsGroup.component';
+import { COLORS, TYPOGRAPHY } from "@shared/theme";
+import AddPhotoIcon from "@icons-components/AddPhotoIcon";
+import { TimeSelector } from "./timeSelectorsGroup/TimeSelector.component";
+import { WeightSelectorsGroupComponent } from "./weightSelectorsGroup/WeightSelectorsGroup.component";
 
 export const CreateSetModal: FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
