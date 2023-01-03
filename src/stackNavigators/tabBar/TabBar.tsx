@@ -2,10 +2,10 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { PATH_TO_SHOW_BOTTOM_BAR } from '../../constants/keys';
-import { COLOR_SCHEME } from '../../theme';
+import { PATH_TO_SHOW_BOTTOM_BAR } from '@shared/constants/keys';
+import { COLOR_SCHEME } from '@shared/theme';
 
-import { RootStackParamList } from '../../types/types';
+import { RootStackParamList } from '@shared/types/types';
 import TabBarItem from './TabBarItem';
 
 function MyTabBar(
