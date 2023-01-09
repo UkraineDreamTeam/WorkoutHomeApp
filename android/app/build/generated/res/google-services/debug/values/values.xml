@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">535189524504-jak1uinc3mqv3tettu2rtmfjngaapo3j.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">535189524504</string>
+    <string name="google_api_key" translatable="false">AIzaSyBgEsEFaI2L8uZ-3MNRG5EPlrR4b4acSfg</string>
+    <string name="google_app_id" translatable="false">1:535189524504:android:cc5471880931f38e5cb36d</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBgEsEFaI2L8uZ-3MNRG5EPlrR4b4acSfg</string>
+    <string name="google_storage_bucket" translatable="false">workoutapp-cdebc.appspot.com</string>
+    <string name="project_id" translatable="false">workoutapp-cdebc</string>
+</resources>

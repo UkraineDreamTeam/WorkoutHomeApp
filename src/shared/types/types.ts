@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/native';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import { Exercise } from 'src/redux/types';
+import { Exercise } from '@redux/types';
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>;

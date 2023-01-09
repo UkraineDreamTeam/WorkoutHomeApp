@@ -5,7 +5,6 @@ import { Filter, FilterNames } from '@redux/types';
 import { useAppDispatch } from '@redux/store';
 import { COLORS, COLOR_SCHEME, TYPOGRAPHY } from '@shared/theme';
 
-
 type Props = {
   text: string;
   selected: boolean;
@@ -21,13 +20,13 @@ const FilterItem: FC<Props> = item => {
   };
   return (
     <TouchableOpacity
-      style={[style.itemContainer]}
+      style={[styles.itemContainer]}
       onPress={() => onSelect({ value: text, selected, isSelectable })}
       disabled={!isSelectable}
     >
       <View
         style={[
-          style.item,
+          styles.item,
           {
             backgroundColor: selected
               ? COLOR_SCHEME.ANOTHER_ACTIONS
@@ -46,7 +45,7 @@ const FilterItem: FC<Props> = item => {
     </TouchableOpacity>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   item: {
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
     borderWidth: 2,

@@ -1,7 +1,7 @@
-import Edit from "@assets/icons/Edit.svg";
-import Reorder from "@assets/icons/Reorder.svg";
-import Rename from "@assets/icons/Rename.svg";
-import Delete from "@assets/icons/Delete.svg";
+import Edit from '@assets/icons/Edit.svg';
+import Reorder from '@assets/icons/Reorder.svg';
+import Rename from '@assets/icons/Rename.svg';
+import Delete from '@assets/icons/Delete.svg';
 
 export const URL = 'https://pacific-fortress-00744.herokuapp.com';
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import DropDownPicker, { ItemType } from 'react-native-dropdown-picker';
 import { MINUTES } from '@shared/constants/options';
-import { TYPOGRAPHY } from '@shared/theme';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { styles as selectorStyles } from './styles';
 
 export const MinutesSelector = () => {
@@ -19,7 +19,7 @@ export const MinutesSelector = () => {
   );
 
   const CloseIconComponent = () => {
-    return <Text style={style.closeIconStyle} />;
+    return <Text style={styles.closeIconStyle} />;
   };
 
   return (
@@ -39,9 +39,6 @@ export const MinutesSelector = () => {
         closeOnBackPressed={true}
         placeholder=""
         searchable={false}
-        searchPlaceholderTextColor="white"
-        searchPlaceholder=""
-        searchTextInputProps={{ keyboardType: 'number-pad', autoFocus: true }}
         modalProps={{
           animationType: 'fade',
           transparent: true,
@@ -51,7 +48,7 @@ export const MinutesSelector = () => {
         labelStyle={selectorStyles.labelStyle}
         textStyle={selectorStyles.textStyle}
         containerStyle={selectorStyles.contentContainer}
-        modalContentContainerStyle={style.modalContentContainerStyle}
+        modalContentContainerStyle={styles.modalContentContainerStyle}
         modalTitleStyle={selectorStyles.modalTitleStyle}
         searchTextInputStyle={selectorStyles.searchTextInputStyle}
         searchContainerStyle={selectorStyles.searchContainerStyle}
@@ -59,22 +56,23 @@ export const MinutesSelector = () => {
     </View>
   );
 };
-export const style = StyleSheet.create({
+export const styles = StyleSheet.create({
   modalContentContainerStyle: {
     alignItems: 'flex-start',
-    marginTop: 215,
+    marginTop: 283,
     marginRight: 92,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-    marginLeft: 10,
+    marginLeft: 110,
     marginBottom: 150,
   },
 
   closeIconStyle: {
-    backgroundColor: 'transparent',
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height,
     position: 'absolute',
     top: 0,
-    transform: [{ translateY: -195 }, { translateX: -85 }],
+    transform: [{ translateY: -295 }, { translateX: -130 }],
+    backgroundColor: COLORS.BLACK,
+    opacity: 0.5,
   },
 });

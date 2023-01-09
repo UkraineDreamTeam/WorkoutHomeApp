@@ -9,7 +9,7 @@ type Props = {
 };
 const FiltersList: FC<Props> = ({ list, name }) => {
   return (
-    <View style={[style.section]}>
+    <View style={[styles.section]}>
       {list.map(item => {
         const { value, selected, isSelectable } = item;
         return (
@@ -25,7 +25,7 @@ const FiltersList: FC<Props> = ({ list, name }) => {
     </View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   itemContainer: {
     padding: 5,
   },

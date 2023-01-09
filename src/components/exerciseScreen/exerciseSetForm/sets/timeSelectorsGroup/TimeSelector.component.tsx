@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     fontSize: 15,
     textAlign: 'center',
-    padding: 5,
+    padding: 6,
     alignSelf: 'center',
     textAlignVertical: 'center',
     height: 50,

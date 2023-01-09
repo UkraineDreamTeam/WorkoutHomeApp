@@ -65,14 +65,14 @@ const RoutineControl = () => {
     }
   }, [setModalVisible, modalVisible, fadeIn, fadeOut]);
   return (
-    <Animated.View style={[style.actionsContainer, { ...controlsBorders }]}>
+    <Animated.View style={[styles.actionsContainer, { ...controlsBorders }]}>
       <TouchableOpacity
         onPress={() => navigation.navigate('ListOfExercise')}
-        style={[style.button]}
+        style={[styles.button]}
       >
         <AddIconWhite {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
       </TouchableOpacity>
-      <TouchableOpacity style={[style.button]}>
+      <TouchableOpacity style={[styles.button]}>
         <Start {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
       </TouchableOpacity>
       <TouchableOpacity>
@@ -84,7 +84,7 @@ const RoutineControl = () => {
     </Animated.View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   actionsContainer: {
     position: 'absolute',
     bottom: 80,

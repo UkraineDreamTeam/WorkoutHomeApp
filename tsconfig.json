@@ -12,6 +12,7 @@
     "paths": {
       "*": ["src/*"],
       "@components/*": ["src/components/*"],
+      "@screens/*": ["src/screens/*"],
       "@shared/*": ["./src/shared/*"],
       "@assets/*": ["./src/assets/*"],
       "@redux/*": ["./src/redux/*"],

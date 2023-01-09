@@ -9,12 +9,12 @@ type Props = {
 };
 const FiltersSection: FC<Props> = ({ list, name }) => {
   return (
-    <View style={[style.itemContainer]}>
+    <View style={[styles.itemContainer]}>
       <FiltersList list={list} name={name} />
     </View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   itemContainer: {
     padding: 5,
     flexShrink: 1,

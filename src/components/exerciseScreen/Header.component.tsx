@@ -1,28 +1,66 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLORS, TYPOGRAPHY } from "@shared/theme";
-import BackIcon from "@icons-components/BackIcon.component";
-import DeleteIcon from "@icons-components/DeleteIcon.component";
-import DoneIcon from "@icons-components/DoneIcon.component";
+import React, { FC } from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
+import BackIcon from '@icons-components/BackIcon.component';
+import DeleteIcon from '@icons-components/DeleteIcon.component';
+import DoneIcon from '@icons-components/DoneIcon.component';
+import { Exercise } from 'redux/types';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { addExercisesToRoutine } from 'redux/exercises/thunks/workoutPlan.thunk';
+import { selectedPlan, selectedRoutine } from 'redux/exercises/exercises.slice';
 
-const Header = () => {
+type Props = {
+  exercise: Exercise;
+};
+const Header: FC<Props> = ({ exercise }) => {
+  const routine = useAppSelector(selectedRoutine);
+  const plan = useAppSelector(selectedPlan);
+  const dispatch = useAppDispatch();
+
   return (
-    <SafeAreaView style={style.headerContainer}>
+    <SafeAreaView style={styles.headerContainer}>
       <BackIcon />
-      <View style={style.buttonsContainer}>
-        <TouchableOpacity style={[style.button, style.buttonDelete]}>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonDelete]}
+          onPress={() => {
+            if (routine?.id && plan?.name) {
+              dispatch(
+                addExercisesToRoutine({
+                  exercises: [
+                    {
+                      ...exercise,
+                      time: 'f',
+                      weight: 'h',
+                      reps: 'h',
+                      sets: 'h',
+                    },
+                  ],
+                  routineId: routine.id,
+                  planName: plan.name,
+                })
+              );
+            }
+          }}
+        >
           <DeleteIcon />
-          <Text style={style.text}> Delete</Text>
+          <Text style={styles.text}> Delete</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[style.button, style.buttonDone]}>
+        <TouchableOpacity style={[styles.button, styles.buttonDone]}>
           <DoneIcon />
-          <Text style={style.text}> Done</Text>
+          <Text style={styles.text}> Done</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
