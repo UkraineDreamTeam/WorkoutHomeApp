@@ -1,13 +1,26 @@
-import React, { useState } from "react";
-import { Dimensions, FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLORS, TYPOGRAPHY } from "@shared/theme";
-import FilterIcon from "@icons-components/Filter.component";
-import Close from "@assets/icons/Close.svg";
-import { applyFilters, clearFilters, selectedFilters } from "@redux/exercises/exercises.slice";
-import { useAppDispatch, useAppSelector } from "@redux/store";
-import FiltersSection from "./FiltersSection.component";
-import { FILTER_TITLES } from "@shared/constants/constants";
-import { FilterNames } from "@redux/types";
+import React, { useState } from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
+import FilterIcon from '@icons-components/Filter.component';
+import Close from '@assets/icons/Close.svg';
+import {
+  applyFilters,
+  clearFilters,
+  selectedFilters,
+} from '@redux/exercises/exercises.slice';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import FiltersSection from './FiltersSection.component';
+import { FILTER_TITLES } from '@shared/constants/constants';
+import { FilterNames } from '@redux/types';
 
 const FilterContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,7 +28,7 @@ const FilterContainer = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <View style={style.centeredView}>
+    <View style={styles.centeredView}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -40,7 +53,7 @@ const FilterContainer = () => {
             dispatch(clearFilters());
           }}
         >
-          <Close fill={'red'} />
+          <Close fill={COLORS.RED} />
         </Pressable>
         <Pressable
           style={[
@@ -118,14 +131,14 @@ const FilterContainer = () => {
             ]}
           >
             <Pressable
-              style={[style.button, style.buttonApply]}
+              style={[styles.button, styles.buttonApply]}
               onPress={() => {
                 setModalVisible(false);
 
                 dispatch(applyFilters());
               }}
             >
-              <Text style={style.textStyle}>Apply filters</Text>
+              <Text style={styles.textStyle}>Apply filters</Text>
             </Pressable>
           </View>
         </View>
@@ -150,7 +163,7 @@ const FilterContainer = () => {
     </View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: Dimensions.get('screen').width,
   },

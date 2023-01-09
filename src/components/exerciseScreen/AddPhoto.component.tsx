@@ -1,25 +1,31 @@
-import React, { FC } from "react";
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { addExtraImage } from "@redux/exercises/exrcises.thunk";
-import { useAppDispatch } from "@redux/store";
-import { COLORS, TYPOGRAPHY } from "@shared/theme";
-import AddPhotoIcon from "@icons-components/AddPhotoIcon";
+import React, { FC } from 'react';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { addExtraImage } from '@redux/exercises/thunks/exrcises.thunk';
+import { useAppDispatch } from '@redux/store';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
+import AddPhotoIcon from '@icons-components/AddPhotoIcon';
 
 const AddPhoto: FC<{ id: string }> = ({ id }) => {
   const dispatch = useAppDispatch();
   return (
     <TouchableOpacity
-      style={[style.button]}
+      style={[styles.button]}
       onPress={() => dispatch(addExtraImage(id))}
     >
-      <View style={[style.container]}>
+      <View style={[styles.container]}>
         <AddPhotoIcon />
-        <Text style={[style.text]}>Photo</Text>
+        <Text style={[styles.text]}>Photo</Text>
       </View>
     </TouchableOpacity>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   button: {
     backgroundColor: COLORS.BLACK,
     height: 50,

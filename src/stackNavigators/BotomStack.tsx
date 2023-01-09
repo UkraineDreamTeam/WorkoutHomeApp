@@ -3,12 +3,12 @@ import React, { useEffect } from 'react';
 import { RootStackParamList } from '@shared/types/types';
 import HomeNavigator from './HomeStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import StatisticsScreen from '../screens/StatisticsScreen';
-import Profile from '../screens/Profile';
+import StatisticsScreen from '@screens/StatisticsScreen';
+import Profile from '@screens/Profile';
 import MyTabBar from './tabBar/TabBar';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@redux/store';
-import { getExercises } from '@redux/exercises/exrcises.thunk';
+import { getExercises } from '@redux/exercises/thunks/exrcises.thunk';
 import { exercises } from '@redux/exercises/exercises.slice';
 
 const TabStack = createBottomTabNavigator<RootStackParamList>();

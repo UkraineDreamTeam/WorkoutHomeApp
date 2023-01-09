@@ -1,91 +1,101 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from 'react';
 import {
   Dimensions,
+  Keyboard,
   Modal,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
-import { COLORS, TYPOGRAPHY } from "@shared/theme";
-import AddPhotoIcon from "@icons-components/AddPhotoIcon";
-import { TimeSelector } from "./timeSelectorsGroup/TimeSelector.component";
-import { WeightSelectorsGroupComponent } from "./weightSelectorsGroup/WeightSelectorsGroup.component";
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
+import AddPhotoIcon from '@icons-components/AddPhotoIcon';
+import { TimeSelector } from './timeSelectorsGroup/TimeSelector.component';
+import { WeightSelectorsGroupComponent } from './weightSelectorsGroup/WeightSelectorsGroup.component';
+import SetsCountComponent from './setsCount/SetsCount.component';
 
+type FormValues = {
+  time: number;
+  weight: number;
+  reps: number;
+  sets: number;
+};
+// TODO  Create form and save values
 export const CreateSetModal: FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [value, setValue] = useState(1);
-  const inputRef = useRef<TextInput>(null);
+  const [formValues, setFormValues] = useState<FormValues>({
+    time: 0,
+    reps: 1,
+    sets: 1,
+    weight: 0,
+  });
+
+  const handleSubmit = () => {
+    setModalVisible(!modalVisible);
+  };
+  const handleDismiss = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', () => {});
+  }, []);
   return (
-    <SafeAreaView>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modal}>
-          <Pressable style={styles.touchableBackground} />
-
-          <View style={styles.modalContent}>
-            <View
-              style={[
-                {
-                  flexDirection: 'column',
-                  backgroundColor: 'blue',
-                  height: 150,
-                },
-              ]}
-            >
-              <WeightSelectorsGroupComponent />
-              <TimeSelector />
-            </View>
-
-            <TextInput
-              ref={inputRef}
-              value={value.toString()}
-              keyboardType="numeric"
-              style={{ backgroundColor: 'red', height: 60, width: 50 }}
-              onChange={e => {
-                if (!e.nativeEvent.text.match(/[^0-9]/gi)) {
-                  setValue(Number(e.nativeEvent.text));
-                }
-              }}
-            />
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity
-                style={[styles.button, styles.buttonDelete]}
-                onPress={() => setModalVisible(false)}
+    <ScrollView keyboardShouldPersistTaps="never">
+      <SafeAreaView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={handleDismiss}
+        >
+          <View style={styles.modal}>
+            <Pressable style={styles.touchableBackground} />
+            <View style={styles.modalContent}>
+              <View
+                style={[
+                  {
+                    flexDirection: 'column',
+                    height: 150,
+                  },
+                ]}
               >
-                <Text style={styles.text}> Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.buttonDone]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.text}> Done</Text>
-              </TouchableOpacity>
+                <WeightSelectorsGroupComponent />
+                <TimeSelector />
+              </View>
+              <SetsCountComponent />
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonDelete]}
+                  onPress={handleSubmit}
+                >
+                  <Text style={styles.text}> Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonDone]}
+                  onPress={handleSubmit}
+                >
+                  <Text style={styles.text}> Done</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-
-      <TouchableOpacity
-        style={styles.addSetButton}
-        onPress={() => {
-          setModalVisible(true);
-        }}
-      >
-        <AddPhotoIcon />
-        <Text style={{ color: COLORS.WHITE }}> Add different set</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        </Modal>
+        <TouchableOpacity
+          style={styles.addSetButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
+          <AddPhotoIcon />
+          <Text style={{ color: COLORS.WHITE }}> Add different set</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -103,6 +113,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').height * 0.33,
     padding: 20,
     justifyItems: 'center',
+    borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
   },
   touchableBackground: {
     position: 'absolute',
@@ -142,7 +153,9 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
-    padding: 10,
+
+    flex: 1,
+    alignItems: 'flex-end',
   },
   text: {
     color: 'white',

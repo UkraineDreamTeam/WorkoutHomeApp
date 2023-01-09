@@ -1,13 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
+  Dimensions,
+  FlatList,
   KeyboardAvoidingView,
   Platform,
-  FlatList,
-  Dimensions,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 
 import AddPhoto from '@components/exerciseScreen/AddPhoto.component';
@@ -20,11 +20,8 @@ import { useAppSelector } from '@redux/store';
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { ExerciseScreenProps } from '@shared/types/types';
 
-const ExerciseScreen: FC<ExerciseScreenProps> = ({
-  route: {
-    params: { name, bodyPart, gifUrl, id },
-  },
-}) => {
+const ExerciseScreen: FC<ExerciseScreenProps> = ({ route }) => {
+  const { name, bodyPart, gifUrl, id } = route.params;
   const exercisesList = useAppSelector(exercises);
   const images = useMemo(() => {
     return [
@@ -39,7 +36,7 @@ const ExerciseScreen: FC<ExerciseScreenProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={style.container}
+      style={styles.container}
       enabled
     >
       <SafeAreaView
@@ -51,13 +48,13 @@ const ExerciseScreen: FC<ExerciseScreenProps> = ({
           },
         ]}
       >
-        <Header />
-        <View style={[style.descriptionContainer]}>
-          <Text style={[style.exerciseName]}>{name}</Text>
-          <Text style={[style.exerciseName]}>{bodyPart}</Text>
+        <Header exercise={route.params} />
+        <View style={[styles.descriptionContainer]}>
+          <Text style={[styles.exerciseName]}>{name}</Text>
+          <Text style={[styles.exerciseName]}>{bodyPart}</Text>
         </View>
-        <View style={[style.photoContainer]}>
-          <View style={[style.photosBackground]}>
+        <View style={[styles.photoContainer]}>
+          <View style={[styles.photosBackground]}>
             <FlatList
               data={images}
               renderItem={({ item }) => (
@@ -88,7 +85,7 @@ const ExerciseScreen: FC<ExerciseScreenProps> = ({
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   exerciseName: {
     fontSize: 20,
     paddingBottom: 5,

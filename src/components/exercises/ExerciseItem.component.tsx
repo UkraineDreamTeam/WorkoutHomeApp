@@ -19,28 +19,28 @@ const ExerciseItem = memo((data: Exercise) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
-      style={style.cardContainer}
+      style={styles.cardContainer}
       onPress={() => navigation.navigate('Exercise', data)}
     >
-      <View style={style.imageContainer}>
+      <View style={styles.imageContainer}>
         <FastImage
           source={{ uri: getFileLocationUri(gifUrl, id) }}
-          style={style.image}
+          style={styles.image}
           accessible={true}
           fallback={true}
         />
       </View>
-      <View style={[style.textContainer]}>
+      <View style={[styles.textContainer]}>
         <View>
-          <Text style={[style.exerciseName, style.text]}>{name}</Text>
-          <Text style={[style.text, style.subtitle]}>{bodyPart}</Text>
+          <Text style={[styles.exerciseName, styles.text]}>{name}</Text>
+          <Text style={[styles.text, styles.subtitle]}>{bodyPart}</Text>
         </View>
-        <Text style={[style.text, style.subtitle]}>{target}</Text>
+        <Text style={[styles.text, styles.subtitle]}>{target}</Text>
       </View>
     </TouchableOpacity>
   );
 });
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,

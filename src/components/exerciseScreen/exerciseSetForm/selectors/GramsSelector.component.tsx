@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import DropDownPicker, { ItemType } from 'react-native-dropdown-picker';
 import { DUMBBELL_RANGE_GR } from '@shared/constants/options';
-import { TYPOGRAPHY } from '@shared/theme';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { styles as selectorStyles } from './styles';
 
 export const GramsSelectorComponent = () => {
@@ -24,7 +24,7 @@ export const GramsSelectorComponent = () => {
   );
 
   const CloseIconComponent = () => {
-    return <Text style={style.closeIconStyle} />;
+    return <Text style={styles.closeIconStyle} />;
   };
 
   return (
@@ -57,7 +57,7 @@ export const GramsSelectorComponent = () => {
           labelStyle={selectorStyles.labelStyle}
           textStyle={selectorStyles.textStyle}
           containerStyle={selectorStyles.contentContainer}
-          modalContentContainerStyle={style.modalContentContainerStyle}
+          modalContentContainerStyle={styles.modalContentContainerStyle}
           modalTitleStyle={selectorStyles.modalTitleStyle}
           searchTextInputStyle={selectorStyles.searchTextInputStyle}
           searchContainerStyle={selectorStyles.searchContainerStyle}
@@ -66,13 +66,13 @@ export const GramsSelectorComponent = () => {
     </TouchableWithoutFeedback>
   );
 };
-export const style = StyleSheet.create({
+export const styles = StyleSheet.create({
   modalContentContainerStyle: {
     alignItems: 'flex-start',
-    marginTop: 215,
+    marginTop: 209,
     marginRight: 85,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-    marginLeft: 68,
+    marginLeft: 264,
     marginBottom: 150,
   },
 
@@ -81,6 +81,8 @@ export const style = StyleSheet.create({
     height: Dimensions.get('screen').height,
     position: 'absolute',
     top: 0,
-    transform: [{ translateY: -195 }, { translateX: -138 }],
+    transform: [{ translateY: -195 }, { translateX: -270 }],
+    backgroundColor: COLORS.BLACK,
+    opacity: 0.5,
   },
 });

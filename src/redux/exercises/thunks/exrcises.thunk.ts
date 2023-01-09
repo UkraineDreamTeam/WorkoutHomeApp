@@ -1,20 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import RNFS, { unlink } from 'react-native-fs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from '@react-native-firebase/storage';
-import { firebase } from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import { Exercise, Filter } from '../types';
-import {
-  ASYNC_STORAGE_KEYS,
-  COLLECTION_KEY,
-} from '@shared/constants/keys';
+import { Exercise, Filter } from '@redux/types';
+import { ASYNC_STORAGE_KEYS } from '@shared/constants/keys';
 import {
   getFileLocationPath,
   getFileLocationUri,
   getFileType,
 } from '@shared/utils/utils';
-import { AppDispatch } from '../store';
+import { AppDispatch } from '@redux/store';
 import {
   bodyParts,
   equipment,
@@ -22,11 +16,16 @@ import {
   targets,
   total,
   types,
-} from './actions';
+} from '@redux/exercises/actions';
 import {
   ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import {
+  getItemByKey,
+  setItemByKey,
+} from 'redux/exercises/requests/asyncStorage.requests';
+import { getDataFromFirebase } from 'redux/exercises/requests/firebase.requests';
 
 const setFilters = (exercises: Exercise[], dispatch: AppDispatch) => {
   const equipmentList: Filter[] = [];
@@ -76,21 +75,18 @@ export const getExercises = createAsyncThunk<
   { dispatch: AppDispatch }
 >('exercises/getByQuery', async (_, { dispatch }) => {
   try {
-    const dataUploadState = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA);
+    const dataUploadState = await getItemByKey(ASYNC_STORAGE_KEYS.DATA);
     if (dataUploadState) {
       const exercises: Exercise[] = JSON.parse(dataUploadState);
       setFilters(exercises, dispatch);
 
       return { res: { data: exercises } };
     } else {
-      await firebase.auth().signInAnonymously();
-      const response = await firestore().collection(COLLECTION_KEY).get();
-
-      const data = response.docs.map(x => x.data() as Exercise);
-
       const imagePath = getFileLocationPath();
+      const data = await getDataFromFirebase();
 
       dispatch(total(data.length));
+
       const newCollection = [];
 
       for (let i = 0; i < data.length; i++) {
@@ -125,7 +121,8 @@ export const getExercises = createAsyncThunk<
           }
         }
       }
-      await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(data));
+      await setItemByKey(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(data));
+
       setFilters(data, dispatch);
       return { res: { data, error: undefined } };
     }
@@ -147,8 +144,7 @@ export const addExtraImage = createAsyncThunk<Exercise[] | [], string>(
       const response = await launchImageLibrary(params.options);
 
       if (response.assets) {
-        const exercises =
-          (await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA)) || '';
+        const exercises = (await getItemByKey(ASYNC_STORAGE_KEYS.DATA)) || '';
         const parsedExercise: Exercise[] = exercises.length
           ? JSON.parse(exercises)
           : [];
@@ -180,7 +176,7 @@ export const addExtraImage = createAsyncThunk<Exercise[] | [], string>(
             : el
         );
         try {
-          await AsyncStorage.setItem(
+          await setItemByKey(
             ASYNC_STORAGE_KEYS.DATA,
             JSON.stringify(newExercises)
           );
@@ -201,7 +197,7 @@ export const deleteImage = createAsyncThunk<
   Exercise[] | [],
   { id: string; imageUri: string }
 >('data/deleteExtraImage', async ({ id, imageUri }) => {
-  const exercises = (await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.DATA)) || '';
+  const exercises = (await getItemByKey(ASYNC_STORAGE_KEYS.DATA)) || '';
   const parsedExercises: Exercise[] = exercises.length
     ? JSON.parse(exercises)
     : [];
@@ -217,11 +213,8 @@ export const deleteImage = createAsyncThunk<
     } catch (error) {
       console.log(error);
     }
+    await setItemByKey(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(mapedExercises));
 
-    await AsyncStorage.setItem(
-      ASYNC_STORAGE_KEYS.DATA,
-      JSON.stringify(mapedExercises)
-    );
     return mapedExercises;
   } else {
     return [];

@@ -4,6 +4,13 @@ import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { KilogramsSelectorComponent } from '../../selectors/KilogramsSelector.component';
 import { GramsSelectorComponent } from '../../selectors/GramsSelector.component';
 
+type Props = {
+  values?: {
+    reps: 1;
+    weight: 0;
+  };
+};
+
 export const WeightSelectorsGroupComponent = () => {
   const [value, setValue] = useState('1');
 
@@ -25,7 +32,7 @@ export const WeightSelectorsGroupComponent = () => {
       </View>
 
       <View style={styles.repsContainer}>
-        <Text style={[styles.text]}>Weight:</Text>
+        <Text style={[styles.text, styles.weight]}>Weight:</Text>
         <KilogramsSelectorComponent />
         <Text style={styles.dot} />
         <GramsSelectorComponent />
@@ -38,6 +45,7 @@ export const WeightSelectorsGroupComponent = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    marginBottom: 20,
   },
   dot: {
     backgroundColor: 'white',
@@ -54,10 +62,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 6,
   },
+  weight: {
+    marginLeft: 10,
+  },
   repsContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    padding: 6,
   },
   title: { color: COLORS.WHITE, fontSize: 20 },
   repsInput: {

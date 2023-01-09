@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import DropDownPicker, { ItemType } from 'react-native-dropdown-picker';
 import { SECONDS } from '@shared/constants/options';
-import { TYPOGRAPHY } from '@shared/theme';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { styles as selectorStyles } from './styles';
 
 export const SecondsSelector = () => {
@@ -24,7 +24,7 @@ export const SecondsSelector = () => {
   );
 
   const CloseIconComponent = () => {
-    return <Text style={style.closeIconStyle} />;
+    return <Text style={styles.closeIconStyle} />;
   };
 
   return (
@@ -39,6 +39,7 @@ export const SecondsSelector = () => {
           setItems={setItems}
           dropDownDirection="BOTTOM"
           CloseIconComponent={CloseIconComponent}
+          max={5}
           listMode="MODAL"
           showTickIcon={false}
           showArrowIcon={false}
@@ -57,7 +58,7 @@ export const SecondsSelector = () => {
           labelStyle={selectorStyles.labelStyle}
           textStyle={selectorStyles.textStyle}
           containerStyle={selectorStyles.contentContainer}
-          modalContentContainerStyle={style.modalContentContainerStyle}
+          modalContentContainerStyle={styles.modalContentContainerStyle}
           modalTitleStyle={selectorStyles.modalTitleStyle}
           searchTextInputStyle={selectorStyles.searchTextInputStyle}
           searchContainerStyle={selectorStyles.searchContainerStyle}
@@ -66,13 +67,13 @@ export const SecondsSelector = () => {
     </TouchableWithoutFeedback>
   );
 };
-export const style = StyleSheet.create({
+export const styles = StyleSheet.create({
   modalContentContainerStyle: {
     alignItems: 'flex-start',
-    marginTop: 215,
+    marginTop: 283,
     marginRight: 85,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-    marginLeft: 68,
+    marginLeft: 168,
     marginBottom: 150,
   },
 
@@ -81,7 +82,8 @@ export const style = StyleSheet.create({
     height: Dimensions.get('screen').height,
     position: 'absolute',
     top: 0,
-    transform: [{ translateY: -195 }, { translateX: -138 }],
-    backgroundColor: 'red',
+    transform: [{ translateY: -295 }, { translateX: -190 }],
+    backgroundColor: COLORS.BLACK,
+    opacity: 0.5,
   },
 });

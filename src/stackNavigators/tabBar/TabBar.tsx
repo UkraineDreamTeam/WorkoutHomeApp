@@ -45,7 +45,7 @@ function MyTabBar(
   return (
     <Animated.View
       style={[
-        style.tabBarContainer,
+        styles.tabBarContainer,
 
         {
           backgroundColor: COLOR_SCHEME.BACKGROUND,
@@ -58,7 +58,7 @@ function MyTabBar(
     >
       <Animated.View
         style={[
-          style.tabContainer,
+          styles.tabContainer,
 
           {
             transform: [
@@ -87,7 +87,7 @@ function MyTabBar(
     </Animated.View>
   );
 }
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   tabBarContainer: {
     width: '100%',
   },

@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   contentContainer: { width: 50 },
   searchContainerStyle: {
     borderColor: 'white',
-    width: 50,
+    width: 0,
     backgroundColor: 'transparent',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
   },
