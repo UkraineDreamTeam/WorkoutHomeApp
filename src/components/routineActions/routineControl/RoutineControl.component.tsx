@@ -16,9 +16,13 @@ import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '@shared/theme';
 import { RootStackParamList } from '@shared/types/types';
 
 import WorkoutActionsPoppingMenu from '../WorkoutActionsPoppingMenu.component';
+import { useAppSelector } from 'redux/store';
+import { selectedRoutine } from 'redux/exercises/exercises.slice';
 
 const RoutineControl = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const routine = useAppSelector(selectedRoutine);
 
   const [modalVisible, setModalVisible] = useState(false);
   const menuAnim = useRef(new Animated.Value(0)).current;
@@ -69,6 +73,7 @@ const RoutineControl = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate('ListOfExercise')}
         style={[styles.button]}
+        disabled={!routine}
       >
         <AddIconWhite {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
       </TouchableOpacity>

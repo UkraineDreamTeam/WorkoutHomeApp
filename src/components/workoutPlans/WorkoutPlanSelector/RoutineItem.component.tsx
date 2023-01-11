@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { ListRenderItem, Pressable, Text, View } from 'react-native';
 import { Routine } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
+  selectedPlan,
   selectedRoutine,
   selectRoutine,
 } from 'redux/exercises/exercises.slice';
@@ -14,10 +15,17 @@ type Props = {
 const RoutineItemComponent: FC<Props> = ({ item }) => {
   const dispatch = useAppDispatch();
   const routine = useAppSelector(selectedRoutine);
+  const plan = useAppSelector(selectedPlan);
   const handlePress = () => {
     if (item) dispatch(selectRoutine(item));
   };
-
+  useEffect(() => {
+    if (!routine) {
+      if (plan) {
+        dispatch(selectRoutine(plan?.routines[0]));
+      }
+    }
+  }, []);
   return (
     <View style={[]}>
       <Pressable

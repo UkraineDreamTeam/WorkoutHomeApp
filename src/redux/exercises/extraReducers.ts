@@ -94,6 +94,7 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
   builder.addCase(addWorkoutPlan.fulfilled, (state, action) => {
     if (action.payload.plans) {
       state.workoutPlans = action.payload.plans;
+      state.selectedWorkoutPlan = action.payload.plan;
     } else {
       state.error = action.payload.error;
     }
@@ -107,7 +108,8 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
   builder.addCase(addRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;
     if (action.payload.addedRoutine)
-      state.selectedWorkoutPlan?.routines.push(action.payload?.addedRoutine);
+      state.selectedWorkoutPlan?.routines.push(action.payload.addedRoutine);
+    state.selectedRoutine = action.payload.addedRoutine;
   });
   builder.addCase(addExercisesToRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;

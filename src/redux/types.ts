@@ -9,10 +9,11 @@ export type Exercise = {
   extraImages?: string[];
 };
 export type ExerciseConfig = {
-  time: string;
-  weight: string;
-  reps: string;
-  sets: string;
+  time?: string;
+  weight?: string;
+  reps?: string;
+  sets?: string;
+  routineId?: string;
 };
 
 export type WorkoutExercise = Exercise & ExerciseConfig;
@@ -43,6 +44,7 @@ export type Routine = { name: string; data: WorkoutExercise[]; id: string };
 export type WorkoutPlan = {
   name: string;
   routines: Routine[];
+  id: string;
 };
 export type ExercisesState = {
   exercises: Exercise[];

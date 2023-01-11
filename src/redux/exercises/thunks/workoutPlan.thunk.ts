@@ -15,7 +15,7 @@ export const getAllPlans = createAsyncThunk<GetAllPlansResponse>(
         WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS
       );
 
-      const parsedPlans = allPlans ? JSON.parse(allPlans) : [];
+      const parsedPlans: WorkoutPlan[] = allPlans ? JSON.parse(allPlans) : [];
 
       return { data: parsedPlans };
     } catch (e) {
@@ -26,6 +26,7 @@ export const getAllPlans = createAsyncThunk<GetAllPlansResponse>(
 type AddWorkoutPlanResponse = {
   plans?: WorkoutPlan[];
   error?: any;
+  plan?: WorkoutPlan;
 };
 export const addWorkoutPlan = createAsyncThunk<AddWorkoutPlanResponse, string>(
   'add/workoutplan',
@@ -35,19 +36,20 @@ export const addWorkoutPlan = createAsyncThunk<AddWorkoutPlanResponse, string>(
       const plans = await getItemByKey(
         WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS
       );
+      const newPlan = { name: planName, routines: [], id: nanoid() };
 
       if (plans) {
-        const parsedData = await JSON.parse(plans);
-        updatedList = [{ name: planName, routines: [] }, ...parsedData];
+        const parsedData: WorkoutPlan[] = await JSON.parse(plans);
+        updatedList = [newPlan, ...parsedData];
       } else {
-        updatedList = [{ name: planName, routines: [] }];
+        updatedList = [newPlan];
       }
       await setItemByKey(
         WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
         JSON.stringify(updatedList)
       );
 
-      return { plans: updatedList };
+      return { plans: updatedList, plan: newPlan };
     } catch (e) {
       return { error: true };
     }
@@ -56,8 +58,8 @@ export const addWorkoutPlan = createAsyncThunk<AddWorkoutPlanResponse, string>(
 
 export const addRoutine = createAsyncThunk<
   AddWorkoutPlanResponse & { addedRoutine?: Routine },
-  { routine: string; planName: string }
->('add/routine', async ({ routine, planName }) => {
+  { routine: string; planId: string }
+>('add/routine', async ({ routine, planId }) => {
   try {
     let updatedList: WorkoutPlan[] = [];
 
@@ -66,7 +68,7 @@ export const addRoutine = createAsyncThunk<
     const parsedData: WorkoutPlan[] = plans ? await JSON.parse(plans) : [];
     const newRoutine = { name: routine, data: [], id: nanoid() };
     updatedList = parsedData.map(elem =>
-      elem.name === planName
+      elem.id === planId
         ? {
             ...elem,
             routines: [...elem.routines, newRoutine],
@@ -104,7 +106,15 @@ export const addExercisesToRoutine = createAsyncThunk<
     const plan = parsedData.find(el => el.name === planName);
     if (plan?.routines) {
       newRoutines = plan.routines.map(el =>
-        el.id === routineId ? { ...el, data: [...el.data, ...exercises] } : el
+        el.id === routineId
+          ? {
+              ...el,
+              data: [
+                ...el.data,
+                ...exercises.map(el => ({ ...el, routineId: nanoid() })),
+              ],
+            }
+          : el
       );
       selectedPlan = { ...plan, routines: newRoutines };
       updatedList = parsedData.map(elem =>

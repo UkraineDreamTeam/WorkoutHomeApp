@@ -136,6 +136,7 @@ const FilterContainer = () => {
                 setModalVisible(false);
 
                 dispatch(applyFilters());
+                dispatch(clearFilters());
               }}
             >
               <Text style={styles.textStyle}>Apply filters</Text>

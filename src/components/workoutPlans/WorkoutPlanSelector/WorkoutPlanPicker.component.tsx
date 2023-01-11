@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import DropDownPicker, { ItemType } from 'react-native-dropdown-picker';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 import {
@@ -8,6 +8,8 @@ import {
 } from 'redux/exercises/exercises.slice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { WorkoutPlan } from 'redux/types';
+import DropShadow from 'react-native-drop-shadow';
+import AddPlanPlanExistComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanPlanExist.component';
 
 type Props = {
   data: WorkoutPlan[];
@@ -60,6 +62,12 @@ const WorkoutPlanPickerComponent: FC<Props> = ({ data }) => {
         textStyle={{ color: COLORS.WHITE }}
         dropDownContainerStyle={styles.dropDownContainerStyle}
       />
+      {open ? (
+        <AddPlanPlanExistComponent
+          title={'Add workout plan'}
+          setOpen={setOpen}
+        />
+      ) : null}
     </View>
   );
 };
@@ -68,12 +76,14 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     marginLeft: 4,
+    top: 110,
   },
   dropDown: {
     width: Dimensions.get('screen').width - 65,
     backgroundColor: COLORS.BLACK,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
     marginLeft: 5,
+    zIndex: 1,
   },
   itemContainerStyle: {
     backgroundColor: 'black',
