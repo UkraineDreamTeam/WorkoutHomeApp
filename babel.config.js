@@ -20,7 +20,10 @@ module.exports = {
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
           '@components': './src/components',
+          '@constants': './src/shared/constants',
+          '@theme': './src/shared/theme',
           '@shared': './src/shared',
+
           '@screens': './src/screens',
           '@assets': './src/assets',
           '@redux': './src/redux',

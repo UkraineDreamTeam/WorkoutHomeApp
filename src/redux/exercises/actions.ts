@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Exercise, ExerciseConfig, Filter, FilterNames } from '../types';
+import { Filter, FilterNames } from '../types';
 
 export const increment = createAction('counter/increment');
 export const total = createAction<number>('total');
@@ -11,7 +11,3 @@ export const filter = createAction<{
   name: FilterNames;
   filterItem: Filter;
 }>('filter/exercises');
-
-export const addWorkoutPlan = createAction<
-  Exercise & { config: ExerciseConfig }
->('addWorkoutPlan');

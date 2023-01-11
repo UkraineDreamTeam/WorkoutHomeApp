@@ -1,23 +1,16 @@
-import React, { FC, useRef, useState } from 'react';
-import {
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import React, { FC, useRef, useState, Dispatch } from 'react';
+import { Keyboard, TextInput, View } from 'react-native';
+import AddPlanOrRoutineContent from 'components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
+
 import { useAppDispatch } from 'redux/store';
 import { addWorkoutPlan } from 'redux/exercises/thunks/workoutPlan.thunk';
-import AddPlanOrRoutineContent from 'components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
-import AddPlanNoPlanButtonComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanNoPlanButton.component';
-
+import AddPlanPlansExistButtonComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanPlansExistButton.component';
 type Props = {
   title: string;
+  setOpen: Dispatch<boolean>;
 };
 
-const AddPlanComponent: FC<Props> = ({ title }) => {
+const AddPlanPlanExistComponent: FC<Props> = ({ title, setOpen }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -29,6 +22,7 @@ const AddPlanComponent: FC<Props> = ({ title }) => {
     if (name) {
       dispatch(addWorkoutPlan(name));
       setModalVisible(false);
+      setOpen(false);
     } else {
       setError('Can`t be empty');
     }
@@ -36,7 +30,9 @@ const AddPlanComponent: FC<Props> = ({ title }) => {
   const handleClose = () => {
     setModalVisible(false);
   };
-  const handleOpen = () => setModalVisible(true);
+  const handleOpen = () => {
+    setModalVisible(true);
+  };
   const handleBackgroundTouch = () => {
     if (inputRef?.current?.isFocused()) {
       inputRef.current.blur();
@@ -45,9 +41,21 @@ const AddPlanComponent: FC<Props> = ({ title }) => {
       setModalVisible(false);
     }
   };
-
   return (
-    <View style={[{ flex: 1, justifyContent: 'center', padding: 20 }]}>
+    <View
+      style={[
+        {
+          flex: 1,
+          justifyContent: 'center',
+
+          position: 'absolute',
+
+          zIndex: 2,
+          left: 5,
+          top: 55,
+        },
+      ]}
+    >
       <AddPlanOrRoutineContent
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -59,27 +67,9 @@ const AddPlanComponent: FC<Props> = ({ title }) => {
         handleSubmit={handleSubmit}
         handleClose={handleClose}
       />
-      <AddPlanNoPlanButtonComponent handleOpen={handleOpen} />
+      <AddPlanPlansExistButtonComponent handleOpen={handleOpen} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  buttonOpen: {
-    height: 60,
-    borderRadius: TYPOGRAPHY.BORDER_RADIUS.big,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderStyle: 'solid',
-    backgroundColor: COLORS.BLOCK_GREY,
-  },
-  textStyle: {
-    color: COLORS.PINK,
-    fontSize: 20,
-    padding: 10,
-    fontWeight: '600',
-  },
-});
-
-export default AddPlanComponent;
+export default AddPlanPlanExistComponent;

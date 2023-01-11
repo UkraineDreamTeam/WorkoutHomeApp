@@ -25,6 +25,8 @@ import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // @shopify/flash-list
 import com.shopify.reactnative.flash_list.ReactNativeFlashListPackage;
+// react-native-drop-shadow
+import com.dropShadow.DropShadowPackage;
 // react-native-fast-image
 import com.dylanvann.fastimage.FastImageViewPackage;
 // react-native-fs
@@ -91,6 +93,7 @@ public class PackageList {
       new ReactNativeFirebaseStoragePackage(),
       new RNCPickerPackage(),
       new ReactNativeFlashListPackage(),
+      new DropShadowPackage(),
       new FastImageViewPackage(),
       new RNFSPackage(),
       new RNGestureHandlerPackage(),

@@ -48,7 +48,7 @@ const AddPlanOrRoutineContent: FC<Props> = ({
           onPress={handleBackgroundTouch}
         />
         <View style={[styles.container]}>
-          <Text style={[{ fontSize: 20 }]}>{title}</Text>
+          <Text style={[{ fontSize: 20, color: COLORS.WHITE }]}>{title}</Text>
           <TextInput
             ref={inputRef}
             style={[
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     height: 60,
+    color: COLORS.WHITE,
   },
   errorInfo: {
     height: 60,

@@ -41,6 +41,7 @@ export const exercisesSlice = createSlice({
           key as FilterNames
         ].map(el => ({ ...el, selected: false, isSelectable: true }));
       }
+      state.filteredExercises = state.exercises;
     },
     selectWorkoutPlan: (state, action) => {
       if (state.workoutPlans && state.selectedWorkoutPlan) {
