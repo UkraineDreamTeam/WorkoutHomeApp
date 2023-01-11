@@ -1,45 +1,58 @@
 import React, { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { COLORS, COLOR_SCHEME, TYPOGRAPHY } from '../../theme';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { filter } from '@redux/exercises/actions';
+import { Filter, FilterNames } from '@redux/types';
+import { useAppDispatch } from '@redux/store';
+import { COLORS, COLOR_SCHEME, TYPOGRAPHY } from '@shared/theme';
+
 type Props = {
   text: string;
   selected: boolean;
   isSelectable: boolean;
+  name: FilterNames;
 };
-const FilterItem: FC<Props> = ({ text, selected, isSelectable }) => {
-  // const itemStyle = {
-  //   backgroundColor: selected ? COLORS.PINK : 'transparent',
-  // };
-  // useEffect(() => {
-  //   console.log(selected);
-  // });
+const FilterItem: FC<Props> = item => {
+  const { text, selected, isSelectable, name } = item;
+  const dispatch = useAppDispatch();
+
+  const onSelect = (option: Filter) => {
+    dispatch(filter({ name: name, filterItem: option }));
+  };
   return (
-    <View
-      style={[
-        style.item,
-        {
-          backgroundColor: selected
-            ? COLOR_SCHEME.ANOTHER_ACTIONS
-            : isSelectable
-            ? 'none'
-            : 'grey',
-        },
-      ]}
+    <TouchableOpacity
+      style={[styles.itemContainer]}
+      onPress={() => onSelect({ value: text, selected, isSelectable })}
+      disabled={!isSelectable}
     >
-      <Text style={{ color: selected ? COLORS.BLACK : COLORS.WHITE }}>
-        {text}
-      </Text>
-    </View>
+      <View
+        style={[
+          styles.item,
+          {
+            backgroundColor: selected
+              ? COLOR_SCHEME.ANOTHER_ACTIONS
+              : 'transparent',
+
+            borderColor: isSelectable
+              ? COLOR_SCHEME.ANOTHER_ACTIONS
+              : COLORS.GREY,
+          },
+        ]}
+      >
+        <Text style={{ color: selected ? COLORS.BLACK : COLORS.WHITE }}>
+          {text}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   item: {
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-
-    borderColor: COLOR_SCHEME.ANOTHER_ACTIONS,
     borderWidth: 2,
-
     padding: 10,
+  },
+  itemContainer: {
+    padding: 5,
   },
 });
 export default FilterItem;

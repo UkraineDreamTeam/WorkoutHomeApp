@@ -4,12 +4,12 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
-import { RootStackParamList } from './src/types/types';
-import { CustomTheme } from './src/theme';
+import { RootStackParamList } from '@shared/types/types';
+import { CustomTheme } from '@shared/theme';
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
+import { store } from '@redux/store';
 import BottomStackNavigator from './src/stackNavigators/BotomStack';
-import { LoadingExercises } from './src/components/modals/LoadingExercises';
+import { LoadingExercises } from '@components/modals/LoadingExercises';
 import { Text, View } from 'react-native';
 
 const App = () => {

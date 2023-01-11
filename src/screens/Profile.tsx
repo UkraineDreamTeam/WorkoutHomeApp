@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Button, SafeAreaView } from 'react-native';
 
-import { RootStackParamList } from '../types/types';
+import { RootStackParamList } from '@shared/types/types';
 
 const Profile = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();

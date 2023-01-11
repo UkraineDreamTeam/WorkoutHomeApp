@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
@@ -7,10 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+
 import { Svg } from 'react-native-svg';
-import Profile from '../../assets/icons/Profile.svg';
-import Statistics from '../../assets/icons/Statistics.svg';
-import Home from '../../assets/icons/Home.svg';
+import Profile from '@assets/icons/Profile.svg';
+import Statistics from '@assets/icons/Statistics.svg';
+import Home from '@assets/icons/Home.svg';
+import { TYPOGRAPHY } from 'shared/theme';
+
 const AnimateSvg = Animated.createAnimatedComponent(Svg);
 
 const TabBarItem = ({
@@ -123,7 +125,7 @@ const TabBarItem = ({
       testID={options.tabBarTestID}
       onPress={e => onPress(e)}
       onLongPress={onLongPress}
-      style={style.tab}
+      style={styles.tab}
     >
       <AnimateSvg
         viewBox="0 0 30 30"
@@ -151,14 +153,14 @@ const TabBarItem = ({
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   tab: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
+    height: TYPOGRAPHY.tabBarHeight,
     paddingVertical: 10,
   },
 });

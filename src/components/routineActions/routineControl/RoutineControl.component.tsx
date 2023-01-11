@@ -5,17 +5,20 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import AddIconWhite from '../../../assets/icons/AddIconWhite.svg';
-import Start from '../../../assets/icons/Start.svg';
-import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '../../../theme';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../types/types';
+
+import AddIconWhite from '@assets/icons/AddIconWhite.svg';
+import Start from '@assets/icons/Start.svg';
+
+import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '@shared/theme';
+
+import { RootStackParamList } from '@shared/types/types';
+
 import WorkoutActionsPoppingMenu from '../WorkoutActionsPoppingMenu.component';
 
 const RoutineControl = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  // const [modalVisible, setModalVisible] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
   const menuAnim = useRef(new Animated.Value(0)).current;
@@ -62,27 +65,26 @@ const RoutineControl = () => {
     }
   }, [setModalVisible, modalVisible, fadeIn, fadeOut]);
   return (
-    <Animated.View style={[style.actionsContainer, { ...controlsBorders }]}>
+    <Animated.View style={[styles.actionsContainer, { ...controlsBorders }]}>
       <TouchableOpacity
         onPress={() => navigation.navigate('ListOfExercise')}
-        style={[style.button]}
+        style={[styles.button]}
       >
         <AddIconWhite {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
       </TouchableOpacity>
-      <TouchableOpacity style={[style.button]}>
+      <TouchableOpacity style={[styles.button]}>
         <Start {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
       </TouchableOpacity>
       <TouchableOpacity>
         <WorkoutActionsPoppingMenu
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          // menuBorders={menuBorders}
         />
       </TouchableOpacity>
     </Animated.View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   actionsContainer: {
     position: 'absolute',
     bottom: 80,

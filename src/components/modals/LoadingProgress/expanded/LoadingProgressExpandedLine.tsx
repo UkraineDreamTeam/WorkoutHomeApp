@@ -6,7 +6,7 @@ import {
   Animated,
   StyleSheet,
 } from 'react-native';
-import { COLOR_SCHEME } from '../../../../theme';
+import { COLOR_SCHEME } from '@shared/theme';
 
 type Props = {
   progress: Animated.Value;

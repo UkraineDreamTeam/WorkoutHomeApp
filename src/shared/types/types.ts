@@ -4,16 +4,16 @@ import {
   NavigatorScreenParams,
   RouteProp,
 } from '@react-navigation/native';
+
 import { StackScreenProps } from '@react-navigation/stack';
-import { Exercise } from '../redux/exercises/types';
+import { Exercise } from '@redux/types';
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>;
   Statistics: undefined;
   ListOfExercise: undefined;
   Profile: undefined;
-  Exercise: undefined;
-  Filters: undefined;
+  Exercise: Exercise;
 };
 
 export type WorkoutScreenProps = StackScreenProps<
@@ -40,7 +40,7 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> =
 export type HomeTabParamList = {
   CurrentWorkout: undefined;
   ListOfExercise: { list?: Exercise[] };
-  Exercise: undefined;
+  Exercise: Exercise;
   Filters: undefined;
 };
 

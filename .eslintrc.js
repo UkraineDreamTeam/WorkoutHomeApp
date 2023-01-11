@@ -1,7 +1,20 @@
 module.exports = {
   root: true,
-  extends: '@react-native-community',
+  extends: [
+    '@react-native-community',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+  ],
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
+  },
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+    tsconfigRootDir: './',
+  },
   plugins: ['@typescript-eslint', 'prettier', 'unused-imports'],
   overrides: [
     {
@@ -18,35 +31,6 @@ module.exports = {
             argsIgnorePattern: '^_',
           },
         ],
-        'prettier/prettier': [
-          'error',
-          {
-            endOfLine: 'auto',
-          },
-        ],
-
-        // 'prettier/prettier': 'off',
-        // 'comma-dangle': [
-        //   'error',
-        //   {
-        //     arrays: 'never',
-        //     objects: 'always',
-        //     imports: 'never',
-        //     exports: 'never',
-        //     functions: 'always',
-        //   },
-        // ],
-
-        // 'comma-dangle': [
-        //   'error',
-        //   {
-        //     arrays: 'always',
-        //     objects: 'always',
-        //     imports: 'never',
-        //     exports: 'never',
-        //     functions: 'never',
-        //   },
-        // ],
       },
     },
   ],

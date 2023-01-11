@@ -6,34 +6,41 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import { Exercise } from '../../redux/exercises/types';
-import { getFileLocationUri } from '../../utils/utils';
+import { Exercise } from '@redux/types';
+import { getFileLocationUri } from '@shared/utils/utils';
 import FastImage from 'react-native-fast-image';
-import { CustomTheme } from '../../theme';
+import { CustomTheme } from '@shared/theme';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '@shared/types/types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const ExerciseItem = memo((data: Exercise) => {
   const { gifUrl, name, bodyPart, target, id } = data;
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
-    <TouchableOpacity style={style.cardContainer}>
-      <View style={style.imageContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate('Exercise', data)}
+    >
+      <View style={styles.imageContainer}>
         <FastImage
           source={{ uri: getFileLocationUri(gifUrl, id) }}
-          style={style.image}
+          style={styles.image}
           accessible={true}
           fallback={true}
         />
       </View>
-      <View style={[style.textContainer]}>
+      <View style={[styles.textContainer]}>
         <View>
-          <Text style={[style.exerciseName, style.text]}>{name}</Text>
-          <Text style={[style.text, style.subtitle]}>{bodyPart}</Text>
+          <Text style={[styles.exerciseName, styles.text]}>{name}</Text>
+          <Text style={[styles.text, styles.subtitle]}>{bodyPart}</Text>
         </View>
-        <Text style={[style.text, style.subtitle]}>{target}</Text>
+        <Text style={[styles.text, styles.subtitle]}>{target}</Text>
       </View>
     </TouchableOpacity>
   );
 });
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,

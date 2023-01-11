@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
-import { TYPOGRAPHY } from '../../../../theme';
+import { TYPOGRAPHY } from '@shared/theme';
 import { LoadingProgressExpandedLine } from './LoadingProgressExpandedLine';
 
 type Props = {

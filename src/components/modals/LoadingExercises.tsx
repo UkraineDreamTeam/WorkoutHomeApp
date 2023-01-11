@@ -1,10 +1,10 @@
 import React from 'react';
 import { LoadingProgress } from './LoadingProgress/LoadingProgress';
-import { useAppSelector } from '../../redux/store';
+import { useAppSelector } from '@redux/store';
 import {
   exercisesLoaded,
   totalExercisesCount,
-} from '../../redux/exercises/exercises.slice';
+} from '@redux/exercises/exercises.slice';
 import { View, StyleSheet } from 'react-native';
 
 export const LoadingExercises = () => {
@@ -13,7 +13,7 @@ export const LoadingExercises = () => {
 
   const isModalVisible = loaded !== total && total !== 0;
   return isModalVisible ? (
-    <View style={style.loadingProgressContainer}>
+    <View style={styles.loadingProgressContainer}>
       <LoadingProgress
         title="Loading exercises"
         received={loaded}
@@ -23,7 +23,7 @@ export const LoadingExercises = () => {
   ) : null;
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   loadingProgressContainer: {
     position: 'absolute',
     zIndex: 1,

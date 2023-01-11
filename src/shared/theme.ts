@@ -4,7 +4,10 @@ export const COLORS = {
   WHITE: 'white',
   PINK: '#DA0AAC',
   GREY: '#36404F',
-  LIGHT_GREY: 'D9D9D9',
+  LIGHT_GREY: '#D9D9D9',
+  BLUE_GREY: '#343D54',
+  BLOCK_GREY: '#252934',
+  RED: 'rgb(136, 8, 8)',
 };
 export const CustomTheme = {
   dark: false,
@@ -20,6 +23,7 @@ export const CustomTheme = {
 
 export const TYPOGRAPHY = {
   BORDER_RADIUS: { small: 5, average: 10, big: 20 },
+  tabBarHeight: 50,
 };
 
 export const COLOR_SCHEME = {

@@ -1,107 +1,169 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Alert,
-  Modal,
-  Text,
-  Pressable,
-  View,
   Dimensions,
   FlatList,
-  Animated,
+  Modal,
+  Pressable,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { filters } from '../../redux/exercises/exercises.slice';
-import { useAppSelector } from '../../redux/store';
-import { COLORS, TYPOGRAPHY } from '../../theme';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
+import FilterIcon from '@icons-components/Filter.component';
+import Close from '@assets/icons/Close.svg';
+import {
+  applyFilters,
+  clearFilters,
+  selectedFilters,
+} from '@redux/exercises/exercises.slice';
+import { useAppDispatch, useAppSelector } from '@redux/store';
 import FiltersSection from './FiltersSection.component';
+import { FILTER_TITLES } from '@shared/constants/constants';
+import { FilterNames } from '@redux/types';
 
 const FilterContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const animRef = useRef(new Animated.Value(0)).current;
-  const animFlatlist = useCallback(() => {
-    Animated.timing(animRef, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  }, [animRef]);
+  const filter = useAppSelector(selectedFilters);
+  const dispatch = useAppDispatch();
 
-  const animFadeFlatlist = useCallback(() => {
-    Animated.timing(animRef, {
-      toValue: 20,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  }, [animRef]);
-  const filter = useAppSelector(filters);
-
-  const [showFilters, setShowFilters] = useState<keyof typeof filter | null>(
-    null
-  );
-
-  const titles = {
-    bodyPart: 'Category',
-    type: 'Type',
-    target: 'Muscle',
-    equipment: 'Equipment',
-  };
   return (
-    <View style={style.centeredView}>
+    <View style={styles.centeredView}>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
+          dispatch(clearFilters());
         }}
       >
-        <FlatList
-          style={{
-            height: Dimensions.get('screen').height * 0.6,
-            marginTop: 90,
-            marginBottom: 60,
-
-            backgroundColor: COLORS.BLACK,
-            marginHorizontal: 30,
-            borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
+        <Pressable
+          style={[
+            {
+              position: 'absolute',
+              left: Dimensions.get('screen').width - 60,
+              top: 40,
+              padding: 20,
+              zIndex: 1,
+            },
+          ]}
+          onPress={() => {
+            setModalVisible(false);
+            dispatch(clearFilters());
           }}
-          initialScrollIndex={0}
-          data={Object.entries(filter)}
-          renderItem={({ item }) => (
-            <View style={[{ flexShrink: 1 }]}>
-              <Text
-                style={[
-                  {
-                    textAlign: 'center',
-                    textTransform: 'capitalize',
-                    color: 'white',
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {titles[item[0] as keyof typeof filter]}
-              </Text>
-              <FiltersSection
-                list={item[1]}
-                name={showFilters || 'bodyPart'}
-                hide={setShowFilters}
-              />
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
+        >
+          <Close fill={COLORS.RED} />
+        </Pressable>
+        <Pressable
+          style={[
+            {
+              backgroundColor: COLORS.BLUE_GREY,
+              opacity: 0.5,
+              height: Dimensions.get('screen').height,
+              width: Dimensions.get('screen').width,
+              position: 'absolute',
+            },
+          ]}
+          onPress={() => {
+            setModalVisible(false);
+            dispatch(clearFilters());
+          }}
         />
+
+        <View
+          style={[
+            {
+              marginTop: 90,
+              marginBottom: 5,
+              backgroundColor: COLORS.BLACK,
+              marginHorizontal: 10,
+              justifyContent: 'center',
+              flexDirection: 'column',
+              alignItems: 'center',
+              alignContent: 'center',
+              borderColor: 'black',
+              borderWidth: 2,
+              borderRadius: TYPOGRAPHY.BORDER_RADIUS.big,
+              elevation: 24,
+              // padding: 10,
+            },
+          ]}
+        >
+          <FlatList
+            style={{
+              height: Dimensions.get('screen').height * 0.7,
+              borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
+            }}
+            initialScrollIndex={0}
+            data={Object.entries(filter)}
+            renderItem={({ item }) => (
+              <View style={[{ flexShrink: 1 }]}>
+                <Text
+                  style={[
+                    {
+                      textAlign: 'center',
+                      textTransform: 'capitalize',
+                      color: 'white',
+                      fontSize: 16,
+                      padding: 20,
+                      fontWeight: '600',
+                    },
+                  ]}
+                >
+                  {FILTER_TITLES[item[0] as FilterNames]}
+                </Text>
+                <FiltersSection list={item[1]} name={item[0] as FilterNames} />
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+                alignContent: 'flex-end',
+                justifyContent: 'flex-end',
+                marginVertical: 10,
+                alignSelf: 'center',
+              },
+            ]}
+          >
+            <Pressable
+              style={[styles.button, styles.buttonApply]}
+              onPress={() => {
+                setModalVisible(false);
+
+                dispatch(applyFilters());
+              }}
+            >
+              <Text style={styles.textStyle}>Apply filters</Text>
+            </Pressable>
+          </View>
+        </View>
       </Modal>
-      <Pressable
-        style={[style.button, style.buttonOpen]}
+      <TouchableOpacity
+        style={[
+          {
+            display: 'flex',
+            flexDirection: 'row',
+            height: 40,
+            alignItems: 'center',
+            maxWidth: Dimensions.get('screen').width / 3,
+            borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
+
+            alignSelf: 'center',
+          },
+        ]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={style.textStyle}>Show Modal</Text>
-      </Pressable>
+        <FilterIcon />
+      </TouchableOpacity>
     </View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: Dimensions.get('screen').width,
   },
@@ -110,10 +172,8 @@ const style = StyleSheet.create({
     paddingVertical: 5,
   },
   centeredView: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -131,15 +191,19 @@ const style = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
     padding: 10,
     elevation: 2,
+    marginHorizontal: 10,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
+
   buttonClose: {
-    backgroundColor: '#2196F3',
+    borderColor: COLORS.VIOLET,
+    borderWidth: 1,
+  },
+  buttonApply: {
+    backgroundColor: COLORS.VIOLET,
+    width: Dimensions.get('screen').width * 0.6,
   },
   textStyle: {
     color: 'white',

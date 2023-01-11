@@ -2,10 +2,10 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { PATH_TO_SHOW_BOTTOM_BAR } from '../../constants';
-import { COLOR_SCHEME } from '../../theme';
+import { PATH_TO_SHOW_BOTTOM_BAR } from '@shared/constants/keys';
+import { COLOR_SCHEME } from '@shared/theme';
 
-import { RootStackParamList } from '../../types/types';
+import { RootStackParamList } from '@shared/types/types';
 import TabBarItem from './TabBarItem';
 
 function MyTabBar(
@@ -45,7 +45,7 @@ function MyTabBar(
   return (
     <Animated.View
       style={[
-        style.tabBarContainer,
+        styles.tabBarContainer,
 
         {
           backgroundColor: COLOR_SCHEME.BACKGROUND,
@@ -58,7 +58,7 @@ function MyTabBar(
     >
       <Animated.View
         style={[
-          style.tabContainer,
+          styles.tabContainer,
 
           {
             transform: [
@@ -87,7 +87,7 @@ function MyTabBar(
     </Animated.View>
   );
 }
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   tabBarContainer: {
     width: '100%',
   },

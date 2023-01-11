@@ -6,7 +6,7 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import { COLOR_SCHEME } from '../../../../theme';
+import { COLOR_SCHEME } from '@shared/theme';
 
 type Props = {
   total: number;

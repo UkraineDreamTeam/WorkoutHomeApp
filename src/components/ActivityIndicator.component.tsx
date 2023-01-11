@@ -1,6 +1,6 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import React from 'react';
-import { COLOR_SCHEME } from '../theme';
+import { COLOR_SCHEME } from '@shared/theme';
 
 const Loader = () => (
   <View style={[styles.container, styles.horizontal]}>

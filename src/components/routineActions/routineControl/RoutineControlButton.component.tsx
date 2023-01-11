@@ -1,12 +1,12 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
-import { WORKOUT_ACTIONS_LAYOUT } from '../../../theme';
+import { WORKOUT_ACTIONS_LAYOUT } from '@shared/theme';
 import { useTheme } from '@react-navigation/native';
 import {
   ROUTINE_ACTION_TYPE,
   ROUTINE_EDIT_ACTIONS,
   ROUTINE_EDIT_SVGS,
-} from '../../../constants';
+} from '@shared/constants/constants';
 
 export const RoutineControlButton = ({
   setModalVisible,
