@@ -46,7 +46,7 @@ const WorkoutScreen = () => {
         <FlashList
           data={routine?.data || []}
           renderItem={({ item }) => <ExerciseItem {...item} />}
-          keyExtractor={item => item.routineId}
+          keyExtractor={item => item?.routineId || item.id}
           estimatedItemSize={132}
         />
       ) : null}

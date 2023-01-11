@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import { Exercise, WorkoutExercise } from '@redux/types';
+import { WorkoutExercise } from '@redux/types';
 import { getFileLocationUri } from '@shared/utils/utils';
 import FastImage from 'react-native-fast-image';
 import { COLORS, CustomTheme } from '@shared/theme';
