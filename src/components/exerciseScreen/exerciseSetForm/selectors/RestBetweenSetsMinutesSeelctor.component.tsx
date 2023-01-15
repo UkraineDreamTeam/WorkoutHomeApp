@@ -1,12 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, FC, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { styles } from './styles';
+type Props = {
+  value: string;
+  setValue: Dispatch<any>;
+};
 
 type ChangeEvent = { nativeEvent: { text: string } };
-export const MinutesSelector = () => {
-  const [value, setValue] = useState('00');
-  const inputRef = useRef<TextInput>(null);
-
+export const RestBetweenSetsMinutesSelector: FC<Props> = ({
+  value,
+  setValue,
+}) => {
   const [error, setError] = useState(false);
 
   const handleChange = (e: ChangeEvent) => {
@@ -24,7 +28,6 @@ export const MinutesSelector = () => {
   return (
     <View style={[styles.container]}>
       <TextInput
-        ref={inputRef}
         value={value.toString()}
         keyboardType="numeric"
         style={[
