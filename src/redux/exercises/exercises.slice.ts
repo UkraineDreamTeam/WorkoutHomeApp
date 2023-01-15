@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { filterExercises } from './reducerActions';
-import { ExercisesState, FilterNames } from '../types';
+import { ExercisesState, FilterNames, Routine } from '../types';
 import { extraReducers } from 'redux/exercises/extraReducers';
 
 const initialState: ExercisesState = {
@@ -50,7 +50,7 @@ export const exercisesSlice = createSlice({
         );
       }
     },
-    selectRoutine: (state, action) => {
+    selectRoutine: (state, action: PayloadAction<Routine>) => {
       state.selectedRoutine = action.payload;
     },
   },

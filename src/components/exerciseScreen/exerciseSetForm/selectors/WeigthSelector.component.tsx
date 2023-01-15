@@ -3,17 +3,12 @@ import { TextInput, View } from 'react-native';
 import { styles } from './styles';
 
 type ChangeEvent = { nativeEvent: { text: string } };
-export const MinutesSelector = () => {
-  const [value, setValue] = useState('00');
+export const WeigthSelectorComponent = () => {
+  const [value, setValue] = useState('0');
   const inputRef = useRef<TextInput>(null);
-
   const [error, setError] = useState(false);
-
   const handleChange = (e: ChangeEvent) => {
-    if (
-      !e.nativeEvent.text.match(/[^0-9]/gi) &&
-      Number(e.nativeEvent.text) < 100
-    ) {
+    if (!e.nativeEvent.text.match(/[^0-9.,]/gi)) {
       setValue(e.nativeEvent.text);
       setError(false);
     } else {
@@ -35,8 +30,7 @@ export const MinutesSelector = () => {
           },
         ]}
         onChange={handleChange}
-        onBlur={e => setValue((value || '00').slice(-2))}
-        maxLength={2}
+        onBlur={() => setValue(Number(value.replace(',', '.')).toString())}
       />
     </View>
   );
