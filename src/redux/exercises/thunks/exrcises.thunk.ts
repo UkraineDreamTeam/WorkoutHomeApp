@@ -107,7 +107,7 @@ export const getExercises = createAsyncThunk<
             );
             const url = await reference.getDownloadURL();
             if (reference && url) {
-              RNFS.downloadFile({
+              await RNFS.downloadFile({
                 fromUrl: url,
                 toFile:
                   imagePath + '/' + data[i].id + getFileType(data[i].gifUrl),
@@ -201,30 +201,25 @@ export const deleteImage = createAsyncThunk<
 >('data/deleteExtraImage', async ({ id, imageUri }) => {
   try {
     const exercises = (await getItemByKey(ASYNC_STORAGE_KEYS.DATA)) || '';
-    const parsedExercises: Exercise[] = exercises.length
-      ? JSON.parse(exercises)
-      : [];
-    if (parsedExercises.length) {
-      const mapedExercises = parsedExercises.map(el =>
-        el.id === id
-          ? {
-              ...el,
-              extraImages: el.extraImages?.filter(el => el !== imageUri),
-            }
-          : el
-      );
-
-      await unlink(imageUri.replace('file:', ''));
-
-      await setItemByKey(
-        ASYNC_STORAGE_KEYS.DATA,
-        JSON.stringify(mapedExercises)
-      );
-
-      return mapedExercises;
-    } else {
+    if (!exercises) {
       return [];
     }
+    const parsedExercises: Exercise[] = JSON.parse(exercises);
+
+    const mapedExercises: Exercise[] = parsedExercises.map(el =>
+      el.id === id
+        ? {
+            ...el,
+            extraImages: el.extraImages?.filter(el => el !== imageUri),
+          }
+        : el
+    );
+
+    await unlink(imageUri.replace('file:', ''));
+
+    await setItemByKey(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(mapedExercises));
+
+    return mapedExercises;
   } catch (e) {
     return [];
   }

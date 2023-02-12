@@ -20,6 +20,7 @@ import {
   addRoutine,
   addWorkoutPlan,
   getAllPlans,
+  updateExerciseInRoutine,
 } from 'redux/exercises/thunks/workoutPlan.thunk';
 
 const selectedFilters = (builder: ActionReducerMapBuilder<ExercisesState>) => {
@@ -113,6 +114,15 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
     state.selectedRoutine = action.payload.addedRoutine;
   });
   builder.addCase(addExercisesToRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan.routines.find(
+        el => el.id === action.payload.routineId
+      );
+    }
+  });
+  builder.addCase(updateExerciseInRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;
     if (action.payload.plan) {
       state.selectedWorkoutPlan = action.payload.plan;

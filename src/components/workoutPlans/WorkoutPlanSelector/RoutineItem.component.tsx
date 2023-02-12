@@ -8,6 +8,7 @@ import {
   selectRoutine,
 } from 'redux/exercises/exercises.slice';
 import { COLORS } from '@shared/theme';
+import TextWrapperComponent from "shared/wrapperComponents/TextWrapper.component";
 
 type Props = {
   item: Routine;
@@ -38,7 +39,7 @@ const RoutineItemComponent: FC<Props> = ({ item }) => {
           },
         ]}
       >
-        <Text
+        <TextWrapperComponent
           style={{
             fontSize: routine?.id === item.id ? 16 : 14,
             color: COLORS.WHITE,
@@ -48,7 +49,7 @@ const RoutineItemComponent: FC<Props> = ({ item }) => {
           }}
         >
           {item.name}
-        </Text>
+        </TextWrapperComponent>
       </Pressable>
     </View>
   );

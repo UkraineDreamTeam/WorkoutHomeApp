@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '@redux/store';
 import FiltersSection from './FiltersSection.component';
 import { FILTER_TITLES } from '@shared/constants/constants';
 import { FilterNames } from '@redux/types';
+import TextWrapperComponent from "shared/wrapperComponents/TextWrapper.component";
 
 const FilterContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -99,12 +100,11 @@ const FilterContainer = () => {
             data={Object.entries(filter)}
             renderItem={({ item }) => (
               <View style={[{ flexShrink: 1 }]}>
-                <Text
+                <TextWrapperComponent
                   style={[
                     {
                       textAlign: 'center',
                       textTransform: 'capitalize',
-                      color: 'white',
                       fontSize: 16,
                       padding: 20,
                       fontWeight: '600',
@@ -112,7 +112,7 @@ const FilterContainer = () => {
                   ]}
                 >
                   {FILTER_TITLES[item[0] as FilterNames]}
-                </Text>
+                </TextWrapperComponent>
                 <FiltersSection list={item[1]} name={item[0] as FilterNames} />
               </View>
             )}
@@ -139,7 +139,7 @@ const FilterContainer = () => {
                 dispatch(clearFilters());
               }}
             >
-              <Text style={styles.textStyle}>Apply filters</Text>
+              <TextWrapperComponent style={styles.textStyle}>Apply filters</TextWrapperComponent>
             </Pressable>
           </View>
         </View>

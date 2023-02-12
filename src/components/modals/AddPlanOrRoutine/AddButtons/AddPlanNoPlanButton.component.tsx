@@ -1,13 +1,14 @@
 import React, { FC } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import TextWrapperComponent from "shared/wrapperComponents/TextWrapper.component";
 
 const AddPlanNoPlanButtonComponent: FC<{
   handleOpen: () => void;
 }> = ({ handleOpen }) => {
   return (
     <Pressable onPress={handleOpen} style={styles.buttonOpen}>
-      <Text style={styles.textStyle}>Create workout plan</Text>
+      <TextWrapperComponent style={styles.textStyle}>Create workout plan</TextWrapperComponent>
     </Pressable>
   );
 };

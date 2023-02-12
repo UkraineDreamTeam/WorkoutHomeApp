@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import DropDownPicker, { ItemType } from 'react-native-dropdown-picker';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 import {
@@ -8,7 +8,6 @@ import {
 } from 'redux/exercises/exercises.slice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { WorkoutPlan } from 'redux/types';
-import DropShadow from 'react-native-drop-shadow';
 import AddPlanPlanExistComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanPlanExist.component';
 
 type Props = {
@@ -42,7 +41,7 @@ const WorkoutPlanPickerComponent: FC<Props> = ({ data }) => {
 
   useEffect(() => {
     setValue(selectedItem?.name || data[0]?.name);
-  }, [data]);
+  }, [data, selectedItem]);
 
   return (
     <View>

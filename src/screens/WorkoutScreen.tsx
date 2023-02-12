@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, SafeAreaView } from 'react-native';
+import {Dimensions, SafeAreaView, View} from 'react-native';
 import RoutineControl from '@components/routineActions/routineControl/RoutineControl.component';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
@@ -34,20 +34,23 @@ const WorkoutScreen = () => {
         position: 'relative',
         width: Dimensions.get('screen').width,
         height: Dimensions.get('screen').height,
+        paddingBottom: 145,
         flex: 1,
       }}
     >
-      {plans ? (
+      {plans?.length ? (
         <WorkoutPlanSelectorComponent data={data} />
       ) : (
         <AddPlanComponent title={'Create workout plan'} />
       )}
       {routine ? (
+
         <FlashList
           data={routine?.data || []}
           renderItem={({ item }) => <ExerciseItem {...item} />}
           keyExtractor={item => item?.routineId || item.id}
           estimatedItemSize={132}
+
         />
       ) : null}
       <RoutineControl />

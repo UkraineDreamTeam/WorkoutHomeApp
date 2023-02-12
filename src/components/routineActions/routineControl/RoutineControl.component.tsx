@@ -71,7 +71,11 @@ const RoutineControl = () => {
   return (
     <Animated.View style={[styles.actionsContainer, { ...controlsBorders }]}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('ListOfExercise')}
+        onPress={() => {
+          console.log('pressed');
+
+          navigation.navigate('ListOfExercise');
+        }}
         style={[styles.button]}
         disabled={!routine}
       >

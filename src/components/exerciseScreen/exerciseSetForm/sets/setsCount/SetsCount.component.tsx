@@ -1,9 +1,15 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
+import TextInputWrapperComponent from 'shared/wrapperComponents/TextInputWrapper.component';
+import { form, setSets } from 'redux/workoutForm/workoutForm.slice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 
 type ChangeEvent = { nativeEvent: { text: string } };
 const SetsCountComponent = () => {
+  const dispatch = useAppDispatch();
+  const workoutForm = useAppSelector(form);
   const [value, setValue] = useState('0');
   const inputRef = useRef<TextInput>(null);
   const [error, setError] = useState(false);
@@ -19,11 +25,27 @@ const SetsCountComponent = () => {
       setError(true);
     }
   };
+  const setSetsOnBlur = () => {
+    if (!error) {
+      dispatch(setSets(Number(value)));
+    }
+    if (error) {
+      setValue(workoutForm.sets.toString());
+      setError(false);
+    }
+  };
+
+  useEffect(() => {
+    setValue(workoutForm.sets.toString());
+  }, []);
+
   return (
     <View style={[styles.container]}>
-      <Text style={[styles.text]}>Repeat this set</Text>
-      <TextInput
-        ref={inputRef}
+      <TextWrapperComponent style={[styles.text]}>
+        Repeat this set
+      </TextWrapperComponent>
+      <TextInputWrapperComponent
+        inputRef={inputRef}
         value={value.toString()}
         keyboardType="numeric"
         style={[
@@ -34,16 +56,9 @@ const SetsCountComponent = () => {
           },
         ]}
         onChange={handleChange}
-        onBlur={() => {
-          if (error) {
-            setValue('1');
-            setError(false);
-          } else {
-            setValue(Number(value).toString());
-          }
-        }}
+        onBlur={setSetsOnBlur}
       />
-      <Text style={[styles.text]}>times</Text>
+      <TextWrapperComponent style={[styles.text]}>times</TextWrapperComponent>
     </View>
   );
 };

@@ -4,7 +4,7 @@ import AddPlanOrRoutineContent from 'components/modals/AddPlanOrRoutine/AddPlanO
 
 import { useAppDispatch } from 'redux/store';
 import { addWorkoutPlan } from 'redux/exercises/thunks/workoutPlan.thunk';
-import AddPlanPlansExistButtonComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanPlansExistButton.component';
+import AddPlanPlansExistButtonComponent from './AddPlanPlansExistButton.component';
 type Props = {
   title: string;
   setOpen: Dispatch<boolean>;
@@ -50,7 +50,6 @@ const AddPlanPlanExistComponent: FC<Props> = ({ title, setOpen }) => {
 
           position: 'absolute',
 
-          zIndex: 2,
           left: 5,
           top: 55,
         },

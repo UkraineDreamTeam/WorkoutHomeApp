@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
@@ -14,20 +13,10 @@ import { COLORS, CustomTheme } from '@shared/theme';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@shared/types/types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 const ExerciseItem = memo((data: WorkoutExercise) => {
-  const {
-    gifUrl,
-    name,
-    bodyPart,
-    target,
-    id,
-    time,
-    reps,
-    sets,
-    weight,
-    routineId,
-  } = data;
+  const { gifUrl, name, bodyPart, target, id, sets, routineId } = data;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
@@ -56,26 +45,87 @@ const ExerciseItem = memo((data: WorkoutExercise) => {
         </View>
         <View style={[styles.textContainer]}>
           <View>
-            <Text style={[styles.exerciseName, styles.text]}>{name}</Text>
-            <Text style={[styles.text, styles.subtitle]}>{bodyPart}</Text>
+            <TextWrapperComponent style={[styles.exerciseName, styles.text]}>
+              {name}
+            </TextWrapperComponent>
+            <TextWrapperComponent style={[styles.text, styles.subtitle]}>
+              {bodyPart}
+            </TextWrapperComponent>
           </View>
-          <Text style={[styles.text, styles.subtitle]}>{target}</Text>
+          <TextWrapperComponent style={[styles.text, styles.subtitle]}>
+            {target}
+          </TextWrapperComponent>
         </View>
       </TouchableOpacity>
-      {sets || reps || weight || time ? (
-        <View style={[{ flexDirection: 'row', padding: 5, marginLeft: 20 }]}>
-          <Image
-            source={require('@assets/icons/PinkDot.png')}
-            style={[{ alignSelf: 'center' }]}
-          />
+      {sets
+        ? sets.map(
+            (
+              {
+                sets,
+                reps,
+                duration: { seconds, minutes },
+                weight,
+                durationMS,
+              },
+              index
+            ) => {
+              return (
+                <View
+                  style={[
+                    {
+                      flexDirection: 'row',
+                      padding: 5,
+                      marginLeft: 20,
+                      width: '80%',
+                      justifyContent: 'space-between',
+                    },
+                  ]}
+                  key={index}
+                >
+                  <Image
+                    source={require('@assets/icons/PinkDot.png')}
+                    style={[{ alignSelf: 'center' }]}
+                  />
 
-          {sets ? <Text style={[styles.configText]}> {sets} sets</Text> : null}
-          {reps ? <Text style={[styles.configText]}> {reps} reps</Text> : null}
-          {weight ? (
-            <Text style={[styles.configText]}> {weight} kg</Text>
-          ) : null}
-          {time ? <Text style={[styles.configText]}> {time} </Text> : null}
-        </View>
+                  {Number(sets) ? (
+                    <TextWrapperComponent
+                      style={[styles.configText]}
+                    >
+                      {sets} {sets % 10 === 1 ? 'set' : 'sets'}
+                    </TextWrapperComponent>
+                  ) : null}
+                  {Number(reps) ? (
+                    <TextWrapperComponent
+                      style={[styles.configText]}
+                    >
+                      {reps} {reps % 10 === 1 ? 'rep' : 'reps'}
+                    </TextWrapperComponent>
+                  ) : null}
+                  {Number(weight) ? (
+                    <TextWrapperComponent
+                      style={[styles.configText]}
+                    >
+                      {weight} kg
+                    </TextWrapperComponent>
+                  ) : null}
+                  {durationMS ? (
+                    <TextWrapperComponent
+                      style={[styles.configText]}
+                    >
+                      {minutes}:{seconds}
+                    </TextWrapperComponent>
+                  ) : null}
+                </View>
+              );
+            }
+          )
+        : null}
+      {sets && sets[0].setRestTimeMS ? (
+        <TextWrapperComponent
+          style={{ width: '100%', textAlign: 'right', padding: 10 }}
+        >
+          Rest: {sets[0].setRestTime.minutes}:{sets[0].setRestTime.seconds}
+        </TextWrapperComponent>
       ) : null}
     </View>
   );
@@ -97,7 +147,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
     backgroundColor: 'black',
-    // flexShrink: 1,
     padding: 20,
     borderRadius: 20,
   },
