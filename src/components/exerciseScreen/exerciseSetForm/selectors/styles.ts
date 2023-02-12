@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'black',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
     textAlign: 'center',
+    color: COLORS.WHITE,
   },
   text: {
     padding: 4,

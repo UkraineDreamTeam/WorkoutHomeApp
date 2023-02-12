@@ -29,6 +29,7 @@ const WorkoutPlanSelectorComponent: FC<Props> = ({ data }) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            zIndex: 2,
           },
         ]}
       >

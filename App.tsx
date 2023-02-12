@@ -10,26 +10,28 @@ import { Provider } from 'react-redux';
 import { store } from '@redux/store';
 import BottomStackNavigator from './src/stackNavigators/BotomStack';
 import { LoadingExercises } from '@components/modals/LoadingExercises';
-import { Text, View } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
 const App = () => {
   const navigationRef = useNavigationContainerRef<RootStackParamList>();
 
   return (
     <Provider store={store}>
-      <View style={{ flex: 1, backgroundColor: CustomTheme.colors.background }}>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: CustomTheme.colors.background }}
+      >
         <LoadingExercises />
         <NavigationContainer
           ref={navigationRef}
           theme={{
-            dark: false,
-            colors: { ...CustomTheme.colors, text: '#FFFFFF' },
+            dark: true,
+            colors: { ...CustomTheme.colors, text: '#FFFFFF' }
           }}
           fallback={<Text>Loading..</Text>}
         >
           <BottomStackNavigator navigationRef={navigationRef} />
         </NavigationContainer>
-      </View>
+      </SafeAreaView>
     </Provider>
   );
 };

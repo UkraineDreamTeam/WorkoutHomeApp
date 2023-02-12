@@ -3,10 +3,12 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import { TYPOGRAPHY } from '@shared/theme';
 import RestBetweenSetsContainerComponent from 'components/exerciseScreen/exerciseSetForm/restBetweenSets/RestBetweenSetsContainer.component';
 import { CreateSetModal } from 'components/exerciseScreen/exerciseSetForm/sets/CreateSetForm.component';
+import {SetListComponent} from 'components/exerciseScreen/exerciseSetForm/setsList/SetsList.component';
 
 const PlanForm = () => {
   return (
     <View style={styles.container}>
+      <SetListComponent />
       <CreateSetModal />
       <RestBetweenSetsContainerComponent />
     </View>

@@ -1,3 +1,5 @@
+import {WorkoutForm} from "redux/workoutForm/types";
+
 export type Exercise = {
   bodyPart: string;
   equipment: string;
@@ -9,10 +11,7 @@ export type Exercise = {
   extraImages?: string[];
 };
 export type ExerciseConfig = {
-  time?: string;
-  weight?: string;
-  reps?: string;
-  sets?: string;
+  sets?: WorkoutForm[];
   routineId?: string;
 };
 

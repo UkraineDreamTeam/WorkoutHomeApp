@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { View, Switch, StyleSheet, Text } from 'react-native';
 import { COLORS } from '@shared/theme';
+import TextWrapperComponent from "shared/wrapperComponents/TextWrapper.component";
 
 type Props = {
   isEnabled: boolean;
@@ -10,7 +11,7 @@ type Props = {
 const RestBetweenSetsSwitch: FC<Props> = ({ isEnabled, toggleSwitch }) => {
   return (
     <View style={styles.container}>
-      <Text style={[styles.title]}>Rest between sets:</Text>
+      <TextWrapperComponent style={[styles.title]}>Rest between sets:</TextWrapperComponent>
       <Switch
         trackColor={{ false: COLORS.BLOCK_GREY, true: COLORS.PINK }}
         thumbColor={isEnabled ? COLORS.GREY : COLORS.LIGHT_GREY}
