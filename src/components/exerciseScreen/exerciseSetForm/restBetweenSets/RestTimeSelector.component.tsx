@@ -31,9 +31,8 @@ const RestTimeSelectorComponent = () => {
         })
       );
       name === 'seconds'
-        ? setSeconds((seconds || '00').slice(-2))
-        : setMinutes((minutes || '00').slice(-2));
-      console.log(rest);
+        ? setSeconds(('00' + (seconds || '00')).slice(-2))
+        : setMinutes(('00' + (minutes || '00')).slice(-2));
     }
     if (errorSeconds) {
       setSeconds(rest.seconds);
@@ -48,7 +47,7 @@ const RestTimeSelectorComponent = () => {
   useEffect(() => {
     setSeconds(rest.seconds);
     setMinutes(rest.minutes);
-  }, [rest.minutes, rest.seconds]);
+  }, []);
   return (
     <View style={styles.container}>
       <TextWrapperComponent style={[styles.title]}>Time:</TextWrapperComponent>
@@ -63,7 +62,6 @@ const RestTimeSelectorComponent = () => {
           setModal={false}
         />
         <TextWrapperComponent style={styles.timeDots}>
-          {' '}
           min.
         </TextWrapperComponent>
         <RestTimeItem
@@ -76,7 +74,6 @@ const RestTimeSelectorComponent = () => {
           setModal={false}
         />
         <TextWrapperComponent style={styles.timeDots}>
-          {' '}
           sec.
         </TextWrapperComponent>
       </View>
