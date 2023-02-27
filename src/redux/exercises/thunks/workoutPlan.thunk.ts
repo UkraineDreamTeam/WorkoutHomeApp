@@ -140,6 +140,52 @@ export const addExercisesToRoutine = createAsyncThunk<
     return { error: true };
   }
 });
+export const reorderRoutine = createAsyncThunk<
+  AddWorkoutPlanResponse & {
+    plan?: WorkoutPlan | undefined;
+    routineId?: string;
+  },
+  { routineId: string; planName: string; routine: Routine }
+>('add/reorderRoutine', async ({ routineId, planName, routine }) => {
+  try {
+    let updatedList: WorkoutPlan[] = [];
+    let newRoutines: Routine[];
+    let selectedPlan: WorkoutPlan | undefined;
+    const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
+
+    const parsedData: WorkoutPlan[] = plans ? await JSON.parse(plans) : [];
+
+    const plan = parsedData.find(el => el.name === planName);
+    if (plan?.routines) {
+      selectedPlan = {
+        ...plan,
+        routines: plan.routines.map(el =>
+          el.id === routine.id ? routine : el
+        ),
+      };
+      updatedList = parsedData.map(elem =>
+        elem.name === planName
+          ? {
+              ...elem,
+              routines: newRoutines,
+            }
+          : elem
+      );
+    } else {
+      selectedPlan = plan;
+    }
+
+    await setItemByKey(
+      WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
+      JSON.stringify(updatedList)
+    );
+
+    return { plans: updatedList, plan: selectedPlan, routineId };
+  } catch (e) {
+    console.log(e);
+    return { error: true };
+  }
+});
 export const updateExerciseInRoutine = createAsyncThunk<
   AddWorkoutPlanResponse & {
     plan?: WorkoutPlan | undefined;
