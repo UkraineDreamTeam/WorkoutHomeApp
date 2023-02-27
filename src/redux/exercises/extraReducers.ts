@@ -20,6 +20,7 @@ import {
   addRoutine,
   addWorkoutPlan,
   getAllPlans,
+  reorderRoutine,
   updateExerciseInRoutine,
 } from 'redux/exercises/thunks/workoutPlan.thunk';
 
@@ -54,7 +55,7 @@ const getExercisesCases = (
   });
 
   builder.addCase(getExercises.pending, state => {
-    state.loading = false;
+    state.loading = true;
   });
   builder.addCase(getExercises.rejected, (state, action) => {
     state.loading = false;
@@ -85,9 +86,11 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
     } else {
       state.error = action.payload.error;
     }
+    state.loading = false;
   });
   builder.addCase(getAllPlans.rejected, (state, action) => {
     state.error = JSON.stringify(action.error);
+    state.loading = false;
   });
   builder.addCase(getAllPlans.pending, state => {
     state.loading = true;
@@ -131,6 +134,17 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
       );
     }
   });
+  builder.addCase(reorderRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan.routines.find(
+        el => el.id === action.payload.routineId
+      );
+    }
+    state.isReordering = false;
+  });
+
 };
 
 export const extraReducers = (

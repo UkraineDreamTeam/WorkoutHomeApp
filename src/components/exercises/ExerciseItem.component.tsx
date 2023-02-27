@@ -77,7 +77,7 @@ const ExerciseItem = memo((data: WorkoutExercise) => {
                       padding: 5,
                       marginLeft: 20,
                       width: '80%',
-                      justifyContent: 'space-between',
+                      // justifyContent: 'space-between',
                     },
                   ]}
                   key={index}
@@ -88,30 +88,22 @@ const ExerciseItem = memo((data: WorkoutExercise) => {
                   />
 
                   {Number(sets) ? (
-                    <TextWrapperComponent
-                      style={[styles.configText]}
-                    >
+                    <TextWrapperComponent style={[styles.configText]}>
                       {sets} {sets % 10 === 1 ? 'set' : 'sets'}
                     </TextWrapperComponent>
                   ) : null}
                   {Number(reps) ? (
-                    <TextWrapperComponent
-                      style={[styles.configText]}
-                    >
+                    <TextWrapperComponent style={[styles.configText]}>
                       {reps} {reps % 10 === 1 ? 'rep' : 'reps'}
                     </TextWrapperComponent>
                   ) : null}
                   {Number(weight) ? (
-                    <TextWrapperComponent
-                      style={[styles.configText]}
-                    >
+                    <TextWrapperComponent style={[styles.configText]}>
                       {weight} kg
                     </TextWrapperComponent>
                   ) : null}
                   {durationMS ? (
-                    <TextWrapperComponent
-                      style={[styles.configText]}
-                    >
+                    <TextWrapperComponent style={[styles.configText]}>
                       {minutes}:{seconds}
                     </TextWrapperComponent>
                   ) : null}
@@ -120,11 +112,12 @@ const ExerciseItem = memo((data: WorkoutExercise) => {
             }
           )
         : null}
-      {sets && sets[0].setRestTimeMS ? (
+      {sets && sets[0]?.setRestTimeMS ? (
         <TextWrapperComponent
           style={{ width: '100%', textAlign: 'right', padding: 10 }}
         >
-          Rest: {sets[0].setRestTime.minutes}:{sets[0].setRestTime.seconds}
+          Rest: {('00' + sets[0]?.setRestTime?.minutes).slice(-2)}:
+          {('00' + sets[0]?.setRestTime?.seconds).slice(-2)}
         </TextWrapperComponent>
       ) : null}
     </View>
@@ -165,6 +158,7 @@ const styles = StyleSheet.create({
   configText: {
     paddingHorizontal: 10,
     color: COLORS.WHITE,
+    width: '25%',
   },
 });
 export default ExerciseItem;

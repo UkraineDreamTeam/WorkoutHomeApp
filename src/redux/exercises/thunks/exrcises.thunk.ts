@@ -126,9 +126,11 @@ export const getExercises = createAsyncThunk<
       );
 
       setFilters(newCollection, dispatch);
-      return { res: { newCollection, error: undefined } };
+
+      return { res: { data: newCollection, error: undefined } };
     }
   } catch (error) {
+    console.log(error)
     return { res: { data: undefined, error } };
   }
 });
