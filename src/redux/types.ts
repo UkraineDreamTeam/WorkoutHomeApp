@@ -62,4 +62,5 @@ export type ExercisesState = {
   workoutPlans?: WorkoutPlan[];
   selectedWorkoutPlan: WorkoutPlan | undefined;
   selectedRoutine?: Routine;
+  isReordering: boolean
 };

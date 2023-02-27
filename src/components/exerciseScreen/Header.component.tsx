@@ -30,7 +30,7 @@ const Header: FC<Props> = ({ exercise }) => {
   const addExercise = () => {
     if (routine?.id && plan?.name) {
       if (exercise.routineId) {
-        console.log(allSets);
+
         void dispatch(
           updateExerciseInRoutine({
             exercise: { ...exercise, sets: allSets },

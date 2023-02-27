@@ -35,7 +35,7 @@ export const RepsSelectorComponent = () => {
     }
   };
   useEffect(() => {
-    console.log(workoutForm)
+
     setValue(workoutForm.reps.toString());
   }, []);
   return (
