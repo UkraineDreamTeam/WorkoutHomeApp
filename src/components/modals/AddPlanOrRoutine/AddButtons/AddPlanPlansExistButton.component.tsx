@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
-import { Dimensions, Platform, Pressable, Text } from 'react-native';
+import { Dimensions, Pressable, Text } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 
 const AddPlanPlansExistButtonComponent: FC<{
@@ -39,8 +39,9 @@ const AddPlanPlansExistButtonComponent: FC<{
               color: COLORS.WHITE,
               textAlign: 'center',
               textAlignVertical: 'center',
+              fontWeight: '500',
             },
-            Platform.OS === 'ios' && { lineHeight: 50 },
+            { lineHeight: 50 },
           ]}
         >
           Add workout plan

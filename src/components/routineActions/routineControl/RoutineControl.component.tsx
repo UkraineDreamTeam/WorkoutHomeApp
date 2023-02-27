@@ -72,7 +72,7 @@ const RoutineControl = () => {
     <Animated.View style={[styles.actionsContainer, { ...controlsBorders }]}>
       <TouchableOpacity
         onPress={() => {
-          console.log('pressed');
+
 
           navigation.navigate('ListOfExercise');
         }}

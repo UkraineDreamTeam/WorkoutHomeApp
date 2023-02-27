@@ -5,7 +5,7 @@ import ExerciseList from '@components/exercises/ExerciseList.component';
 import SearchInput from '@components/exercises/SearchInput.component';
 import { exercises } from '@redux/exercises/exercises.slice';
 import { Exercise } from '@redux/types';
-import { useAppSelector } from '@redux/store';
+import {store, useAppSelector} from '@redux/store';
 
 const ListOfExercisesScreen = () => {
   const exerciseList = useAppSelector(exercises);
@@ -22,6 +22,7 @@ const ListOfExercisesScreen = () => {
     );
   }, [exerciseList, text]);
   useEffect(() => {
+
     const newList = text.length > 0 ? filterExercises() : exerciseList;
 
     setExercisesToDisplay(newList);

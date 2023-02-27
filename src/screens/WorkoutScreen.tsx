@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {Dimensions, SafeAreaView, View} from 'react-native';
+import { Dimensions, SafeAreaView } from 'react-native';
 import RoutineControl from '@components/routineActions/routineControl/RoutineControl.component';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
+  loading,
+  reodering,
   selectedPlan,
   selectedRoutine,
   workoutPlans,
@@ -11,17 +13,19 @@ import AddPlanComponent from 'components/modals/AddPlanOrRoutine/AddPlan.compone
 import { getAllPlans } from 'redux/exercises/thunks/workoutPlan.thunk';
 import WorkoutPlanSelectorComponent from 'components/workoutPlans/WorkoutPlanSelector/WorkoutPlanSelector.component';
 import { Routine, WorkoutPlan } from 'redux/types';
-import { FlashList } from '@shopify/flash-list';
-import ExerciseItem from 'components/exercises/ExerciseItem.component';
+import WorkoutExercisesList from 'components/workoutExercises/WorkoutExercisesList.component';
+import WorkoutExercisesListDragable from 'components/workoutExercises/WorkoutListDragable.component';
 
 const WorkoutScreen = () => {
   const [data, setData] = useState<WorkoutPlan[]>([]);
   const plans = useAppSelector(workoutPlans);
   const selectedItem: WorkoutPlan | undefined = useAppSelector(selectedPlan);
   const routine: Routine | undefined = useAppSelector(selectedRoutine);
+  const isLoading = useAppSelector(loading);
+  const isReordering = useAppSelector(reodering);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getAllPlans());
+    void dispatch(getAllPlans());
   }, [dispatch]);
   useEffect(() => {
     setData(plans || []);
@@ -34,7 +38,6 @@ const WorkoutScreen = () => {
         position: 'relative',
         width: Dimensions.get('screen').width,
         height: Dimensions.get('screen').height,
-        paddingBottom: 145,
         flex: 1,
       }}
     >
@@ -43,17 +46,13 @@ const WorkoutScreen = () => {
       ) : (
         <AddPlanComponent title={'Create workout plan'} />
       )}
-      {routine ? (
+      {isReordering ? (
+        <WorkoutExercisesListDragable />
+      ) : (
+        <WorkoutExercisesList />
+      )}
 
-        <FlashList
-          data={routine?.data || []}
-          renderItem={({ item }) => <ExerciseItem {...item} />}
-          keyExtractor={item => item?.routineId || item.id}
-          estimatedItemSize={132}
-
-        />
-      ) : null}
-      <RoutineControl />
+      {routine ? <RoutineControl /> : null}
     </SafeAreaView>
   );
 };
