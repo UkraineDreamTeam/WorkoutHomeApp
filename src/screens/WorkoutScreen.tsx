@@ -12,12 +12,15 @@ import {
 import AddPlanComponent from 'components/modals/AddPlanOrRoutine/AddPlan.component';
 import { getAllPlans } from 'redux/exercises/thunks/workoutPlan.thunk';
 import WorkoutPlanSelectorComponent from 'components/workoutPlans/WorkoutPlanSelector/WorkoutPlanSelector.component';
-import { Routine, WorkoutPlan } from 'redux/types';
+import { Routine, WorkoutExercise, WorkoutPlan } from 'redux/types';
 import WorkoutExercisesList from 'components/workoutExercises/WorkoutExercisesList.component';
 import WorkoutExercisesListDragable from 'components/workoutExercises/WorkoutListDragable.component';
 
 const WorkoutScreen = () => {
   const [data, setData] = useState<WorkoutPlan[]>([]);
+  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>(
+    []
+  );
   const plans = useAppSelector(workoutPlans);
   const selectedItem: WorkoutPlan | undefined = useAppSelector(selectedPlan);
   const routine: Routine | undefined = useAppSelector(selectedRoutine);
@@ -30,7 +33,16 @@ const WorkoutScreen = () => {
   useEffect(() => {
     setData(plans || []);
   }, [plans]);
+  useEffect(() => {
+    setWorkoutExercises(routine?.data || []);
+  }, [routine]);
 
+  useEffect(() => {
+    console.log(routine);
+  }, [routine]);
+  useEffect(() => {
+    console.log(selectedItem);
+  }, [selectedItem]);
   return (
     <SafeAreaView
       style={{
@@ -47,12 +59,21 @@ const WorkoutScreen = () => {
         <AddPlanComponent title={'Create workout plan'} />
       )}
       {isReordering ? (
-        <WorkoutExercisesListDragable />
+        <WorkoutExercisesListDragable
+          data={workoutExercises}
+          setData={setWorkoutExercises}
+        />
       ) : (
         <WorkoutExercisesList />
       )}
 
-      {routine ? <RoutineControl /> : null}
+      {routine && selectedItem ? (
+        <RoutineControl
+          data={workoutExercises}
+          routineId={routine.id}
+          planName={selectedItem.name || ''}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };

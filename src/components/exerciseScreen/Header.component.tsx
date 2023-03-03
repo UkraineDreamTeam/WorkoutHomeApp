@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 32,
+    paddingRight: 32,
     paddingVertical: 18,
   },
   button: {

@@ -6,7 +6,7 @@ import {
   setItemByKey,
 } from '@redux/exercises/requests/asyncStorage.requests';
 
-type GetAllPlansResponse = { data?: WorkoutPlan[]; error?: any };
+type GetAllPlansResponse = { data?: WorkoutPlan[]; status: boolean };
 export const getAllPlans = createAsyncThunk<GetAllPlansResponse>(
   'get/allPlans',
   async () => {
@@ -15,17 +15,19 @@ export const getAllPlans = createAsyncThunk<GetAllPlansResponse>(
         WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS
       );
 
-      const parsedPlans: WorkoutPlan[] = allPlans ? JSON.parse(allPlans) : [];
+      const parsedPlans: WorkoutPlan[] = allPlans
+        ? (JSON.parse(allPlans) as WorkoutPlan[])
+        : [];
 
-      return { data: parsedPlans };
+      return { data: parsedPlans, status: true };
     } catch (e) {
-      return { error: e };
+      return { status: false };
     }
   }
 );
-type AddWorkoutPlanResponse = {
+export type AddWorkoutPlanResponse = {
   plans?: WorkoutPlan[];
-  error?: any;
+  status: boolean;
   plan?: WorkoutPlan;
 };
 export const addWorkoutPlan = createAsyncThunk<AddWorkoutPlanResponse, string>(
@@ -39,7 +41,7 @@ export const addWorkoutPlan = createAsyncThunk<AddWorkoutPlanResponse, string>(
       const newPlan = { name: planName, routines: [], id: nanoid() };
 
       if (plans) {
-        const parsedData: WorkoutPlan[] = await JSON.parse(plans);
+        const parsedData = JSON.parse(plans) as WorkoutPlan[];
         updatedList = [newPlan, ...parsedData];
       } else {
         updatedList = [newPlan];
@@ -49,9 +51,9 @@ export const addWorkoutPlan = createAsyncThunk<AddWorkoutPlanResponse, string>(
         JSON.stringify(updatedList)
       );
 
-      return { plans: updatedList, plan: newPlan };
+      return { plans: updatedList, plan: newPlan, status: true };
     } catch (e) {
-      return { error: true };
+      return { status: false };
     }
   }
 );
@@ -81,10 +83,47 @@ export const addRoutine = createAsyncThunk<
       JSON.stringify(updatedList)
     );
 
-    return { plans: updatedList, addedRoutine: newRoutine };
+    return { plans: updatedList, addedRoutine: newRoutine, status: true };
   } catch (e) {
-    console.log(e);
-    return { error: true };
+    console.log('create routine', e);
+    return { status: false };
+  }
+});
+export const deleteRoutine = createAsyncThunk<
+  AddWorkoutPlanResponse,
+  { routineId: string; planId: string }
+>('delete/routine', async ({ routineId, planId }) => {
+  try {
+    let updatedList: WorkoutPlan[] = [];
+
+    const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
+
+    const parsedData = plans ? (JSON.parse(plans) as WorkoutPlan[]) : [];
+    console.log('routineId', routineId);
+    updatedList = parsedData.map(elem =>
+      elem.id === planId
+        ? {
+            ...elem,
+            routines: elem.routines.filter(
+              routineItem => routineItem.id !== routineId
+            ),
+          }
+        : elem
+    );
+
+    await setItemByKey(
+      WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
+      JSON.stringify(updatedList)
+    );
+
+    return {
+      plans: updatedList,
+      status: true,
+      plan: updatedList.find(el => el.id === planId),
+    };
+  } catch (e) {
+    console.log('create routine', e);
+    return { status: false };
   }
 });
 
@@ -101,7 +140,7 @@ export const addExercisesToRoutine = createAsyncThunk<
     let selectedPlan: WorkoutPlan | undefined;
     const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
 
-    const parsedData: WorkoutPlan[] = plans ? await JSON.parse(plans) : [];
+    const parsedData = plans ? (JSON.parse(plans) as WorkoutPlan[]) : [];
 
     const plan = parsedData.find(el => el.name === planName);
     if (plan?.routines) {
@@ -133,73 +172,28 @@ export const addExercisesToRoutine = createAsyncThunk<
       WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
       JSON.stringify(updatedList)
     );
-
-    return { plans: updatedList, plan: selectedPlan, routineId };
+    console.log(selectedPlan);
+    return { plans: updatedList, plan: selectedPlan, routineId, status: true };
   } catch (e) {
     console.log(e);
-    return { error: true };
+    return { status: false };
   }
 });
-export const reorderRoutine = createAsyncThunk<
-  AddWorkoutPlanResponse & {
-    plan?: WorkoutPlan | undefined;
-    routineId?: string;
-  },
-  { routineId: string; planName: string; routine: Routine }
->('add/reorderRoutine', async ({ routineId, planName, routine }) => {
-  try {
-    let updatedList: WorkoutPlan[] = [];
-    let newRoutines: Routine[];
-    let selectedPlan: WorkoutPlan | undefined;
-    const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
 
-    const parsedData: WorkoutPlan[] = plans ? await JSON.parse(plans) : [];
-
-    const plan = parsedData.find(el => el.name === planName);
-    if (plan?.routines) {
-      selectedPlan = {
-        ...plan,
-        routines: plan.routines.map(el =>
-          el.id === routine.id ? routine : el
-        ),
-      };
-      updatedList = parsedData.map(elem =>
-        elem.name === planName
-          ? {
-              ...elem,
-              routines: newRoutines,
-            }
-          : elem
-      );
-    } else {
-      selectedPlan = plan;
-    }
-
-    await setItemByKey(
-      WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
-      JSON.stringify(updatedList)
-    );
-
-    return { plans: updatedList, plan: selectedPlan, routineId };
-  } catch (e) {
-    console.log(e);
-    return { error: true };
-  }
-});
 export const updateExerciseInRoutine = createAsyncThunk<
   AddWorkoutPlanResponse & {
     plan?: WorkoutPlan | undefined;
     routineId?: string;
   },
   { routineId: string; planName: string; exercise: WorkoutExercise }
->('update/exercisesToRoutine', async ({ routineId, planName, exercise }) => {
+>('update/exercisesInRoutine', async ({ routineId, planName, exercise }) => {
   try {
     let updatedList: WorkoutPlan[] = [];
     let newRoutines: Routine[];
     let selectedPlan: WorkoutPlan | undefined;
     const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
 
-    const parsedData: WorkoutPlan[] = plans ? await JSON.parse(plans) : [];
+    const parsedData = plans ? (JSON.parse(plans) as WorkoutPlan[]) : [];
 
     const plan = parsedData.find(el => el.name === planName);
     if (plan?.routines) {
@@ -231,9 +225,9 @@ export const updateExerciseInRoutine = createAsyncThunk<
       JSON.stringify(updatedList)
     );
 
-    return { plans: updatedList, plan: selectedPlan, routineId };
+    return { plans: updatedList, plan: selectedPlan, routineId, status: true };
   } catch (e) {
     console.log(e);
-    return { error: true };
+    return { status: false };
   }
 });

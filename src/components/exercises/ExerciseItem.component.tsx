@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { FC } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -14,26 +14,33 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@shared/types/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
+import { useAppSelector } from 'redux/store';
+import { reodering } from 'redux/exercises/exercises.slice';
 
-const ExerciseItem = memo((data: WorkoutExercise) => {
+const ExerciseItem: FC<{
+  data: WorkoutExercise;
+  onLongPress?: () => void;
+  startDrag?: boolean;
+}> = ({ data, onLongPress, startDrag }) => {
   const { gifUrl, name, bodyPart, target, id, sets, routineId } = data;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+  const reorder = useAppSelector(reodering);
+  const handlePressItem = () => {
+    if (!reorder) {
+      navigation.navigate('Exercise', data);
+    }
+  };
   return (
     <View
       style={[
-        {
-          backgroundColor: COLORS.BLOCK_GREY,
-          borderRadius: 20,
-          width: Dimensions.get('screen').width * 0.95,
-          marginHorizontal: Dimensions.get('screen').width * 0.025,
-          marginVertical: 6,
-        },
+        styles.exerciseItemContainer,
+        startDrag ? { borderColor: COLORS.PINK, borderWidth: 2 } : {},
       ]}
     >
       <TouchableOpacity
         style={styles.cardContainer}
-        onPress={() => navigation.navigate('Exercise', data)}
+        onPress={handlePressItem}
+        onLongPress={onLongPress}
       >
         <View style={styles.imageContainer}>
           <FastImage
@@ -77,7 +84,6 @@ const ExerciseItem = memo((data: WorkoutExercise) => {
                       padding: 5,
                       marginLeft: 20,
                       width: '80%',
-                      // justifyContent: 'space-between',
                     },
                   ]}
                   key={index}
@@ -122,8 +128,15 @@ const ExerciseItem = memo((data: WorkoutExercise) => {
       ) : null}
     </View>
   );
-});
+};
 const styles = StyleSheet.create({
+  exerciseItemContainer: {
+    backgroundColor: COLORS.BLOCK_GREY,
+    borderRadius: 20,
+    width: Dimensions.get('screen').width * 0.95,
+    marginHorizontal: Dimensions.get('screen').width * 0.025,
+    marginVertical: 6,
+  },
   image: {
     width: 80,
     height: 80,
@@ -154,7 +167,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   text: { color: CustomTheme.colors.text, flexShrink: 1 },
-  subtitle: { fontWeight: '200' },
+  subtitle: { fontWeight: '300' },
   configText: {
     paddingHorizontal: 10,
     color: COLORS.WHITE,

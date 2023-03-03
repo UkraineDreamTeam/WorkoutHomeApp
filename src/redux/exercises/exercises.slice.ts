@@ -8,7 +8,7 @@ const initialState: ExercisesState = {
   exercises: [],
   filteredExercises: [],
   loading: false,
-  error: '',
+  status: true,
   exercisesLoaded: 0,
   totalExercisesCount: 0,
   targets: [],
@@ -59,12 +59,18 @@ export const exercisesSlice = createSlice({
     startReorder: state => {
       state.isReordering = true;
     },
+
   },
   extraReducers: extraReducers,
 });
 
-export const { clearFilters, applyFilters, selectWorkoutPlan, selectRoutine, startReorder } =
-  exercisesSlice.actions;
+export const {
+  clearFilters,
+  applyFilters,
+  selectWorkoutPlan,
+  selectRoutine,
+  startReorder,
+} = exercisesSlice.actions;
 
 export const exercises = (state: RootState) =>
   state.exercises.filteredExercises;
