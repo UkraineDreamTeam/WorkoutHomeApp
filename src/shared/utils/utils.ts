@@ -16,3 +16,14 @@ export const getFileLocationPath = () => {
     Platform.OS === 'android' ? RNFS.DocumentDirectoryPath : RNFS.MainBundlePath
   }`;
 };
+
+export const safeJsonParse = <T>(guard: (o: any) => o is T) => {
+  return (text: string): ParseResult<T> => {
+    const parsed = JSON.parse(text) as string;
+    return guard(parsed) ? { parsed, hasError: false } : { hasError: true };
+  };
+};
+
+export type ParseResult<T> =
+  | { parsed: T; hasError: false; error?: undefined }
+  | { parsed?: undefined; hasError: true; error?: unknown };

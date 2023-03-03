@@ -68,7 +68,7 @@ const setFilters = (exercises: Exercise[], dispatch: AppDispatch) => {
   dispatch(bodyParts(bodyPartsList));
   dispatch(targets(targetsList));
 };
-type Res = { res: { data?: Exercise[]; error?: any } };
+export type Res = { res: { data?: Exercise[]; status: boolean } };
 export const getExercises = createAsyncThunk<
   Res,
   Filter | undefined,
@@ -76,11 +76,12 @@ export const getExercises = createAsyncThunk<
 >('exercises/getByQuery', async (_, { dispatch }) => {
   try {
     const dataUploadState = await getItemByKey(ASYNC_STORAGE_KEYS.DATA);
+
     if (dataUploadState) {
       const exercises: Exercise[] = JSON.parse(dataUploadState);
       setFilters(exercises, dispatch);
 
-      return { res: { data: exercises } };
+      return { res: { data: exercises, status: true } };
     } else {
       const imagePath = getFileLocationPath();
       const data = await getDataFromFirebase();
@@ -116,7 +117,7 @@ export const getExercises = createAsyncThunk<
               });
             }
           } catch (error) {
-            return { res: { error } };
+            return { res: { status: false } };
           }
         }
       }
@@ -126,12 +127,11 @@ export const getExercises = createAsyncThunk<
       );
 
       setFilters(newCollection, dispatch);
-
-      return { res: { data: newCollection, error: undefined } };
+      console.log(newCollection);
+      return { res: { data: newCollection, status: true } };
     }
   } catch (error) {
-    console.log(error)
-    return { res: { data: undefined, error } };
+    return { res: { data: undefined, status: false } };
   }
 });
 export const addExtraImage = createAsyncThunk<Exercise[] | [], string>(
