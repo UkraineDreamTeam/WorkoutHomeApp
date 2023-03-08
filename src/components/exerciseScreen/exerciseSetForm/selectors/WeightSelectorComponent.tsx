@@ -46,11 +46,12 @@ export const WeightSelectorComponent = () => {
           {
             borderColor: error ? 'red' : 'transparent',
             borderWidth: error ? 1 : 0,
-            height: 50,
-            width: 100,
+            height: 40,
+            width: 80,
             backgroundColor: 'black',
             borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
             textAlign: 'center',
+            fontFamily: TYPOGRAPHY.FONTS.medium
           },
         ]}
         onChange={handleChange}

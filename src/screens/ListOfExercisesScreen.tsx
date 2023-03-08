@@ -13,12 +13,12 @@ const ListOfExercisesScreen = () => {
   const [text, onChangeText] = useState('');
 
   const filterExercises = useCallback(() => {
-    const reGexp = new RegExp(`${text}`, 'i');
+    const regExp = new RegExp(`${text}`, 'i');
     return exerciseList.filter(
       exercise =>
         text.length > 0 &&
-        (exercise.name.match(reGexp)?.length ||
-          exercise.target.match(reGexp)?.length)
+        (exercise.name.match(regExp)?.length ||
+          exercise.target.match(regExp)?.length)
     );
   }, [exerciseList, text]);
   useEffect(() => {
@@ -27,9 +27,7 @@ const ListOfExercisesScreen = () => {
     setExercisesToDisplay(newList);
   }, [exerciseList, filterExercises, text]);
 
-  useEffect(() => {
-    console.log('exercisesToDisplay');
-  }, [exercisesToDisplay]);
+
 
   return (
     <SafeAreaView style={styles.container}>

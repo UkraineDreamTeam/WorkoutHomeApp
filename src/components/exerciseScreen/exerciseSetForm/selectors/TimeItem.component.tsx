@@ -46,11 +46,12 @@ export const TimeItem: FC<Props> = ({
           {
             borderColor: error ? 'red' : 'transparent',
             borderWidth: error ? 1 : 0,
-            height: 50,
-            width: 50,
+            height: 40,
+            width: 40,
             backgroundColor: setModal ? COLORS.BLACK : COLORS.GREY,
             borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
             textAlign: 'center',
+            fontFamily: TYPOGRAPHY.FONTS.medium
           },
         ]}
         onFocus={() => {

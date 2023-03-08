@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+  import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { WeightSelectorComponent } from '../../selectors/WeightSelectorComponent';
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     alignSelf: 'center',
     padding: 6,
+    fontFamily: TYPOGRAPHY.FONTS.medium
   },
   weight: {
     marginLeft: 10,
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
   },
   title: { color: COLORS.WHITE, fontSize: 20 },
   repsInput: {
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
     backgroundColor: 'black',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
     textAlign: 'center',

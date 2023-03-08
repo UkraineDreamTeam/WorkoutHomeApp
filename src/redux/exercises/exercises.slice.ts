@@ -84,7 +84,7 @@ export const workoutPlans = (state: RootState) => state.exercises.workoutPlans;
 export const selectedPlan = (state: RootState) =>
   state.exercises.selectedWorkoutPlan;
 export const selectedRoutine = (state: RootState) =>
-  state.exercises.selectedRoutine;
+  state.exercises.selectedRoutine
 export const loading = (state: RootState) => state.exercises.loading;
 export const reodering = (state: RootState) => state.exercises.isReordering;
 export const exercisesReducer = exercisesSlice.reducer;

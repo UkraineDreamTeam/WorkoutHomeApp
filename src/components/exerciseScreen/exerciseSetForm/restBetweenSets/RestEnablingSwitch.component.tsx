@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, Switch, StyleSheet } from 'react-native';
-import { COLORS } from '@shared/theme';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 type Props = {
@@ -20,6 +20,7 @@ const RestBetweenSetsSwitch: FC<Props> = ({ isEnabled, toggleSwitch }) => {
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}
+        style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
       />
     </View>
   );
@@ -29,10 +30,14 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 20,
+    paddingVertical: 20,
     flexDirection: 'row',
   },
-  title: { fontSize: 16, color: COLORS.WHITE },
+  title: {
+    fontSize: 16,
+    color: COLORS.WHITE,
+    fontFamily: TYPOGRAPHY.FONTS.semibold,
+  },
 });
 
 export default RestBetweenSetsSwitch;

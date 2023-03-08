@@ -18,7 +18,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <SafeAreaView
-        style={{ flex: 1, backgroundColor: CustomTheme.colors.background }}
+        style={{ flex: 1, backgroundColor: CustomTheme.colors.background ,  }}
       >
         <LoadingExercises />
         <NavigationContainer

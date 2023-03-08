@@ -97,7 +97,9 @@ const RoutineControl: FC<{
             style={[styles.button, { flex: 1 }]}
             disabled={!routine}
           >
-            <TextWrapperComponent> Done</TextWrapperComponent>
+            <TextWrapperComponent style={{ textAlign: 'center', fontSize: 16 }}>
+              Done
+            </TextWrapperComponent>
           </TouchableOpacity>
         </Animated.View>
       ) : (
@@ -113,7 +115,12 @@ const RoutineControl: FC<{
           >
             <AddIconWhite {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button]}>
+          <TouchableOpacity
+            style={[styles.button]}
+            onPress={() => {
+              navigation.navigate('WorkoutInProgress');
+            }}
+          >
             <Start {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
           </TouchableOpacity>
           <TouchableOpacity>

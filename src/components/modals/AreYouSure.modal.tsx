@@ -20,11 +20,7 @@ type Props = {
   action: ROUTINE_ACTION_TYPE;
 };
 
-const AreYouSureModal: FC<Props> = ({
-  handleVisibility,
-
-  action,
-}) => {
+const AreYouSureModal: FC<Props> = ({ handleVisibility, action }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -50,16 +46,9 @@ const AreYouSureModal: FC<Props> = ({
     handleVisibility();
     setModalVisible(true);
   };
+
   return (
-    <View
-      style={[
-        {
-          alignItems: 'flex-end',
-          alignSelf: 'flex-end',
-          zIndex: -1,
-        },
-      ]}
-    >
+    <View style={[styles.modalContainer]}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -75,11 +64,9 @@ const AreYouSureModal: FC<Props> = ({
           />
           <View style={[styles.container]}>
             <TextWrapperComponent
-              style={[{ fontSize: 20, color: COLORS.WHITE }]}
+              style={[{ fontSize: 16, color: COLORS.WHITE }]}
             >
-              {`Are you sure you want to delete routine ${
-                selectedRoutine?.name || ' '
-              } ?`}
+              Are you sure you want to delete routine {routine?.name} ?
             </TextWrapperComponent>
 
             <View style={styles.buttonsContainer}>
@@ -88,7 +75,7 @@ const AreYouSureModal: FC<Props> = ({
                 onPress={handleClose}
               >
                 <TextWrapperComponent style={styles.text}>
-                  Cancel
+                  No
                 </TextWrapperComponent>
               </TouchableOpacity>
               <TouchableOpacity
@@ -96,7 +83,7 @@ const AreYouSureModal: FC<Props> = ({
                 onPress={handleSubmit}
               >
                 <TextWrapperComponent style={styles.text}>
-                  Done
+                  Yes
                 </TextWrapperComponent>
               </TouchableOpacity>
             </View>
@@ -110,6 +97,10 @@ const AreYouSureModal: FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+  },
   buttonOpen: {
     height: 40,
     borderTopLeftRadius: TYPOGRAPHY.BORDER_RADIUS.big,

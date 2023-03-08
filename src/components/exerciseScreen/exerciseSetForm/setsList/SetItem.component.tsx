@@ -7,27 +7,26 @@ import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 
 import DeleteIconComponent from 'components/icons/DeleteIcon.component';
+import { useAppDispatch } from 'redux/store';
+import { deleteSet } from 'redux/workoutForm/workoutForm.slice';
 
 const SetItem: FC<{ data: WorkoutForm }> = ({
-  data: { sets, reps, duration, weight },
+  data: { sets, reps, duration, weight, id },
 }) => {
+  const dispatch = useAppDispatch();
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignSelf: 'center',
-        paddingVertical: 5,
-        width: '100%',
-      }}
-    >
+    <>
       <View
         style={{
           backgroundColor: COLORS.BLUE_GREY,
           flexDirection: 'row',
           borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-          padding: 10,
-          marginLeft: 10,
+          paddingHorizontal: 10,
+          marginBottom: 10,
           flexGrow: 1,
+          paddingVertical: 5,
+          alignContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Image
@@ -53,14 +52,25 @@ const SetItem: FC<{ data: WorkoutForm }> = ({
           <TextWrapperComponent
             style={[style.text, { textAlign: 'right', flex: 1 }]}
           >
-            {duration.minutes}min. {duration.seconds}sec.
+            {duration.minutes} min. {duration.seconds} sec.
           </TextWrapperComponent>
         ) : null}
+        <TouchableOpacity
+          style={{
+            alignContent: 'center',
+            alignItems: 'center',
+
+            width: 30,
+            height: 30,
+            justifyContent: 'center',
+            flexDirection: 'column',
+          }}
+          onPress={() => dispatch(deleteSet(id))}
+        >
+          <DeleteIconComponent />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ paddingHorizontal: 10 }}>
-        <DeleteIconComponent />
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };
 const style = StyleSheet.create({
@@ -68,6 +78,7 @@ const style = StyleSheet.create({
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
     textAlign: 'center',
     paddingHorizontal: 5,
+    fontFamily: TYPOGRAPHY.FONTS.regular,
   },
 });
 export default SetItem;

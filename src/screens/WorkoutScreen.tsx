@@ -37,12 +37,6 @@ const WorkoutScreen = () => {
     setWorkoutExercises(routine?.data || []);
   }, [routine]);
 
-  useEffect(() => {
-    console.log(routine);
-  }, [routine]);
-  useEffect(() => {
-    console.log(selectedItem);
-  }, [selectedItem]);
   return (
     <SafeAreaView
       style={{
@@ -53,12 +47,13 @@ const WorkoutScreen = () => {
         flex: 1,
       }}
     >
-      {plans?.length ? (
+      {plans?.length  ? (
         <WorkoutPlanSelectorComponent data={data} />
-      ) : (
+      ) : null}
+      {!plans?.length && !isLoading ? (
         <AddPlanComponent title={'Create workout plan'} />
-      )}
-      {isReordering ? (
+      ) : null}
+      {isReordering && !isLoading ? (
         <WorkoutExercisesListDragable
           data={workoutExercises}
           setData={setWorkoutExercises}

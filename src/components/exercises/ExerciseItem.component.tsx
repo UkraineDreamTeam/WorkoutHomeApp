@@ -9,7 +9,7 @@ import {
 import { WorkoutExercise } from '@redux/types';
 import { getFileLocationUri } from '@shared/utils/utils';
 import FastImage from 'react-native-fast-image';
-import { COLORS, CustomTheme } from '@shared/theme';
+import { COLORS, CustomTheme, TYPOGRAPHY } from '@shared/theme';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@shared/types/types';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -158,7 +158,8 @@ const styles = StyleSheet.create({
   },
   exerciseName: {
     textTransform: 'capitalize',
-    fontWeight: '600',
+
+    fontFamily: TYPOGRAPHY.FONTS.bold,
   },
   textContainer: {
     display: 'flex',
@@ -167,11 +168,12 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   text: { color: CustomTheme.colors.text, flexShrink: 1 },
-  subtitle: { fontWeight: '300' },
+  subtitle: { fontFamily: TYPOGRAPHY.FONTS.light },
   configText: {
     paddingHorizontal: 10,
     color: COLORS.WHITE,
     width: '25%',
+    fontFamily: TYPOGRAPHY.FONTS.regular,
   },
 });
 export default ExerciseItem;

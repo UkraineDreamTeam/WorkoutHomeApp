@@ -50,10 +50,10 @@ const ExerciseScreen: FC<ExerciseScreenProps> = ({ route }) => {
     >
       <Header exercise={route.params} />
       <View style={[styles.descriptionContainer]}>
-        <TextWrapperComponent style={[styles.exerciseName]}>
+        <TextWrapperComponent style={[styles.exerciseName , {fontFamily: TYPOGRAPHY.FONTS.bold}]}>
           {name}
         </TextWrapperComponent>
-        <TextWrapperComponent style={[styles.exerciseName]}>
+        <TextWrapperComponent style={[styles.exerciseName ,  {fontFamily: TYPOGRAPHY.FONTS.regular}]}>
           {bodyPart}
         </TextWrapperComponent>
       </View>

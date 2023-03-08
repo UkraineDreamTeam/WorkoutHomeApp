@@ -71,15 +71,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput: {
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
     backgroundColor: 'black',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
     textAlign: 'center',
+    fontFamily: TYPOGRAPHY.FONTS.medium,
   },
   text: {
     padding: 4,
     color: COLORS.WHITE,
     fontSize: 15,
+    fontFamily: TYPOGRAPHY.FONTS.medium,
   },
 });

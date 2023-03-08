@@ -19,6 +19,7 @@ import {
   addExercisesToRoutine,
   addRoutine,
   addWorkoutPlan,
+  deleteExerciseFromRoutine,
   deleteRoutine,
   getAllPlans,
   updateExerciseInRoutine,
@@ -119,13 +120,21 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
     state.workoutPlans = action.payload.plans;
     if (action.payload.plan && action.payload.routineId) {
       state.selectedWorkoutPlan = action.payload.plan;
-      console.log(action.payload.plan.routines);
       state.selectedRoutine = action.payload.plan.routines.find(
         el => el.id === action.payload.routineId
       );
     }
   });
   builder.addCase(updateExerciseInRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan.routines.find(
+        el => el.id === action.payload.routineId
+      );
+    }
+  });
+  builder.addCase(deleteExerciseFromRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;
     if (action.payload.plan) {
       state.selectedWorkoutPlan = action.payload.plan;
@@ -151,9 +160,7 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
   });
   builder.addCase(deleteRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;
-    console.log('deleted routine');
     if (action.payload.plan) {
-      console.log('deleted routine');
       state.selectedWorkoutPlan = action.payload.plan;
       state.selectedRoutine = action.payload.plan?.routines[0] || undefined;
     }

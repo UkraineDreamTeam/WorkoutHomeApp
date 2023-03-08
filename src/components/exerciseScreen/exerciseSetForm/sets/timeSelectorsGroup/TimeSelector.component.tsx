@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { COLORS } from '@shared/theme';
+import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { TimeItem } from 'components/exerciseScreen/exerciseSetForm/selectors/TimeItem.component';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { form, setDuration } from '@redux/workoutForm/workoutForm.slice';
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
   },
-  timeDots: { fontSize: 32, color: COLORS.WHITE },
+  timeDots: { fontSize: 32, color: COLORS.WHITE, marginHorizontal: 2 },
   timeContainer: {
     flexDirection: 'row',
     marginTop: 5,
@@ -97,5 +97,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlignVertical: 'center',
     height: 50,
+    fontFamily: TYPOGRAPHY.FONTS.medium,
   },
 });

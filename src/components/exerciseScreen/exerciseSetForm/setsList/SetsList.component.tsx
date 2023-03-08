@@ -8,12 +8,12 @@ export const SetListComponent = () => {
   const setsList = useAppSelector(sets);
 
   return (
-    <View>
+    <>
       {setsList
         ? setsList.map(el => {
             return <SetItemComponent key={el.id} data={el} />;
           })
         : null}
-    </View>
+    </>
   );
 };

@@ -22,7 +22,7 @@ const BottomStackNavigator = ({
   const exerciseList = useAppSelector(exercises);
   const isLoading = useAppSelector(loading);
   useEffect(() => {
-    console.log('rererendeer');
+
     if (!exerciseList.length) {
       void dispatch(getExercises());
     }

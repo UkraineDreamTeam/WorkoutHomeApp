@@ -78,6 +78,9 @@ export const workoutFormSlice = createSlice({
       state.form = initialState.form;
       state.forms = initialState.forms;
     },
+    deleteSet: (state, action: PayloadAction<string>) => {
+      state.forms = state.forms.filter(set => set.id !== action.payload);
+    },
   },
 });
 
@@ -90,6 +93,7 @@ export const {
   addForm,
   retrieveSetsFromExercise,
   clearForms,
+  deleteSet,
 } = workoutFormSlice.actions;
 
 export const restTime = (state: RootState) =>

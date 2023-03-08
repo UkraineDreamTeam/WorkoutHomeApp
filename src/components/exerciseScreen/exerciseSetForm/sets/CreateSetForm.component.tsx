@@ -35,8 +35,8 @@ export const CreateSetModal: FC = () => {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="never">
-      <SafeAreaView>
+    <ScrollView keyboardShouldPersistTaps="never" style={{ flexGrow: 1 }}>
+      <SafeAreaView style={{ flexGrow: 1 }}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -86,7 +86,14 @@ export const CreateSetModal: FC = () => {
           }}
         >
           <AddPhotoIcon />
-          <TextWrapperComponent style={{ color: COLORS.WHITE }}>
+          <TextWrapperComponent
+            style={{
+              color: COLORS.WHITE,
+              fontSize: 16,
+              paddingHorizontal: 10,
+              fontFamily: TYPOGRAPHY.FONTS.medium,
+            }}
+          >
             Add different set
           </TextWrapperComponent>
         </TouchableOpacity>
@@ -120,7 +127,7 @@ const styles = StyleSheet.create({
   },
 
   addSetButton: {
-    width: Dimensions.get('screen').width * 0.8,
+    width: '100%',
     height: 40,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -128,6 +135,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
+
+    marginTop: 15,
   },
   button: {
     width: 90,
@@ -161,5 +170,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignSelf: 'center',
     justifySelf: 'flex-start',
+    fontFamily: TYPOGRAPHY.FONTS.semibold,
   },
 });

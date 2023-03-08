@@ -127,7 +127,6 @@ export const getExercises = createAsyncThunk<
       );
 
       setFilters(newCollection, dispatch);
-      console.log(newCollection);
       return { res: { data: newCollection, status: true } };
     }
   } catch (error) {

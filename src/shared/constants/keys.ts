@@ -1,6 +1,6 @@
 export const COLLECTION_KEY = 'Exercises';
 export const PATH_TO_SHOW_BOTTOM_BAR: { [key: string]: string } = {
-  CurrentWorkout: 'CurrentWorkout',
+  SelectedRoutine: 'SelectedRoutine',
   Statistics: 'Statistics',
   Profile: 'Profile',
 };

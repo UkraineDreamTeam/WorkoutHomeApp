@@ -23,6 +23,7 @@ const RoutinesComponent: FC<Props> = ({ selectedItem }) => {
           renderItem={RenderRoutineItemComponent}
           keyExtractor={(item: Routine) => item.id}
           horizontal
+          showsHorizontalScrollIndicator={false}
         />
       </View>
       <AddRoutine title={'New routine'} />

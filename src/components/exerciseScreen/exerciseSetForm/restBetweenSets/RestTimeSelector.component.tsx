@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { COLORS } from 'shared/theme';
+import { StyleSheet, View } from 'react-native';
+import { COLORS, TYPOGRAPHY } from 'shared/theme';
 
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
@@ -83,11 +83,16 @@ const RestTimeSelectorComponent = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: Dimensions.get('screen').width * 0.8,
+    width: '100%',
     alignSelf: 'center',
   },
-  timeDots: { fontSize: 15, color: COLORS.WHITE, alignSelf: 'flex-end' },
+  timeDots: {
+    fontSize: 15,
+    color: COLORS.WHITE,
+    alignSelf: 'center',
+    marginHorizontal: 5,
+    fontFamily: TYPOGRAPHY.FONTS.medium,
+  },
   timeContainer: {
     flexDirection: 'row',
     marginTop: 5,
@@ -100,6 +105,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlignVertical: 'center',
     height: 50,
+    marginRight: 30,
+    fontFamily: TYPOGRAPHY.FONTS.medium,
   },
 });
 export default RestTimeSelectorComponent;

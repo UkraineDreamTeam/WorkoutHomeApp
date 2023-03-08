@@ -99,7 +99,6 @@ export const deleteRoutine = createAsyncThunk<
     const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
 
     const parsedData = plans ? (JSON.parse(plans) as WorkoutPlan[]) : [];
-    console.log('routineId', routineId);
     updatedList = parsedData.map(elem =>
       elem.id === planId
         ? {
@@ -172,7 +171,7 @@ export const addExercisesToRoutine = createAsyncThunk<
       WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
       JSON.stringify(updatedList)
     );
-    console.log(selectedPlan);
+
     return { plans: updatedList, plan: selectedPlan, routineId, status: true };
   } catch (e) {
     console.log(e);
@@ -202,7 +201,9 @@ export const updateExerciseInRoutine = createAsyncThunk<
           ? {
               ...el,
               data: [
-                ...el.data.map(el => (el.id === exercise.id ? exercise : el)),
+                ...el.data.map(el =>
+                  el.routineId === exercise.routineId ? exercise : el
+                ),
               ],
             }
           : el
@@ -231,3 +232,55 @@ export const updateExerciseInRoutine = createAsyncThunk<
     return { status: false };
   }
 });
+
+export const deleteExerciseFromRoutine = createAsyncThunk<
+  AddWorkoutPlanResponse & {
+    plan?: WorkoutPlan | undefined;
+    routineId?: string;
+  },
+  { routineId: string; planName: string; exerciseId: string }
+>('delete/exercisesInRoutine', async ({ routineId, planName, exerciseId }) => {
+  try {
+    let updatedList: WorkoutPlan[] = [];
+    let newRoutines: Routine[];
+    let selectedPlan: WorkoutPlan | undefined;
+    const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
+
+    const parsedData = plans ? (JSON.parse(plans) as WorkoutPlan[]) : [];
+
+    const plan = parsedData.find(el => el.name === planName);
+    if (plan?.routines) {
+      newRoutines = plan.routines.map(el =>
+        el.id === routineId
+          ? {
+              ...el,
+              data: [...el.data.filter(el => el.routineId !== exerciseId)],
+            }
+          : el
+      );
+      selectedPlan = { ...plan, routines: newRoutines };
+      updatedList = parsedData.map(elem =>
+        elem.name === planName
+          ? {
+              ...elem,
+              routines: newRoutines,
+            }
+          : elem
+      );
+    } else {
+      selectedPlan = plan;
+    }
+
+    await setItemByKey(
+      WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS,
+      JSON.stringify(updatedList)
+    );
+
+    return { plans: updatedList, plan: selectedPlan, routineId, status: true };
+  } catch (e) {
+    console.log(e);
+    return { status: false };
+  }
+});
+
+

@@ -8,6 +8,7 @@ import { WorkoutExercise } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
   addExercisesToRoutine,
+  deleteExerciseFromRoutine,
   updateExerciseInRoutine,
 } from 'redux/exercises/thunks/workoutPlan.thunk';
 import { selectedPlan, selectedRoutine } from 'redux/exercises/exercises.slice';
@@ -30,7 +31,6 @@ const Header: FC<Props> = ({ exercise }) => {
   const addExercise = () => {
     if (routine?.id && plan?.name) {
       if (exercise.routineId) {
-
         void dispatch(
           updateExerciseInRoutine({
             exercise: { ...exercise, sets: allSets },
@@ -55,27 +55,41 @@ const Header: FC<Props> = ({ exercise }) => {
     }
     dispatch(clearForms());
     navigation.navigate('Home', {
-      screen: 'CurrentWorkout',
+      screen: 'SelectedRoutine',
     });
   };
   const handleCancel = () => {
+    if (routine?.id && plan?.name) {
+      if (exercise.routineId) {
+        void dispatch(
+          deleteExerciseFromRoutine({
+            exerciseId: exercise.routineId,
+            routineId: routine.id,
+            planName: plan.name,
+          })
+        );
+      }
+    }
     navigation.navigate('Home', {
-      screen: 'CurrentWorkout',
+      screen: 'SelectedRoutine',
     });
   };
   return (
     <SafeAreaView style={styles.headerContainer}>
       <BackIcon />
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.buttonDelete]}
-          onPress={handleCancel}
-        >
-          <DeleteIcon />
-          <TextWrapperComponent style={styles.text}>
-            Delete
-          </TextWrapperComponent>
-        </TouchableOpacity>
+        {exercise.routineId ? (
+          <TouchableOpacity
+            style={[styles.button, styles.buttonDelete]}
+            onPress={handleCancel}
+          >
+            <DeleteIcon />
+            <TextWrapperComponent style={styles.text}>
+              Delete
+            </TextWrapperComponent>
+          </TouchableOpacity>
+        ) : null}
+
         <TouchableOpacity
           style={[styles.button, styles.buttonDone]}
           onPress={addExercise}
@@ -118,10 +132,11 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     textAlignVertical: 'center',
-    padding: 0,
+    padding: 5,
     fontSize: 14,
     alignSelf: 'center',
     justifySelf: 'flex-start',
+    fontFamily: TYPOGRAPHY.FONTS.semibold
   },
 });
 

@@ -3,7 +3,10 @@ import { Text, TextProps } from 'react-native';
 
 const TextWrapperComponent: FC<TextProps> = ({ children, style, ...props }) => {
   return (
-    <Text style={[{ color: 'white' }, style]} {...props}>
+    <Text
+      style={[{ color: 'white' }, style]}
+      {...props}
+    >
       {children}
     </Text>
   );

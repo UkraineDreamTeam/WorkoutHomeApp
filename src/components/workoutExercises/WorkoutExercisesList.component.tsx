@@ -4,23 +4,26 @@ import { FlashList } from '@shopify/flash-list';
 import ExerciseItem from 'components/exercises/ExerciseItem.component';
 import { Routine } from 'redux/types';
 import { useAppSelector } from 'redux/store';
-import { selectedRoutine } from 'redux/exercises/exercises.slice';
+import { loading, selectedRoutine } from 'redux/exercises/exercises.slice';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import { nanoid } from '@reduxjs/toolkit';
 
 const WorkoutExercisesList = () => {
   const routine: Routine | undefined = useAppSelector(selectedRoutine);
+  const isLoading = useAppSelector(loading);
   return (
     <>
       {routine ? (
         <FlashList
           data={routine?.data || []}
           renderItem={({ item }) => <ExerciseItem data={item} />}
-          keyExtractor={item => item?.routineId || item.id}
+          keyExtractor={item => item.routineId || nanoid()}
           estimatedItemSize={132}
           contentContainerStyle={{ paddingBottom: 145 }}
         />
-      ) : (
+      ) : null}
+      {!routine ? (
         <View
           style={{
             flexDirection: 'column',
@@ -42,7 +45,7 @@ const WorkoutExercisesList = () => {
             Add routine to be able add exercises
           </TextWrapperComponent>
         </View>
-      )}
+      ) : null}
     </>
   );
 };
