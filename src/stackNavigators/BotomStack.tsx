@@ -22,7 +22,6 @@ const BottomStackNavigator = ({
   const exerciseList = useAppSelector(exercises);
   const isLoading = useAppSelector(loading);
   useEffect(() => {
-
     if (!exerciseList.length) {
       void dispatch(getExercises());
     }

@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { Dimensions, Image, SafeAreaView, StyleSheet } from 'react-native';
 import Loader from '@components/ActivityIndicator.component';
 import ExerciseList from '@components/exercises/ExerciseList.component';
 import SearchInput from '@components/exercises/SearchInput.component';
-import { exercises } from '@redux/exercises/exercises.slice';
+import { exercises, loading } from '@redux/exercises/exercises.slice';
 import { Exercise } from '@redux/types';
 import { useAppSelector } from '@redux/store';
 
 const ListOfExercisesScreen = () => {
   const exerciseList = useAppSelector(exercises);
+  const isLoading = useAppSelector(loading);
   const [exercisesToDisplay, setExercisesToDisplay] = useState<Exercise[]>([]);
   const [text, onChangeText] = useState('');
 
@@ -27,16 +28,27 @@ const ListOfExercisesScreen = () => {
     setExercisesToDisplay(newList);
   }, [exerciseList, filterExercises, text]);
 
-
-
   return (
     <SafeAreaView style={styles.container}>
       <SearchInput text={text} onChangeText={onChangeText} />
-      {exercisesToDisplay.length ? (
+      {exercisesToDisplay.length && !isLoading ? (
         <ExerciseList exercisesToDisplay={exercisesToDisplay} />
       ) : (
-        <Loader />
+        <>
+          <Image
+            source={require('../assets/icons/search.png')}
+            style={[
+              {
+                alignSelf: 'center',
+                width: Dimensions.get('screen').width * 0.8,
+              },
+            ]}
+            resizeMode={'contain'}
+          />
+        </>
       )}
+
+      {!exercisesToDisplay.length && isLoading ? <Loader /> : null}
     </SafeAreaView>
   );
 };

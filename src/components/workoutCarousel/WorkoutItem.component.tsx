@@ -4,8 +4,14 @@ import { WorkoutExercise } from 'redux/types';
 import FastImage from 'react-native-fast-image';
 import { TYPOGRAPHY } from 'shared/theme';
 import SetItemComponent from 'components/workoutCarousel/SetIem.component';
-import { WorkoutForm } from 'redux/workoutForm/types';
-import { nanoid } from '@reduxjs/toolkit';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import {
+  isRest,
+  setArrayOfSets,
+  setsArray,
+} from 'redux/workoutTimer/workoutTimer.slice';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
+import { WorkoutItemInProgress } from 'redux/workoutTimer/types';
 
 const WORKOUT_EXERCISE_ITEM_HEIGHT = Dimensions.get('screen').height * 0.8;
 const IMAGE_SIZE = Dimensions.get('screen').width - 40;
@@ -13,29 +19,31 @@ const SETS_SIZE = WORKOUT_EXERCISE_ITEM_HEIGHT - IMAGE_SIZE - 40;
 
 type Props = {
   workoutItem: WorkoutExercise;
+  startTimer: () => void;
 };
-export type WorkoutItemInProgress = WorkoutForm & { isCompleted: boolean };
-const WorkoutItem: FC<Props> = ({ workoutItem }) => {
-  const [sets, setSets] = useState<WorkoutItemInProgress[]>([]);
+
+const WorkoutItem: FC<Props> = ({ workoutItem, startTimer }) => {
+  const rest = useAppSelector(isRest);
+  const sets = useAppSelector(setsArray);
+  const [currentSet, setCurrentSet] = useState<
+    WorkoutItemInProgress | undefined
+  >();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (workoutItem.sets?.length) {
-      const workoutSets = workoutItem.sets.reduce((current, next) => {
-        let setCount = next.sets;
-        const arrayOfSets = [];
-        while (setCount > 0) {
-          arrayOfSets.push({ ...next, id: nanoid(), isCompleted: false });
-          setCount--;
-        }
-
-        return current.concat(arrayOfSets);
-      }, [] as WorkoutItemInProgress[]);
-
-      setSets(workoutSets);
-
-      console.log(workoutSets.length);
+    if (workoutItem.sets?.length && workoutItem?.routineId) {
+      dispatch(
+        setArrayOfSets({ data: workoutItem.sets, id: workoutItem.routineId })
+      );
     }
   }, []);
+
+  useEffect(() => {
+    if (sets && workoutItem.routineId && sets[workoutItem.routineId]?.length) {
+      setCurrentSet(sets[workoutItem.routineId][0]);
+    }
+  }, [sets]);
+
   return (
     <View
       style={{
@@ -55,13 +63,23 @@ const WorkoutItem: FC<Props> = ({ workoutItem }) => {
           height: SETS_SIZE,
         }}
       >
-        <FlatList
-          data={sets}
-          renderItem={({ item }) => <SetItemComponent data={item} />}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={true}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        />
+        {currentSet ? <SetItemComponent data={currentSet} startTimer={startTimer} /> : null}
+        {sets &&
+        workoutItem.routineId &&
+        sets[workoutItem.routineId]?.length ? (
+          <FlatList
+            data={sets[workoutItem.routineId].filter(el => el.isCompleted)}
+            renderItem={({ item }) => (
+              <TextWrapperComponent>
+                {item.reps} reps {item.weight} {item.duration.minutes}:
+                {item.duration.seconds}
+              </TextWrapperComponent>
+            )}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={true}
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />
+        ) : null}
       </View>
     </View>
   );

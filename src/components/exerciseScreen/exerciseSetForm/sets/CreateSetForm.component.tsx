@@ -61,7 +61,7 @@ export const CreateSetModal: FC = () => {
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
                   style={[styles.button, styles.buttonDelete]}
-                  onPress={handleSubmit}
+                  onPress={handleDismiss}
                 >
                   <TextWrapperComponent style={styles.text}>
                     Cancel

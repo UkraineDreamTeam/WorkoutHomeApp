@@ -15,6 +15,7 @@ import WorkoutPlanSelectorComponent from 'components/workoutPlans/WorkoutPlanSel
 import { Routine, WorkoutExercise, WorkoutPlan } from 'redux/types';
 import WorkoutExercisesList from 'components/workoutExercises/WorkoutExercisesList.component';
 import WorkoutExercisesListDragable from 'components/workoutExercises/WorkoutListDragable.component';
+import { duration } from 'redux/workoutTimer/workoutTimer.slice';
 
 const WorkoutScreen = () => {
   const [data, setData] = useState<WorkoutPlan[]>([]);
@@ -26,6 +27,8 @@ const WorkoutScreen = () => {
   const routine: Routine | undefined = useAppSelector(selectedRoutine);
   const isLoading = useAppSelector(loading);
   const isReordering = useAppSelector(reodering);
+  const durationOfExercise = useAppSelector(duration);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     void dispatch(getAllPlans());
@@ -37,6 +40,8 @@ const WorkoutScreen = () => {
     setWorkoutExercises(routine?.data || []);
   }, [routine]);
 
+
+
   return (
     <SafeAreaView
       style={{
@@ -47,9 +52,7 @@ const WorkoutScreen = () => {
         flex: 1,
       }}
     >
-      {plans?.length  ? (
-        <WorkoutPlanSelectorComponent data={data} />
-      ) : null}
+      {plans?.length ? <WorkoutPlanSelectorComponent data={data} /> : null}
       {!plans?.length && !isLoading ? (
         <AddPlanComponent title={'Create workout plan'} />
       ) : null}

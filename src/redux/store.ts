@@ -2,9 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { exercisesReducer } from './exercises/exercises.slice';
 import { workoutFormReducer } from 'redux/workoutForm/workoutForm.slice';
+import { workoutTimerReducer } from 'redux/workoutTimer/workoutTimer.slice';
 
 export const store = configureStore({
-  reducer: { exercises: exercisesReducer, workoutForm: workoutFormReducer },
+  reducer: {
+    exercises: exercisesReducer,
+    workoutForm: workoutFormReducer,
+    timer: workoutTimerReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

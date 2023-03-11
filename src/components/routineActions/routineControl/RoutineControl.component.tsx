@@ -9,9 +9,12 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import AddIconWhite from '@assets/icons/AddIconWhite.svg';
-import Start from '@assets/icons/Start.svg';
 
-import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '@shared/theme';
+import {
+  COLOR_SCHEME,
+  TYPOGRAPHY,
+  WORKOUT_ACTIONS_LAYOUT,
+} from '@shared/theme';
 
 import { RootStackParamList } from '@shared/types/types';
 
@@ -21,6 +24,7 @@ import { reodering, selectedRoutine } from 'redux/exercises/exercises.slice';
 import { WorkoutExercise } from 'redux/types';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 import { reorderRoutine } from 'redux/exercises/thunks/routineActions.thunk';
+import StartWorkoutModal from 'components/modals/StartWorkout.modal';
 
 const RoutineControl: FC<{
   data: WorkoutExercise[];
@@ -97,7 +101,13 @@ const RoutineControl: FC<{
             style={[styles.button, { flex: 1 }]}
             disabled={!routine}
           >
-            <TextWrapperComponent style={{ textAlign: 'center', fontSize: 16 }}>
+            <TextWrapperComponent
+              style={{
+                textAlign: 'center',
+                fontSize: 16,
+                fontFamily: TYPOGRAPHY.FONTS.regular,
+              }}
+            >
               Done
             </TextWrapperComponent>
           </TouchableOpacity>
@@ -115,14 +125,7 @@ const RoutineControl: FC<{
           >
             <AddIconWhite {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button]}
-            onPress={() => {
-              navigation.navigate('WorkoutInProgress');
-            }}
-          >
-            <Start {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
-          </TouchableOpacity>
+          <StartWorkoutModal />
           <TouchableOpacity>
             <WorkoutActionsPoppingMenu
               modalVisible={modalVisible}

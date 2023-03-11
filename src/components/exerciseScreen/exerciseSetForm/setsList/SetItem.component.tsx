@@ -16,19 +16,7 @@ const SetItem: FC<{ data: WorkoutForm }> = ({
   const dispatch = useAppDispatch();
   return (
     <>
-      <View
-        style={{
-          backgroundColor: COLORS.BLUE_GREY,
-          flexDirection: 'row',
-          borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
-          paddingHorizontal: 10,
-          marginBottom: 10,
-          flexGrow: 1,
-          paddingVertical: 5,
-          alignContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <View style={style.setItemContainer}>
         <Image
           source={require('@assets/icons/PinkDot.png')}
           style={[{ alignSelf: 'center' }]}
@@ -56,15 +44,7 @@ const SetItem: FC<{ data: WorkoutForm }> = ({
           </TextWrapperComponent>
         ) : null}
         <TouchableOpacity
-          style={{
-            alignContent: 'center',
-            alignItems: 'center',
-
-            width: 30,
-            height: 30,
-            justifyContent: 'center',
-            flexDirection: 'column',
-          }}
+          style={style.setItemDeleteButton}
           onPress={() => dispatch(deleteSet(id))}
         >
           <DeleteIconComponent />
@@ -79,6 +59,26 @@ const style = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 5,
     fontFamily: TYPOGRAPHY.FONTS.regular,
+  },
+  setItemContainer: {
+    backgroundColor: COLORS.BLUE_GREY,
+    flexDirection: 'row',
+    borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    flexGrow: 1,
+    paddingVertical: 5,
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  setItemDeleteButton: {
+    alignContent: 'center',
+    alignItems: 'center',
+
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
 });
 export default SetItem;

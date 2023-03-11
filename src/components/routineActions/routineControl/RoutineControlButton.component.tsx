@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import { WORKOUT_ACTIONS_LAYOUT } from '@shared/theme';
+import {TYPOGRAPHY, WORKOUT_ACTIONS_LAYOUT} from '@shared/theme';
 import { useTheme } from '@react-navigation/native';
 import {
   ROUTINE_ACTION_TYPE,
@@ -38,7 +38,7 @@ export const RoutineControlButton: FC<{
   return (
     <Pressable style={[styles.button]} onPress={handlePress}>
       <SVG {...WORKOUT_ACTIONS_LAYOUT.SVG_SIZE} />
-      <TextWrapperComponent style={{ color: theme.colors.text }}>
+      <TextWrapperComponent style={{ color: theme.colors.text  , fontFamily: TYPOGRAPHY.FONTS.medium}}>
         {ROUTINE_EDIT_ACTIONS[action]}
       </TextWrapperComponent>
     </Pressable>

@@ -2,15 +2,20 @@ import React from 'react';
 import { Dimensions, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import ExerciseItem from 'components/exercises/ExerciseItem.component';
-import { Routine } from 'redux/types';
+import { Routine, WorkoutPlan } from 'redux/types';
 import { useAppSelector } from 'redux/store';
-import { loading, selectedRoutine } from 'redux/exercises/exercises.slice';
+import {
+  loading,
+  selectedPlan,
+  selectedRoutine,
+} from 'redux/exercises/exercises.slice';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 import { nanoid } from '@reduxjs/toolkit';
 
 const WorkoutExercisesList = () => {
   const routine: Routine | undefined = useAppSelector(selectedRoutine);
+  const plan: WorkoutPlan | undefined = useAppSelector(selectedPlan);
   const isLoading = useAppSelector(loading);
   return (
     <>
@@ -23,7 +28,7 @@ const WorkoutExercisesList = () => {
           contentContainerStyle={{ paddingBottom: 145 }}
         />
       ) : null}
-      {!routine ? (
+      {plan && !routine ? (
         <View
           style={{
             flexDirection: 'column',
