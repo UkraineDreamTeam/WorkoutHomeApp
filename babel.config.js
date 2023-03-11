@@ -12,7 +12,9 @@ module.exports = {
         allowUndefined: true,
         verbose: false,
       },
+      'react-native-reanimated/plugin',
     ],
+    ['react-native-reanimated/plugin'],
     [
       'module-resolver',
       {

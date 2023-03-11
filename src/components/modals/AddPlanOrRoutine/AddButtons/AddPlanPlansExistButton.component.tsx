@@ -17,6 +17,7 @@ const AddPlanPlansExistButtonComponent: FC<{
           },
           shadowOpacity: 1,
           shadowRadius: 5,
+          alignContent: 'center',
         },
       ]}
       // onPress={() => console.log('pressed')}
@@ -38,8 +39,9 @@ const AddPlanPlansExistButtonComponent: FC<{
               color: COLORS.WHITE,
               textAlign: 'center',
               textAlignVertical: 'center',
-              height: '100%',
+              fontWeight: '500',
             },
+            { lineHeight: 50 },
           ]}
         >
           Add workout plan

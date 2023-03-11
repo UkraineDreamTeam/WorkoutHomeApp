@@ -1,3 +1,5 @@
+import { WorkoutForm } from 'redux/workoutForm/types';
+
 export type Exercise = {
   bodyPart: string;
   equipment: string;
@@ -9,10 +11,7 @@ export type Exercise = {
   extraImages?: string[];
 };
 export type ExerciseConfig = {
-  time?: string;
-  weight?: string;
-  reps?: string;
-  sets?: string;
+  sets?: WorkoutForm[];
   routineId?: string;
 };
 
@@ -50,7 +49,7 @@ export type ExercisesState = {
   exercises: Exercise[];
   filteredExercises: Exercise[];
   loading: boolean;
-  error: string;
+  status: boolean;
   exercisesLoaded: number;
   totalExercisesCount: number;
   targets: Filter[];
@@ -63,4 +62,5 @@ export type ExercisesState = {
   workoutPlans?: WorkoutPlan[];
   selectedWorkoutPlan: WorkoutPlan | undefined;
   selectedRoutine?: Routine;
+  isReordering: boolean;
 };

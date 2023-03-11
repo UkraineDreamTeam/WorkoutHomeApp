@@ -1,18 +1,12 @@
 import React, { FC, useRef, useState } from 'react';
-import {
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Keyboard, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { addRoutine } from 'redux/exercises/thunks/workoutPlan.thunk';
 import AddPlanOrRoutineContent from 'components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
 import { selectedPlan } from 'redux/exercises/exercises.slice';
 import DropShadow from 'react-native-drop-shadow';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 type Props = {
   title: string;
@@ -54,6 +48,7 @@ const AddRoutine: FC<Props> = ({ title }) => {
         {
           alignItems: 'flex-end',
           alignSelf: 'flex-end',
+          zIndex: -1,
         },
       ]}
     >
@@ -77,13 +72,16 @@ const AddRoutine: FC<Props> = ({ title }) => {
           },
           shadowOpacity: 1,
           shadowRadius: 5,
+          zIndex: -1,
         }}
       >
         <Pressable
           onPress={() => setModalVisible(true)}
           style={styles.buttonOpen}
         >
-          <Text style={styles.textStyle}>New routine</Text>
+          <TextWrapperComponent style={styles.textStyle}>
+            New routine
+          </TextWrapperComponent>
         </Pressable>
       </DropShadow>
     </View>

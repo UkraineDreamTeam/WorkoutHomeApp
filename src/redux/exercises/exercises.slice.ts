@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { filterExercises } from './reducerActions';
-import { ExercisesState, FilterNames } from '../types';
+import { ExercisesState, FilterNames, Routine } from '../types';
 import { extraReducers } from 'redux/exercises/extraReducers';
 
 const initialState: ExercisesState = {
   exercises: [],
   filteredExercises: [],
   loading: false,
-  error: '',
+  status: true,
   exercisesLoaded: 0,
   totalExercisesCount: 0,
   targets: [],
@@ -20,6 +20,7 @@ const initialState: ExercisesState = {
   temporaryFiltered: [],
   selectedWorkoutPlan: undefined,
   workoutPlans: undefined,
+  isReordering: false,
 };
 
 export const exercisesSlice = createSlice({
@@ -48,17 +49,28 @@ export const exercisesSlice = createSlice({
         state.selectedWorkoutPlan = state.workoutPlans?.find(
           item => item.name === action.payload
         );
+        state.selectedRoutine =
+          state.selectedWorkoutPlan?.routines[0] || undefined;
       }
     },
-    selectRoutine: (state, action) => {
+    selectRoutine: (state, action: PayloadAction<Routine>) => {
       state.selectedRoutine = action.payload;
     },
+    startReorder: state => {
+      state.isReordering = true;
+    },
+
   },
   extraReducers: extraReducers,
 });
 
-export const { clearFilters, applyFilters, selectWorkoutPlan, selectRoutine } =
-  exercisesSlice.actions;
+export const {
+  clearFilters,
+  applyFilters,
+  selectWorkoutPlan,
+  selectRoutine,
+  startReorder,
+} = exercisesSlice.actions;
 
 export const exercises = (state: RootState) =>
   state.exercises.filteredExercises;
@@ -72,5 +84,7 @@ export const workoutPlans = (state: RootState) => state.exercises.workoutPlans;
 export const selectedPlan = (state: RootState) =>
   state.exercises.selectedWorkoutPlan;
 export const selectedRoutine = (state: RootState) =>
-  state.exercises.selectedRoutine;
+  state.exercises.selectedRoutine
+export const loading = (state: RootState) => state.exercises.loading;
+export const reodering = (state: RootState) => state.exercises.isReordering;
 export const exercisesReducer = exercisesSlice.reducer;
