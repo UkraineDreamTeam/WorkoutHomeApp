@@ -7,10 +7,11 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { COLORS, TYPOGRAPHY } from '@shared/theme';
-import { useAppDispatch } from '@redux/store';
-import { addWorkoutPlan } from '@redux/exercises/thunks/workoutPlan.thunk';
-import AddPlanOrRoutineContent from '@components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
+import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import { useAppDispatch } from 'redux/store';
+import { addWorkoutPlan } from 'redux/exercises/thunks/workoutPlan.thunk';
+import AddPlanOrRoutineContent from 'components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
+import AddPlanNoPlanButtonComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanNoPlanButton.component';
 
 type Props = {
   title: string;
@@ -35,6 +36,7 @@ const AddPlanComponent: FC<Props> = ({ title }) => {
   const handleClose = () => {
     setModalVisible(false);
   };
+  const handleOpen = () => setModalVisible(true);
   const handleBackgroundTouch = () => {
     if (inputRef?.current?.isFocused()) {
       inputRef.current.blur();
@@ -57,13 +59,7 @@ const AddPlanComponent: FC<Props> = ({ title }) => {
         handleSubmit={handleSubmit}
         handleClose={handleClose}
       />
-
-      <Pressable
-        onPress={() => setModalVisible(true)}
-        style={styles.buttonOpen}
-      >
-        <Text style={styles.textStyle}>Create workout plan</Text>
-      </Pressable>
+      <AddPlanNoPlanButtonComponent handleOpen={handleOpen} />
     </View>
   );
 };

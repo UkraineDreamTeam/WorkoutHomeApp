@@ -4,12 +4,13 @@ import {
   Modal,
   Pressable,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
+import TextInputWrapperComponent from 'shared/wrapperComponents/TextInputWrapper.component';
 
 type Props = {
   modalVisible: boolean;
@@ -48,29 +49,35 @@ const AddPlanOrRoutineContent: FC<Props> = ({
           onPress={handleBackgroundTouch}
         />
         <View style={[styles.container]}>
-          <Text style={[{ fontSize: 20 }]}>{title}</Text>
-          <TextInput
-            ref={inputRef}
+          <TextWrapperComponent style={[{ fontSize: 20, color: COLORS.WHITE }]}>
+            {title}
+          </TextWrapperComponent>
+          <TextInputWrapperComponent
+            inputRef={inputRef}
             style={[
               styles.nameInput,
               error ? styles.errorBorder : styles.border,
             ]}
             onChangeText={setName}
           />
-          {error ? <Text>{error}</Text> : null}
+          {error ? <TextWrapperComponent>{error}</TextWrapperComponent> : null}
 
           <View style={styles.buttonsContainer}>
             <TouchableOpacity
               style={[styles.button, styles.buttonDelete]}
               onPress={handleClose}
             >
-              <Text style={styles.text}> Cancel</Text>
+              <TextWrapperComponent style={styles.text}>
+                Cancel
+              </TextWrapperComponent>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.buttonDone]}
               onPress={handleSubmit}
             >
-              <Text style={styles.text}> Done</Text>
+              <TextWrapperComponent style={styles.text}>
+                Done
+              </TextWrapperComponent>
             </TouchableOpacity>
           </View>
         </View>
@@ -89,6 +96,7 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     height: 60,
+    color: COLORS.WHITE,
   },
   errorInfo: {
     height: 60,

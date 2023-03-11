@@ -1,17 +1,12 @@
 import React, { FC, useRef, useState } from 'react';
-import {
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import { COLORS, TYPOGRAPHY } from '@shared/theme';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { addRoutine } from '@redux/exercises/thunks/workoutPlan.thunk';
-import AddPlanOrRoutineContent from '@components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
+import { Keyboard, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { COLORS, TYPOGRAPHY } from 'shared/theme';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { addRoutine } from 'redux/exercises/thunks/workoutPlan.thunk';
+import AddPlanOrRoutineContent from 'components/modals/AddPlanOrRoutine/AddPlanOrRoutineContent.component';
 import { selectedPlan } from 'redux/exercises/exercises.slice';
+import DropShadow from 'react-native-drop-shadow';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 type Props = {
   title: string;
@@ -29,7 +24,7 @@ const AddRoutine: FC<Props> = ({ title }) => {
   const inputRef = useRef<TextInput>(null);
   const handleSubmit = () => {
     if (name) {
-      dispatch(addRoutine({ planName: selected!.name, routine: name }));
+      dispatch(addRoutine({ planId: selected!.id, routine: name }));
       setModalVisible(false);
     } else {
       setError('Can`t be empty');
@@ -53,6 +48,7 @@ const AddRoutine: FC<Props> = ({ title }) => {
         {
           alignItems: 'flex-end',
           alignSelf: 'flex-end',
+          zIndex: -1,
         },
       ]}
     >
@@ -67,13 +63,27 @@ const AddRoutine: FC<Props> = ({ title }) => {
         handleSubmit={handleSubmit}
         handleClose={handleClose}
       />
-
-      <Pressable
-        onPress={() => setModalVisible(true)}
-        style={styles.buttonOpen}
+      <DropShadow
+        style={{
+          shadowColor: COLORS.PINK,
+          shadowOffset: {
+            width: 0,
+            height: 0,
+          },
+          shadowOpacity: 1,
+          shadowRadius: 5,
+          zIndex: -1,
+        }}
       >
-        <Text style={styles.textStyle}>New routine</Text>
-      </Pressable>
+        <Pressable
+          onPress={() => setModalVisible(true)}
+          style={styles.buttonOpen}
+        >
+          <TextWrapperComponent style={styles.textStyle}>
+            New routine
+          </TextWrapperComponent>
+        </Pressable>
+      </DropShadow>
     </View>
   );
 };

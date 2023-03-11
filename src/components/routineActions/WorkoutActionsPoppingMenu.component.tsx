@@ -9,8 +9,7 @@ import {
 
 import { COLOR_SCHEME, WORKOUT_ACTIONS_LAYOUT } from '@shared/theme';
 import DotsWhite from '@assets/icons/DotsWhite.svg';
-import { RoutineControlButton } from './routineControl/RoutineControlButton.component';
-import { ROUTINE_ACTIONS } from '@shared/constants/constants';
+import RoutineActions from 'components/routineActions/WorkoutActionsFromPoppingMenu.component';
 
 const WorkoutActionsPoppingMenu = ({
   modalVisible,
@@ -19,38 +18,38 @@ const WorkoutActionsPoppingMenu = ({
   modalVisible: boolean;
   setModalVisible: Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const menuAnim = useRef(new Animated.Value(0)).current;
+  const workoutActionsAnim = useRef(new Animated.Value(0)).current;
   const fadeIn = useCallback(() => {
-    Animated.timing(menuAnim, {
+    Animated.timing(workoutActionsAnim, {
       toValue: 0,
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [menuAnim]);
+  }, [workoutActionsAnim]);
 
   const fadeOut = useCallback(() => {
-    Animated.timing(menuAnim, {
+    Animated.timing(workoutActionsAnim, {
       toValue: 20,
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [menuAnim]);
+  }, [workoutActionsAnim]);
 
   const menuBorders = {
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
-    borderTopRightRadius: menuAnim.interpolate({
+    borderTopRightRadius: workoutActionsAnim.interpolate({
       inputRange: [0, 10, 20],
       outputRange: [0, 5, 10],
     }),
-    borderTopLeftRadius: menuAnim.interpolate({
+    borderTopLeftRadius: workoutActionsAnim.interpolate({
       inputRange: [0, 10, 20],
       outputRange: [0, 5, 10],
     }),
   };
 
   const opacity = {
-    opacity: menuAnim.interpolate({
+    opacity: workoutActionsAnim.interpolate({
       inputRange: [0, 16, 20],
       outputRange: [0, 0.8, 1],
     }),
@@ -75,7 +74,7 @@ const WorkoutActionsPoppingMenu = ({
             {
               transform: [
                 {
-                  translateY: menuAnim.interpolate({
+                  translateY: workoutActionsAnim.interpolate({
                     inputRange: [0, 10, 20],
                     outputRange: [Dimensions.get('screen').height, 20, 0],
                   }),
@@ -85,15 +84,7 @@ const WorkoutActionsPoppingMenu = ({
             { ...opacity },
           ]}
         >
-          {ROUTINE_ACTIONS.map((action, i) => {
-            return (
-              <RoutineControlButton
-                key={i}
-                setModalVisible={handleVisibility}
-                action={action}
-              />
-            );
-          })}
+          <RoutineActions handleVisibility={handleVisibility} />
         </Animated.View>
       </View>
 

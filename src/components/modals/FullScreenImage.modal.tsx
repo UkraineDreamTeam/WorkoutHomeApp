@@ -21,6 +21,7 @@ const FullScreenImage: FC<{ uri: string; deletable: boolean; id: string }> = ({
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useAppDispatch();
+
   return (
     <SafeAreaView>
       <Modal
@@ -41,9 +42,9 @@ const FullScreenImage: FC<{ uri: string; deletable: boolean; id: string }> = ({
             {deletable ? (
               <Pressable
                 style={styles.deleteButtonContainer}
-                onPress={() => {
+                onPress={async () => {
                   setModalVisible(false);
-                  dispatch(deleteImage({ id, imageUri: uri }));
+                  await dispatch(deleteImage({ id, imageUri: uri }));
                 }}
               >
                 <View style={styles.deleteButton}>

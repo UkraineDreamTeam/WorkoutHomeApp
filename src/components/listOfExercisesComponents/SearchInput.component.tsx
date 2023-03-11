@@ -6,7 +6,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { COLOR_SCHEME, TYPOGRAPHY } from '@shared/theme';
+import { COLOR_SCHEME, TYPOGRAPHY, COLORS } from '@shared/theme';
 import FilterContainer from '../filters/FilterModal.component';
 import BackIcon from '@icons-components/BackIcon.component';
 import SearchIcon from '@icons-components/SearchIcon.component';
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
     marginRight: 10,
+    color: COLORS.WHITE,
   },
   header: { display: 'flex', flexDirection: 'row', marginTop: 12 },
 });

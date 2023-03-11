@@ -146,7 +146,9 @@ const TabBarItem = ({
         {getTabIcon()}
       </AnimateSvg>
 
-      <Animated.Text style={tabTextAnimation()}>
+      <Animated.Text
+        style={[tabTextAnimation(), { fontFamily: TYPOGRAPHY.FONTS.semibold }]}
+      >
         {label.toString()}
       </Animated.Text>
     </TouchableOpacity>

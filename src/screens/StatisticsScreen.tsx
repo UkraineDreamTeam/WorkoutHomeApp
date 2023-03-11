@@ -1,20 +1,1 @@
-import React from 'react';
-import { Button, SafeAreaView } from 'react-native';
-import { StatisticsScreenProps } from '@shared/types/types';
-
-const StatisticsScreen = ({ navigation }: StatisticsScreenProps) => {
-  return (
-    <SafeAreaView>
-      <Button
-        title="to Home from Statistic"
-        onPress={e => {
-          e.preventDefault();
-          navigation.navigate('Home', {
-            screen: 'CurrentWorkout',
-          });
-        }}
-      />
-    </SafeAreaView>
-  );
-};
-export default StatisticsScreen;
+import React from 'react';import { Button, SafeAreaView } from 'react-native';import { StatisticsScreenProps } from '@shared/types/types';const StatisticsScreen = ({ navigation }: StatisticsScreenProps) => {  return (    <SafeAreaView>      <Button        title="to Home from Statistic"        onPress={e => {          e.preventDefault();          navigation.navigate('Home', {            screen: 'SelectedRoutine',          });        }}      />    </SafeAreaView>  );};export default StatisticsScreen;

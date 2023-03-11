@@ -1,52 +1,42 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Dimensions,
-  Keyboard,
   Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import AddPhotoIcon from '@icons-components/AddPhotoIcon';
-import { TimeSelector } from './timeSelectorsGroup/TimeSelector.component';
-import { WeightSelectorsGroupComponent } from './weightSelectorsGroup/WeightSelectorsGroup.component';
+import { WeightRepsSelectorsGroupComponent } from './weightRepsSelectorsGroup/WeightRepsSelectorsGroup.component';
 import SetsCountComponent from './setsCount/SetsCount.component';
+import { TimeSelector } from 'components/exerciseScreen/exerciseSetForm/sets/timeSelectorsGroup/TimeSelector.component';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { addForm, form, sets } from 'redux/workoutForm/workoutForm.slice';
+import { nanoid } from '@reduxjs/toolkit';
 
-type FormValues = {
-  time: number;
-  weight: number;
-  reps: number;
-  sets: number;
-};
-// TODO  Create form and save values
 export const CreateSetModal: FC = () => {
+  const dispatch = useAppDispatch();
+  const forms = useAppSelector(sets);
+  const currentForm = useAppSelector(form);
   const [modalVisible, setModalVisible] = useState(false);
-  const [formValues, setFormValues] = useState<FormValues>({
-    time: 0,
-    reps: 1,
-    sets: 1,
-    weight: 0,
-  });
 
   const handleSubmit = () => {
     setModalVisible(!modalVisible);
+    dispatch(addForm({ ...currentForm, id: nanoid() }));
   };
   const handleDismiss = () => {
     setModalVisible(!modalVisible);
   };
 
-  useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', () => {});
-  }, []);
   return (
-    <ScrollView keyboardShouldPersistTaps="never">
-      <SafeAreaView>
+    <ScrollView keyboardShouldPersistTaps="never" style={{ flexGrow: 1 }}>
+      <SafeAreaView style={{ flexGrow: 1 }}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -64,22 +54,26 @@ export const CreateSetModal: FC = () => {
                   },
                 ]}
               >
-                <WeightSelectorsGroupComponent />
+                <WeightRepsSelectorsGroupComponent />
                 <TimeSelector />
               </View>
               <SetsCountComponent />
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
                   style={[styles.button, styles.buttonDelete]}
-                  onPress={handleSubmit}
+                  onPress={handleDismiss}
                 >
-                  <Text style={styles.text}> Cancel</Text>
+                  <TextWrapperComponent style={styles.text}>
+                    Cancel
+                  </TextWrapperComponent>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.button, styles.buttonDone]}
                   onPress={handleSubmit}
                 >
-                  <Text style={styles.text}> Done</Text>
+                  <TextWrapperComponent style={styles.text}>
+                    Done
+                  </TextWrapperComponent>
                 </TouchableOpacity>
               </View>
             </View>
@@ -92,7 +86,16 @@ export const CreateSetModal: FC = () => {
           }}
         >
           <AddPhotoIcon />
-          <Text style={{ color: COLORS.WHITE }}> Add different set</Text>
+          <TextWrapperComponent
+            style={{
+              color: COLORS.WHITE,
+              fontSize: 16,
+              paddingHorizontal: 10,
+              fontFamily: TYPOGRAPHY.FONTS.medium,
+            }}
+          >
+            Add different set
+          </TextWrapperComponent>
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: COLORS.BLOCK_GREY,
     width: Dimensions.get('screen').width - 20,
-    height: Dimensions.get('screen').height * 0.33,
+    height: 300,
     padding: 20,
     justifyItems: 'center',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
   },
 
   addSetButton: {
-    width: Dimensions.get('screen').width * 0.8,
+    width: '100%',
     height: 40,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -132,6 +135,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
+
+    marginTop: 15,
   },
   button: {
     width: 90,
@@ -165,5 +170,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignSelf: 'center',
     justifySelf: 'flex-start',
+    fontFamily: TYPOGRAPHY.FONTS.semibold,
   },
 });

@@ -19,8 +19,12 @@ import {
   addExercisesToRoutine,
   addRoutine,
   addWorkoutPlan,
+  deleteExerciseFromRoutine,
+  deleteRoutine,
   getAllPlans,
+  updateExerciseInRoutine,
 } from 'redux/exercises/thunks/workoutPlan.thunk';
+import { reorderRoutine } from 'redux/exercises/thunks/routineActions.thunk';
 
 const selectedFilters = (builder: ActionReducerMapBuilder<ExercisesState>) => {
   builder.addCase(targets, (state, action) => {
@@ -41,23 +45,20 @@ const getExercisesCases = (
   builder: ActionReducerMapBuilder<ExercisesState>
 ) => {
   builder.addCase(getExercises.fulfilled, (state, action) => {
-    if (action.payload.res?.error) {
-      state.error = action.payload.res?.error;
-    } else {
-      if (action.payload.res?.data?.length) {
-        state.exercises = action.payload.res?.data;
-        state.filteredExercises = action.payload.res?.data;
-      }
+    if (action.payload.res?.status && action.payload.res?.data?.length) {
+      state.exercises = action.payload.res?.data;
+      state.filteredExercises = action.payload.res?.data;
     }
+    state.status = action.payload.res?.status;
     state.loading = false;
   });
 
   builder.addCase(getExercises.pending, state => {
-    state.loading = false;
+    state.loading = true;
   });
   builder.addCase(getExercises.rejected, (state, action) => {
     state.loading = false;
-    state.error = JSON.stringify({ error: action.payload });
+    state.status = false;
   });
 };
 
@@ -82,11 +83,13 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
         ? action.payload.data[0]
         : state.selectedWorkoutPlan;
     } else {
-      state.error = action.payload.error;
+      state.status = action.payload.status;
     }
+    state.loading = false;
   });
   builder.addCase(getAllPlans.rejected, (state, action) => {
-    state.error = JSON.stringify(action.error);
+    state.status = false;
+    state.loading = false;
   });
   builder.addCase(getAllPlans.pending, state => {
     state.loading = true;
@@ -94,22 +97,35 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
   builder.addCase(addWorkoutPlan.fulfilled, (state, action) => {
     if (action.payload.plans) {
       state.workoutPlans = action.payload.plans;
+      state.selectedWorkoutPlan = action.payload.plan;
     } else {
-      state.error = action.payload.error;
+      state.status = action.payload.status;
     }
   });
   builder.addCase(addWorkoutPlan.rejected, (state, action) => {
-    state.error = JSON.stringify(action.error);
+    state.status = false;
   });
   builder.addCase(addWorkoutPlan.pending, (state, action) => {
     state.loading = true;
   });
   builder.addCase(addRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;
-    if (action.payload.addedRoutine)
-      state.selectedWorkoutPlan?.routines.push(action.payload?.addedRoutine);
+    if (action.payload.addedRoutine) {
+      state.selectedWorkoutPlan?.routines.push(action.payload.addedRoutine);
+    }
+    state.selectedRoutine = action.payload.addedRoutine;
+    state.status = action.payload.status;
   });
   builder.addCase(addExercisesToRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan && action.payload.routineId) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan.routines.find(
+        el => el.id === action.payload.routineId
+      );
+    }
+  });
+  builder.addCase(updateExerciseInRoutine.fulfilled, (state, action) => {
     state.workoutPlans = action.payload.plans;
     if (action.payload.plan) {
       state.selectedWorkoutPlan = action.payload.plan;
@@ -117,6 +133,40 @@ const workoutPlans = (builder: ActionReducerMapBuilder<ExercisesState>) => {
         el => el.id === action.payload.routineId
       );
     }
+  });
+  builder.addCase(deleteExerciseFromRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan.routines.find(
+        el => el.id === action.payload.routineId
+      );
+    }
+  });
+  builder.addCase(reorderRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan.routines.find(
+        el => el.id === action.payload.routineId
+      );
+    }
+    state.isReordering = false;
+  });
+  builder.addCase(reorderRoutine.rejected, (state, action) => {
+    state.status = false;
+
+    state.isReordering = false;
+  });
+  builder.addCase(deleteRoutine.fulfilled, (state, action) => {
+    state.workoutPlans = action.payload.plans;
+    if (action.payload.plan) {
+      state.selectedWorkoutPlan = action.payload.plan;
+      state.selectedRoutine = action.payload.plan?.routines[0] || undefined;
+    }
+  });
+  builder.addCase(deleteRoutine.rejected, (state, action) => {
+    state.status = false;
   });
 };
 

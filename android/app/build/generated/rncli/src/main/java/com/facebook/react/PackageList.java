@@ -25,6 +25,8 @@ import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // @shopify/flash-list
 import com.shopify.reactnative.flash_list.ReactNativeFlashListPackage;
+// react-native-drop-shadow
+import com.dropShadow.DropShadowPackage;
 // react-native-fast-image
 import com.dylanvann.fastimage.FastImageViewPackage;
 // react-native-fs
@@ -33,10 +35,14 @@ import com.rnfs.RNFSPackage;
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
+// react-native-reanimated
+import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-sound
+import com.zmxv.RNSound.RNSoundPackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
 
@@ -91,12 +97,15 @@ public class PackageList {
       new ReactNativeFirebaseStoragePackage(),
       new RNCPickerPackage(),
       new ReactNativeFlashListPackage(),
+      new DropShadowPackage(),
       new FastImageViewPackage(),
       new RNFSPackage(),
       new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
+      new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new RNSoundPackage(),
       new SvgPackage()
     ));
   }

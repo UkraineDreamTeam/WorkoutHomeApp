@@ -1,14 +1,5 @@
-import React, { FC, useMemo } from 'react';
-import {
-  Dimensions,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React, { FC, useEffect, useMemo } from 'react';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 
 import AddPhoto from '@components/exerciseScreen/AddPhoto.component';
 import PlanForm from '@components/exerciseScreen/exerciseSetForm/PlanForm.component';
@@ -16,12 +7,15 @@ import PlanForm from '@components/exerciseScreen/exerciseSetForm/PlanForm.compon
 import Header from '@components/exerciseScreen/Header.component';
 import FullScreenImage from '@components/modals/FullScreenImage.modal';
 import { exercises } from '@redux/exercises/exercises.slice';
-import { useAppSelector } from '@redux/store';
+import { useAppDispatch, useAppSelector } from '@redux/store';
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { ExerciseScreenProps } from '@shared/types/types';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
+import { retrieveSetsFromExercise } from 'redux/workoutForm/workoutForm.slice';
 
 const ExerciseScreen: FC<ExerciseScreenProps> = ({ route }) => {
-  const { name, bodyPart, gifUrl, id } = route.params;
+  const dispatch = useAppDispatch();
+  const { name, bodyPart, gifUrl, id, routineId, sets } = route.params;
   const exercisesList = useAppSelector(exercises);
   const images = useMemo(() => {
     return [
@@ -33,55 +27,62 @@ const ExerciseScreen: FC<ExerciseScreenProps> = ({ route }) => {
     ];
   }, [exercisesList, gifUrl]);
 
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-      enabled
-    >
-      <SafeAreaView
-        style={[
-          {
-            position: 'relative',
-            flex: 1,
-            justifyContent: 'flex-end',
-          },
-        ]}
-      >
-        <Header exercise={route.params} />
-        <View style={[styles.descriptionContainer]}>
-          <Text style={[styles.exerciseName]}>{name}</Text>
-          <Text style={[styles.exerciseName]}>{bodyPart}</Text>
-        </View>
-        <View style={[styles.photoContainer]}>
-          <View style={[styles.photosBackground]}>
-            <FlatList
-              data={images}
-              renderItem={({ item }) => (
-                <FullScreenImage
-                  uri={item.uri}
-                  deletable={item.deletable}
-                  id={id}
-                />
-              )}
-              keyExtractor={item => item.uri}
-              horizontal={false}
-              numColumns={3}
-              style={{
-                height:
-                  images.length > 3
-                    ? Dimensions.get('screen').width - 160
-                    : (Dimensions.get('screen').width - 170) / 2,
-              }}
-            />
-          </View>
-          <AddPhoto id={id} />
-        </View>
+  useEffect(() => {
+    if (routineId && sets) {
+      dispatch(retrieveSetsFromExercise(sets));
+    }
+  }, [dispatch, routineId, sets]);
 
-        <PlanForm />
-        <View style={{ flex: 1 }} />
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+  return (
+    // <KeyboardAvoidingView
+    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    //   style={styles.container}
+    //   enabled
+    // >
+    <ScrollView
+      style={[
+        {
+          position: 'relative',
+          flex: 1,
+          // justifyContent: 'flex-end',
+        },
+      ]}
+    >
+      <Header exercise={route.params} />
+      <View style={[styles.descriptionContainer]}>
+        <TextWrapperComponent style={[styles.exerciseName , {fontFamily: TYPOGRAPHY.FONTS.bold}]}>
+          {name}
+        </TextWrapperComponent>
+        <TextWrapperComponent style={[styles.exerciseName ,  {fontFamily: TYPOGRAPHY.FONTS.regular}]}>
+          {bodyPart}
+        </TextWrapperComponent>
+      </View>
+      <View style={[styles.photoContainer]}>
+        <View style={[styles.photosBackground]}>
+          <FlatList
+            data={images}
+            renderItem={({ item }) => (
+              <FullScreenImage
+                uri={item.uri}
+                deletable={item.deletable}
+                id={id}
+              />
+            )}
+            keyExtractor={item => item.uri}
+            horizontal={true}
+            // numColumns={3}
+            style={{
+              height: 130,
+            }}
+          />
+        </View>
+        <AddPhoto id={id} />
+      </View>
+
+      <PlanForm />
+      <View style={{ flex: 1 }} />
+    </ScrollView>
+    // </KeyboardAvoidingView>
   );
 };
 
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.big,
   },
-  container: { flex: 1 },
+  container: { flex: 1, paddingBottom: 60 },
 });
 
 export default ExerciseScreen;

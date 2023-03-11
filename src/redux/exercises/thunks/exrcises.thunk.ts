@@ -68,19 +68,20 @@ const setFilters = (exercises: Exercise[], dispatch: AppDispatch) => {
   dispatch(bodyParts(bodyPartsList));
   dispatch(targets(targetsList));
 };
-type Res = { res: { data?: Exercise[]; error?: any } };
+export type Res = { res: { data?: Exercise[]; status: boolean } };
 export const getExercises = createAsyncThunk<
   Res,
   Filter | undefined,
   { dispatch: AppDispatch }
->('exercises/getByQuery', async (_, { dispatch }) => {
+>('listOfExercisesComponents/getByQuery', async (_, { dispatch }) => {
   try {
     const dataUploadState = await getItemByKey(ASYNC_STORAGE_KEYS.DATA);
+
     if (dataUploadState) {
       const exercises: Exercise[] = JSON.parse(dataUploadState);
       setFilters(exercises, dispatch);
 
-      return { res: { data: exercises } };
+      return { res: { data: exercises, status: true } };
     } else {
       const imagePath = getFileLocationPath();
       const data = await getDataFromFirebase();
@@ -91,7 +92,6 @@ export const getExercises = createAsyncThunk<
 
       for (let i = 0; i < data.length; i++) {
         const locationUri = getFileLocationUri(data[i].gifUrl, data[i].id);
-
         newCollection.push({
           ...data[i],
           gifUrl: locationUri,
@@ -108,7 +108,7 @@ export const getExercises = createAsyncThunk<
             );
             const url = await reference.getDownloadURL();
             if (reference && url) {
-              RNFS.downloadFile({
+              await RNFS.downloadFile({
                 fromUrl: url,
                 toFile:
                   imagePath + '/' + data[i].id + getFileType(data[i].gifUrl),
@@ -117,17 +117,20 @@ export const getExercises = createAsyncThunk<
               });
             }
           } catch (error) {
-            return { res: { error } };
+            return { res: { status: false } };
           }
         }
       }
-      await setItemByKey(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(data));
+      await setItemByKey(
+        ASYNC_STORAGE_KEYS.DATA,
+        JSON.stringify(newCollection)
+      );
 
-      setFilters(data, dispatch);
-      return { res: { data, error: undefined } };
+      setFilters(newCollection, dispatch);
+      return { res: { data: newCollection, status: true } };
     }
   } catch (error) {
-    return { res: { data: undefined, error } };
+    return { res: { data: undefined, status: false } };
   }
 });
 export const addExtraImage = createAsyncThunk<Exercise[] | [], string>(
@@ -197,26 +200,28 @@ export const deleteImage = createAsyncThunk<
   Exercise[] | [],
   { id: string; imageUri: string }
 >('data/deleteExtraImage', async ({ id, imageUri }) => {
-  const exercises = (await getItemByKey(ASYNC_STORAGE_KEYS.DATA)) || '';
-  const parsedExercises: Exercise[] = exercises.length
-    ? JSON.parse(exercises)
-    : [];
-  if (parsedExercises.length) {
-    const mapedExercises = parsedExercises.map(el =>
+  try {
+    const exercises = (await getItemByKey(ASYNC_STORAGE_KEYS.DATA)) || '';
+    if (!exercises) {
+      return [];
+    }
+    const parsedExercises: Exercise[] = JSON.parse(exercises);
+
+    const mapedExercises: Exercise[] = parsedExercises.map(el =>
       el.id === id
-        ? { ...el, extraImages: el.extraImages?.filter(el => el !== imageUri) }
+        ? {
+            ...el,
+            extraImages: el.extraImages?.filter(el => el !== imageUri),
+          }
         : el
     );
 
-    try {
-      await unlink(imageUri.replace('file:', ''));
-    } catch (error) {
-      console.log(error);
-    }
+    await unlink(imageUri.replace('file:', ''));
+
     await setItemByKey(ASYNC_STORAGE_KEYS.DATA, JSON.stringify(mapedExercises));
 
     return mapedExercises;
-  } else {
+  } catch (e) {
     return [];
   }
 });

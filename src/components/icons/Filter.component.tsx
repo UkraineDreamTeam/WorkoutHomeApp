@@ -1,20 +1,1 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Filter from '@assets/icons/Filter.svg';
-const FilterIcon = () => {
-  return (
-    <View style={styles.filterIcon}>
-      <Filter />
-    </View>
-  );
-};
-const styles = StyleSheet.create({
-  filterIcon: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 10,
-  },
-});
-export default FilterIcon;
+import React from 'react';import { StyleSheet, View } from 'react-native';import Filter from '@assets/icons/Filter.svg';const FilterIcon = () => {  return (    <View style={styles.filterIcon}>      <Filter />    </View>  );};const styles = StyleSheet.create({  filterIcon: {    height: '100%',    display: 'flex',    flexDirection: 'column',    justifyContent: 'center',    padding: 10,  },});export default FilterIcon;

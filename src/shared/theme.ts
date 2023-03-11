@@ -1,7 +1,7 @@
 export const COLORS = {
   BLACK: 'black',
   VIOLET: '#BA6BD8',
-  WHITE: 'white',
+  WHITE: '#ffffff',
   PINK: '#DA0AAC',
   GREY: '#36404F',
   LIGHT_GREY: '#D9D9D9',
@@ -10,7 +10,7 @@ export const COLORS = {
   RED: 'rgb(136, 8, 8)',
 };
 export const CustomTheme = {
-  dark: false,
+  dark: true,
   colors: {
     primary: '#BA6BD8',
     background: '#36404F',
@@ -24,6 +24,13 @@ export const CustomTheme = {
 export const TYPOGRAPHY = {
   BORDER_RADIUS: { small: 5, average: 10, big: 20 },
   tabBarHeight: 50,
+  FONTS: {
+    bold: 'Quicksand-Bold',
+    medium: 'Quicksand-Medium',
+    light: 'Quicksand-Light',
+    regular: 'Quicksand-Regular',
+    semibold: 'Quicksand-SemiBold',
+  },
 };
 
 export const COLOR_SCHEME = {

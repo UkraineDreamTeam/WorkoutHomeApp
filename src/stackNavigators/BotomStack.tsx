@@ -4,12 +4,12 @@ import { RootStackParamList } from '@shared/types/types';
 import HomeNavigator from './HomeStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StatisticsScreen from '@screens/StatisticsScreen';
-import Profile from '@screens/Profile';
+import ProfileScreen from 'screens/ProfileScreen';
 import MyTabBar from './tabBar/TabBar';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@redux/store';
 import { getExercises } from '@redux/exercises/thunks/exrcises.thunk';
-import { exercises } from '@redux/exercises/exercises.slice';
+import { exercises, loading } from '@redux/exercises/exercises.slice';
 
 const TabStack = createBottomTabNavigator<RootStackParamList>();
 
@@ -20,11 +20,12 @@ const BottomStackNavigator = ({
 }) => {
   const dispatch = useAppDispatch();
   const exerciseList = useAppSelector(exercises);
+  const isLoading = useAppSelector(loading);
   useEffect(() => {
     if (!exerciseList.length) {
-      dispatch(getExercises());
+      void dispatch(getExercises());
     }
-  }, [dispatch, exerciseList]);
+  }, []);
 
   return (
     <TabStack.Navigator
@@ -60,9 +61,9 @@ const BottomStackNavigator = ({
       />
       <TabStack.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileScreen}
         options={{
-          title: 'Profile',
+          title: 'ProfileScreen',
           headerShown: false,
           tabBarActiveTintColor: 'white',
           tabBarInactiveTintColor: 'transparent',

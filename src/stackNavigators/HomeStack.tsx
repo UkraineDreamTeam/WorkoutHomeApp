@@ -4,16 +4,17 @@ import ListOfExercisesScreen from '@screens/ListOfExercisesScreen';
 import ExerciseScreen from '@screens/ExerciseScreen';
 import { HomeTabParamList } from '@shared/types/types';
 import { createStackNavigator } from '@react-navigation/stack';
+import WorkoutInProgress from 'screens/WorkoutInProgressScreen';
 
 const HomeStack = createStackNavigator<HomeTabParamList>();
 
 const HomeNavigator = () => {
   return (
-    <HomeStack.Navigator initialRouteName="CurrentWorkout">
+    <HomeStack.Navigator initialRouteName="SelectedRoutine">
       <HomeStack.Screen
-        name="CurrentWorkout"
+        name="SelectedRoutine"
         component={WorkoutScreen}
-        navigationKey="CurrentWorkout"
+        navigationKey="SelectedRoutine"
         options={{
           title: '',
           headerShown: false,
@@ -33,6 +34,14 @@ const HomeNavigator = () => {
         component={ExerciseScreen}
         options={{
           title: 'Exercise',
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="WorkoutInProgress"
+        component={WorkoutInProgress}
+        options={{
+          title: 'WorkoutInProgress',
           headerShown: false,
         }}
       />

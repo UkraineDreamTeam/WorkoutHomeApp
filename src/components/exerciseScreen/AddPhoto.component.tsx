@@ -1,15 +1,10 @@
 import React, { FC } from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { addExtraImage } from '@redux/exercises/thunks/exrcises.thunk';
 import { useAppDispatch } from '@redux/store';
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import AddPhotoIcon from '@icons-components/AddPhotoIcon';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 const AddPhoto: FC<{ id: string }> = ({ id }) => {
   const dispatch = useAppDispatch();
@@ -20,7 +15,9 @@ const AddPhoto: FC<{ id: string }> = ({ id }) => {
     >
       <View style={[styles.container]}>
         <AddPhotoIcon />
-        <Text style={[styles.text]}>Photo</Text>
+        <TextWrapperComponent style={[styles.text]}>
+          Add photo
+        </TextWrapperComponent>
       </View>
     </TouchableOpacity>
   );
@@ -41,14 +38,17 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: '400',
+    fontFamily: TYPOGRAPHY.FONTS.semibold,
     color: COLORS.WHITE,
+    paddingLeft: 5
   },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    alignItems: 'center',
-    width: Dimensions.get('screen').width * 0.25,
+    alignItems: 'flex-end',
+    // width: Dimensions.get('screen').width * 0.25,
+    alignContent: 'stretch',
+
   },
 });
 

@@ -8,6 +8,7 @@ import {
 } from 'redux/exercises/exercises.slice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { WorkoutPlan } from 'redux/types';
+import AddPlanPlanExistComponent from 'components/modals/AddPlanOrRoutine/AddButtons/AddPlanPlanExist.component';
 
 type Props = {
   data: WorkoutPlan[];
@@ -40,7 +41,7 @@ const WorkoutPlanPickerComponent: FC<Props> = ({ data }) => {
 
   useEffect(() => {
     setValue(selectedItem?.name || data[0]?.name);
-  }, [data]);
+  }, [data, selectedItem]);
 
   return (
     <View>
@@ -60,6 +61,12 @@ const WorkoutPlanPickerComponent: FC<Props> = ({ data }) => {
         textStyle={{ color: COLORS.WHITE }}
         dropDownContainerStyle={styles.dropDownContainerStyle}
       />
+      {open ? (
+        <AddPlanPlanExistComponent
+          title={'Add workout plan'}
+          setOpen={setOpen}
+        />
+      ) : null}
     </View>
   );
 };
@@ -68,12 +75,14 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     marginLeft: 4,
+    top: 110,
   },
   dropDown: {
     width: Dimensions.get('screen').width - 65,
     backgroundColor: COLORS.BLACK,
     borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
     marginLeft: 5,
+    zIndex: 1,
   },
   itemContainerStyle: {
     backgroundColor: 'black',

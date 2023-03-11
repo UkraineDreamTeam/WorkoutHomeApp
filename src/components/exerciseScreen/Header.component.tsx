@@ -1,60 +1,101 @@
 import React, { FC } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import BackIcon from '@icons-components/BackIcon.component';
 import DeleteIcon from '@icons-components/DeleteIcon.component';
 import DoneIcon from '@icons-components/DoneIcon.component';
-import { Exercise } from 'redux/types';
+import { WorkoutExercise } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { addExercisesToRoutine } from 'redux/exercises/thunks/workoutPlan.thunk';
+import {
+  addExercisesToRoutine,
+  deleteExerciseFromRoutine,
+  updateExerciseInRoutine,
+} from 'redux/exercises/thunks/workoutPlan.thunk';
 import { selectedPlan, selectedRoutine } from 'redux/exercises/exercises.slice';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'shared/types/types';
+import { clearForms, sets } from 'redux/workoutForm/workoutForm.slice';
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 type Props = {
-  exercise: Exercise;
+  exercise: WorkoutExercise;
 };
 const Header: FC<Props> = ({ exercise }) => {
   const routine = useAppSelector(selectedRoutine);
   const plan = useAppSelector(selectedPlan);
+  const allSets = useAppSelector(sets);
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  const addExercise = () => {
+    if (routine?.id && plan?.name) {
+      if (exercise.routineId) {
+        void dispatch(
+          updateExerciseInRoutine({
+            exercise: { ...exercise, sets: allSets },
+            routineId: routine.id,
+            planName: plan.name,
+          })
+        );
+      } else {
+        void dispatch(
+          addExercisesToRoutine({
+            exercises: [
+              {
+                ...exercise,
+                sets: allSets,
+              },
+            ],
+            routineId: routine.id,
+            planName: plan.name,
+          })
+        );
+      }
+    }
+    dispatch(clearForms());
+    navigation.navigate('Home', {
+      screen: 'SelectedRoutine',
+    });
+  };
+  const handleCancel = () => {
+    if (routine?.id && plan?.name) {
+      if (exercise.routineId) {
+        void dispatch(
+          deleteExerciseFromRoutine({
+            exerciseId: exercise.routineId,
+            routineId: routine.id,
+            planName: plan.name,
+          })
+        );
+      }
+    }
+    navigation.navigate('Home', {
+      screen: 'SelectedRoutine',
+    });
+  };
   return (
     <SafeAreaView style={styles.headerContainer}>
       <BackIcon />
       <View style={styles.buttonsContainer}>
+        {exercise.routineId ? (
+          <TouchableOpacity
+            style={[styles.button, styles.buttonDelete]}
+            onPress={handleCancel}
+          >
+            <DeleteIcon />
+            <TextWrapperComponent style={styles.text}>
+              Delete
+            </TextWrapperComponent>
+          </TouchableOpacity>
+        ) : null}
+
         <TouchableOpacity
-          style={[styles.button, styles.buttonDelete]}
-          onPress={() => {
-            if (routine?.id && plan?.name) {
-              dispatch(
-                addExercisesToRoutine({
-                  exercises: [
-                    {
-                      ...exercise,
-                      time: 'f',
-                      weight: 'h',
-                      reps: 'h',
-                      sets: 'h',
-                    },
-                  ],
-                  routineId: routine.id,
-                  planName: plan.name,
-                })
-              );
-            }
-          }}
+          style={[styles.button, styles.buttonDone]}
+          onPress={addExercise}
         >
-          <DeleteIcon />
-          <Text style={styles.text}> Delete</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.buttonDone]}>
           <DoneIcon />
-          <Text style={styles.text}> Done</Text>
+          <TextWrapperComponent style={styles.text}> Done</TextWrapperComponent>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -64,7 +105,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 32,
+    paddingRight: 32,
     paddingVertical: 18,
   },
   button: {
@@ -91,10 +132,11 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     textAlignVertical: 'center',
-    padding: 0,
+    padding: 5,
     fontSize: 14,
     alignSelf: 'center',
     justifySelf: 'flex-start',
+    fontFamily: TYPOGRAPHY.FONTS.semibold
   },
 });
 
