@@ -25,22 +25,6 @@ module.exports = {
           '@constants': './src/shared/constants',
           '@theme': './src/shared/theme',
           '@shared': './src/shared',
-
-          '@screens': './src/screens',
-          '@assets': './src/assets',
-          '@redux': './src/redux',
-          '@icons-components': './src/components/icons',
-        },
-      },
-    ],
-    [
-      'module-resolver',
-      {
-        root: ['./src'],
-        extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
-        alias: {
-          '@components': './src/components',
-          '@shared': './src/shared',
           '@screens': './src/screens',
           '@assets': './src/assets',
           '@redux': './src/redux',
