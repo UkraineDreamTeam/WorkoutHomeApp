@@ -4,7 +4,7 @@ import { RootStackParamList } from '@shared/types/types';
 import HomeNavigator from './HomeStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StatisticsScreen from '@screens/StatisticsScreen';
-import Profile from '@screens/Profile';
+import ProfileScreen from 'screens/ProfileScreen';
 import MyTabBar from './tabBar/TabBar';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@redux/store';
@@ -61,9 +61,9 @@ const BottomStackNavigator = ({
       />
       <TabStack.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileScreen}
         options={{
-          title: 'Profile',
+          title: 'ProfileScreen',
           headerShown: false,
           tabBarActiveTintColor: 'white',
           tabBarInactiveTintColor: 'transparent',

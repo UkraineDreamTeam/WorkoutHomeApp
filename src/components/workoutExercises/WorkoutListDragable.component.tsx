@@ -10,7 +10,7 @@ import {
 import { Routine, WorkoutExercise, WorkoutPlan } from 'redux/types';
 import { useAppSelector } from 'redux/store';
 import { selectedPlan, selectedRoutine } from 'redux/exercises/exercises.slice';
-import ExerciseItem from 'components/exercises/ExerciseItem.component';
+import ExerciseItem from 'components/listOfExercisesComponents/ExerciseItem.component';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const WorkoutExercisesListDragable: FC<{

@@ -2,6 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
 
 import Sound from 'react-native-sound';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import {
+  handleRunTimer,
+  timerCount,
+} from 'redux/workoutTimer/workoutTimer.slice';
 
 Sound.setCategory('Playback');
 
@@ -33,7 +38,9 @@ export const useCountDownTimer = ({
   interval = defaultTimerInterval,
   onTimeOut = defaultTimeOutCallback,
 } = {}) => {
-  const [timer, setTimer] = useState(initialValue);
+  const dispatch = useAppDispatch();
+  const timer = useAppSelector(timerCount);
+
   const [shadowTimer, setShadowTimer] = useState(initialValue);
   const [timerStatus, setTimerStatus] = useState(OFF);
   const [intervalID, setIntervalID] = useState<number | null>(null);
@@ -63,7 +70,7 @@ export const useCountDownTimer = ({
   const startTimer = useCallback(() => {
     if (timerStatus === OFF) {
       const timerID = setInterval(() => {
-        setTimer(currentTime => currentTime - 1);
+        dispatch(handleRunTimer());
       }, interval);
       setIntervalID(timerID);
       const shadowTimerID = setInterval(() => {
@@ -87,9 +94,9 @@ export const useCountDownTimer = ({
     }
   }, [timer, interval, intervalID, timerStatus, onTimeOut]);
 
-  function resetTimer(newValue: number) {
-    setTimer(newValue + initialValue);
-  }
+  // function resetTimer(newValue: number) {
+  //   setTimer(newValue + initialValue);
+  // }
 
   useEffect(() => {
     setMinutes(`0${Math.floor(timer / 60)}`.slice(-2));
@@ -104,5 +111,12 @@ export const useCountDownTimer = ({
     }
   }, [shadowTimer]);
 
-  return { timer, setTimer, resetTimer, minutes, seconds, shadowAnim , startTimer };
+  return {
+    timer,
+
+    minutes,
+    seconds,
+    shadowAnim,
+    startTimer,
+  };
 };

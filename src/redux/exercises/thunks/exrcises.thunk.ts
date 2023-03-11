@@ -73,7 +73,7 @@ export const getExercises = createAsyncThunk<
   Res,
   Filter | undefined,
   { dispatch: AppDispatch }
->('exercises/getByQuery', async (_, { dispatch }) => {
+>('listOfExercisesComponents/getByQuery', async (_, { dispatch }) => {
   try {
     const dataUploadState = await getItemByKey(ASYNC_STORAGE_KEYS.DATA);
 
