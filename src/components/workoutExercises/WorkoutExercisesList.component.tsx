@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import ExerciseItem from 'components/exercises/ExerciseItem.component';
+import ExerciseItem from 'components/listOfExercisesComponents/ExerciseItem.component';
 import { Routine, WorkoutPlan } from 'redux/types';
 import { useAppSelector } from 'redux/store';
 import {

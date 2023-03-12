@@ -10,4 +10,4 @@ export const bodyParts = createAction<Filter[]>('setBodyParts');
 export const filter = createAction<{
   name: FilterNames;
   filterItem: Filter;
-}>('filter/exercises');
+}>('filter/listOfExercisesComponents');

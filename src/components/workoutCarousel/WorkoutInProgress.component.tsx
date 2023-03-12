@@ -19,10 +19,11 @@ import TimerComponent from 'components/workoutCarousel/Timer.component';
 import { useCountDownTimer } from 'shared/hooks/timer.hook';
 const screenWidth = Dimensions.get('window').width;
 const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
-  const { timer, setTimer, resetTimer, minutes, seconds, shadowAnim  , startTimer} =
-    useCountDownTimer({
+  const { timer, minutes, seconds, shadowAnim, startTimer } = useCountDownTimer(
+    {
       initialValue: restTime / 1000,
-    });
+    }
+  );
   const [workoutFinished, setWorkoutFinished] = useState(false);
   const [currentExercise, setCurrentExercise] = useState(0);
 
@@ -46,8 +47,6 @@ const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
   };
 
   const handleFinishExercises = () => setWorkoutFinished(true);
-
-
 
   return (
     <View style={[{ width: Dimensions.get('screen').width, paddingTop: 10 }]}>
@@ -78,7 +77,9 @@ const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
         <FlatList
           ref={flatListRef}
           data={routine.data}
-          renderItem={({ item }) => <WorkoutItem workoutItem={item} startTimer={startTimer}/>}
+          renderItem={({ item }) => (
+            <WorkoutItem workoutItem={item} startTimer={startTimer} />
+          )}
           keyExtractor={(item, index) => item.routineId || item.id}
           horizontal={true}
           scrollEnabled={true}

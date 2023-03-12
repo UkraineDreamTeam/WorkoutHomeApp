@@ -20,6 +20,9 @@ export const workoutTimerSlice = createSlice({
   name: 'workoutTimer',
   initialState,
   reducers: {
+    handleRunTimer: state => {
+      state.timer -= 1;
+    },
     setRestTimer: (state, action: PayloadAction<number>) => {
       state.timer = action.payload;
       state.isRest = true;
@@ -83,10 +86,11 @@ export const {
   changeDuration,
   setArrayOfSets,
   handleCompletedExercise,
+  handleRunTimer
 } = workoutTimerSlice.actions;
 
 export const isRest = (state: RootState) => state.timer.isRest;
 export const duration = (state: RootState) => state.timer.duration;
-export const timer = (state: RootState) => state.timer.timer;
+export const timerCount = (state: RootState) => state.timer.timer;
 export const setsArray = (state: RootState) => state.timer.setsArray;
 export const workoutTimerReducer = workoutTimerSlice.reducer;

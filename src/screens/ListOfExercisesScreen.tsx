@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, Image, SafeAreaView, StyleSheet } from 'react-native';
 import Loader from '@components/ActivityIndicator.component';
-import ExerciseList from '@components/exercises/ExerciseList.component';
-import SearchInput from '@components/exercises/SearchInput.component';
+import ExerciseList from '@components/listOfExercisesComponents/ExerciseList.component';
+import SearchInput from '@components/listOfExercisesComponents/SearchInput.component';
 import { exercises, loading } from '@redux/exercises/exercises.slice';
 import { Exercise } from '@redux/types';
 import { useAppSelector } from '@redux/store';
