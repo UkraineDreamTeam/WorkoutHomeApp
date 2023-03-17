@@ -8,6 +8,8 @@ export const COLORS = {
   BLUE_GREY: '#343D54',
   BLOCK_GREY: '#252934',
   RED: 'rgb(136, 8, 8)',
+  YELLOW: '#787929',
+  TRANSPARENT: 'transparent',
 };
 export const CustomTheme = {
   dark: true,

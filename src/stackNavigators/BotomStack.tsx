@@ -10,6 +10,7 @@ import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@redux/store';
 import { getExercises } from '@redux/exercises/thunks/exrcises.thunk';
 import { exercises, loading } from '@redux/exercises/exercises.slice';
+import { COLORS } from 'shared/theme';
 
 const TabStack = createBottomTabNavigator<RootStackParamList>();
 
@@ -32,7 +33,7 @@ const BottomStackNavigator = ({
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: '#343D54',
+          backgroundColor: COLORS.BLUE_GREY,
           position: 'absolute',
           height: 30,
         },

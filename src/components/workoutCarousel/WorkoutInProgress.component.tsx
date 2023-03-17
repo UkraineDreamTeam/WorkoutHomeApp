@@ -6,7 +6,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { useAppSelector } from 'redux/store';
@@ -18,19 +17,16 @@ import { TYPOGRAPHY } from 'shared/theme';
 import TimerComponent from 'components/workoutCarousel/Timer.component';
 import { useCountDownTimer } from 'shared/hooks/timer.hook';
 const screenWidth = Dimensions.get('window').width;
-const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
-  const { timer, minutes, seconds, shadowAnim, startTimer } = useCountDownTimer(
-    {
-      initialValue: restTime / 1000,
-    }
-  );
+const WorkoutInProgressCarousel: FC<{ time: number }> = ({ time }) => {
   const [workoutFinished, setWorkoutFinished] = useState(false);
   const [currentExercise, setCurrentExercise] = useState(0);
 
   const routine = useAppSelector(selectedRoutine);
   const flatListRef = useRef<FlatList<WorkoutExercise>>(null);
   const indexRef = useRef(0);
-
+  const { timer, minutes, seconds, shadowAnim } = useCountDownTimer({
+    initialValue: time,
+  });
   const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const ind = event.nativeEvent.contentOffset.x / screenWidth;
     const roundIndex = Math.round(ind);
@@ -48,6 +44,15 @@ const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
 
   const handleFinishExercises = () => setWorkoutFinished(true);
 
+  const handleExerciseFinished = () => {
+    flatListRef?.current?.scrollToIndex({
+      index: currentExercise + 1,
+      animated: true,
+    });
+  };
+
+
+
   return (
     <View style={[{ width: Dimensions.get('screen').width, paddingTop: 10 }]}>
       <View style={{ height: 80 }}>
@@ -64,7 +69,6 @@ const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
             minutes={minutes}
             timer={timer}
             shadowAnim={shadowAnim}
-            startTimer={startTimer}
           />
         </View>
 
@@ -77,9 +81,7 @@ const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
         <FlatList
           ref={flatListRef}
           data={routine.data}
-          renderItem={({ item }) => (
-            <WorkoutItem workoutItem={item} startTimer={startTimer} />
-          )}
+          renderItem={({ item }) => <WorkoutItem workoutItem={item} />}
           keyExtractor={(item, index) => item.routineId || item.id}
           horizontal={true}
           scrollEnabled={true}
@@ -90,29 +92,6 @@ const WorkoutInProgressCarousel: FC<{ restTime: number }> = ({ restTime }) => {
           onScroll={onScroll}
           showsHorizontalScrollIndicator={false}
         />
-      ) : null}
-      {routine ? (
-        <FlatList
-          ref={flatListRef}
-          data={routine.data}
-          renderItem={({ item }) => (
-            <TextWrapperComponent>{item.id} </TextWrapperComponent>
-          )}
-          keyExtractor={(item, index) => item.routineId || item.id}
-          horizontal={true}
-          scrollEnabled={true}
-          viewabilityConfig={{
-            itemVisiblePercentThreshold: 100,
-          }}
-          pagingEnabled
-          onScroll={onScroll}
-          showsHorizontalScrollIndicator={false}
-        />
-      ) : null}
-      {workoutFinished ? (
-        <TouchableOpacity>
-          <TextWrapperComponent> Finish</TextWrapperComponent>
-        </TouchableOpacity>
       ) : null}
     </View>
   );

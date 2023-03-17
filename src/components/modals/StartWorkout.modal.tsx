@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 import { COLORS, TYPOGRAPHY, WORKOUT_ACTIONS_LAYOUT } from 'shared/theme';
 import Start from 'assets/icons/Start.svg';
@@ -16,11 +16,14 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'shared/types/types';
 import { TimeItem as RestTimeItem } from 'components/exerciseScreen/exerciseSetForm/selectors/TimeItem.component';
+import { setRestBetweenSets } from 'redux/workoutForm/workoutForm.slice';
+import { selectedRoutine } from 'redux/exercises/exercises.slice';
+import { setArrayOfSets } from 'redux/workoutTimer/workoutTimer.slice';
 
 const StartWorkoutModal = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useAppDispatch();
-
+  const routine = useAppSelector(selectedRoutine);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [seconds, setSeconds] = useState<string>('00');
@@ -30,8 +33,23 @@ const StartWorkoutModal = () => {
 
   const handleSubmit = () => {
     setModalVisible(false);
+    let timer = 0;
+    if (routine?.id) {
+      for (let i = 0; i < routine?.data.length; i++) {
+        const exercise = routine?.data[i];
+        if (exercise.sets && exercise.routineId) {
+          if (exercise?.sets[0].durationMS && i === 0) {
+            timer = exercise?.sets[0].durationMS / 1000;
+          }
+          dispatch(
+            setArrayOfSets({ data: exercise.sets, id: exercise.routineId })
+          );
+        }
+      }
+    }
+
     navigation.navigate('WorkoutInProgress', {
-      restTime: (Number(seconds) + Number(minutes) * 60) * 1000,
+      time: timer,
     });
   };
   const handleClose = () => {
@@ -45,7 +63,30 @@ const StartWorkoutModal = () => {
     setModalVisible(true);
   };
 
-  const setRestTimeBetweenSets = () => {};
+  const setRestTimeBetweenSets = (name: 'seconds' | 'minutes') => {
+    if ((seconds || minutes) && !errorSeconds && !errorMinutes) {
+      dispatch(
+        setRestBetweenSets({
+          restTime: {
+            [name]: ((name === 'seconds' ? seconds : minutes) || '00').slice(
+              -2
+            ),
+          },
+          ms: (Number(minutes) * 60 + Number(seconds)) * 1000,
+        })
+      );
+      name === 'seconds'
+        ? setSeconds(('00' + (seconds || '00')).slice(-2))
+        : setMinutes(('00' + (minutes || '00')).slice(-2));
+    }
+    if (errorSeconds) {
+      setErrorSeconds(false);
+    }
+    if (errorMinutes) {
+      setErrorMinutes(false);
+    }
+  };
+
   return (
     <View>
       <Modal

@@ -16,7 +16,7 @@ export const reorderRoutine = createAsyncThunk<
 >('add/reorderRoutine', async ({ routineId, planName, routine }) => {
   try {
     let updatedList: WorkoutPlan[] = [];
-    let newRoutines: Routine[];
+    let newRoutines: Routine[] = [];
     let selectedPlan: WorkoutPlan | undefined;
     const plans = await getItemByKey(WORKOUT_ASYNC_STORAGE_KEYS.WORKOUT_PLANS);
 
@@ -27,6 +27,7 @@ export const reorderRoutine = createAsyncThunk<
       newRoutines = plan.routines.map(el =>
         el.id === routine.id ? routine : el
       );
+      selectedPlan = { ...plan, routines: newRoutines };
       updatedList = parsedData.map(elem =>
         elem.name === planName
           ? {
@@ -50,7 +51,6 @@ export const reorderRoutine = createAsyncThunk<
       status: true,
     };
   } catch (e) {
-    console.log(e);
     return { status: false };
   }
 });

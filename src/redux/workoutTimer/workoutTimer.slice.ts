@@ -86,10 +86,11 @@ export const {
   changeDuration,
   setArrayOfSets,
   handleCompletedExercise,
-  handleRunTimer
+  handleRunTimer,
 } = workoutTimerSlice.actions;
 
 export const isRest = (state: RootState) => state.timer.isRest;
+export const time = (state: RootState) => state.timer.timer;
 export const duration = (state: RootState) => state.timer.duration;
 export const timerCount = (state: RootState) => state.timer.timer;
 export const setsArray = (state: RootState) => state.timer.setsArray;

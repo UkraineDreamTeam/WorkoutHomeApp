@@ -6,12 +6,20 @@ import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component
 
 import DeleteIconComponent from 'components/icons/DeleteIcon.component';
 import Done from 'assets/icons/CheckIcon.svg';
+import Hourglass from '@assets/icons/hourglass.svg';
 import { WorkoutItemInProgress } from 'redux/workoutTimer/types';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import {
+  handleCompletedExercise,
+  isRest,
+  setRestTimer,
+  time,
+} from 'redux/workoutTimer/workoutTimer.slice';
 
 const SetItemComponent: FC<{
   data: WorkoutItemInProgress;
-  startTimer: () => void;
-}> = ({ data, startTimer }) => {
+  exerciseId: string;
+}> = ({ data, exerciseId }) => {
   const {
     sets,
     reps,
@@ -21,8 +29,11 @@ const SetItemComponent: FC<{
     setRestTime,
     setRestTimeMS,
     isCompleted,
+    id,
   } = data;
-
+  const dispatch = useAppDispatch();
+  const timerCount = useAppSelector(time);
+  const rest = useAppSelector(isRest);
   return (
     <View
       style={{
@@ -35,7 +46,7 @@ const SetItemComponent: FC<{
     >
       <View
         style={{
-          backgroundColor: isCompleted ? COLORS.PINK : COLORS.BLUE_GREY,
+          backgroundColor: COLORS.BLUE_GREY,
           flexDirection: 'row',
           borderRadius: TYPOGRAPHY.BORDER_RADIUS.average,
           padding: 10,
@@ -95,7 +106,8 @@ const SetItemComponent: FC<{
 
         <TouchableOpacity
           style={{
-            backgroundColor: COLORS.PINK,
+            backgroundColor:
+              timerCount && rest ? COLORS.TRANSPARENT : COLORS.PINK,
             width: 35,
             height: 35,
             alignItems: 'center',
@@ -105,9 +117,13 @@ const SetItemComponent: FC<{
             alignSelf: 'center',
             marginHorizontal: 5,
           }}
-          onPress={() => startTimer()}
+          onPress={() => {
+            dispatch(handleCompletedExercise({ id: exerciseId, setId: id }));
+            dispatch(setRestTimer(setRestTimeMS / 1000));
+          }}
+          disabled={timerCount && rest ? true : false}
         >
-          <Done />
+          {timerCount && rest ? <Hourglass height={22} width={22} /> : <Done />}
         </TouchableOpacity>
       </View>
     </View>

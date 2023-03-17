@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import ExerciseItem from 'components/listOfExercisesComponents/ExerciseItem.component';
@@ -17,6 +17,11 @@ const WorkoutExercisesList = () => {
   const routine: Routine | undefined = useAppSelector(selectedRoutine);
   const plan: WorkoutPlan | undefined = useAppSelector(selectedPlan);
   const isLoading = useAppSelector(loading);
+
+  useEffect(() => {
+    console.log(routine?.data[0]);
+  }, [routine]);
+
   return (
     <>
       {routine ? (

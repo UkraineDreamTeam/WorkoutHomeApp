@@ -3,10 +3,7 @@ import { Animated } from 'react-native';
 
 import Sound from 'react-native-sound';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import {
-  handleRunTimer,
-  timerCount,
-} from 'redux/workoutTimer/workoutTimer.slice';
+import { handleRunTimer, time } from 'redux/workoutTimer/workoutTimer.slice';
 
 Sound.setCategory('Playback');
 
@@ -26,6 +23,8 @@ const ding = new Sound('ding.mp3', Sound.MAIN_BUNDLE, error => {
 
 const ON = 'on';
 const OFF = 'off';
+const REST = 'rest';
+const SET = 'set';
 const defaultTimerValue = 3;
 const defaultTimerInterval = 1000;
 const defaultTimeOutCallback = () => {
@@ -39,14 +38,12 @@ export const useCountDownTimer = ({
   onTimeOut = defaultTimeOutCallback,
 } = {}) => {
   const dispatch = useAppDispatch();
-  const timer = useAppSelector(timerCount);
-
-  const [shadowTimer, setShadowTimer] = useState(initialValue);
+  const timerCount = useAppSelector(time);
+  const [timer, setTimer] = useState(initialValue);
+  const [shadowTimer, setShadowTimer] = useState(0);
   const [timerStatus, setTimerStatus] = useState(OFF);
-  const [intervalID, setIntervalID] = useState<number | null>(null);
-  const [boxShadowintervalID, setBoxShadowintervalID] = useState<number | null>(
-    null
-  );
+  const [intervalID, setIntervalID] = useState<number>(0);
+  const [boxShadowintervalID, setBoxShadowintervalID] = useState<number>(0);
   const [seconds, setSeconds] = useState<string>('00');
   const [minutes, setMinutes] = useState<string>('00');
   const shadowAnim = useRef(new Animated.Value(0)).current;
@@ -67,22 +64,33 @@ export const useCountDownTimer = ({
     }).start();
   }, [shadowAnim]);
 
-  const startTimer = useCallback(() => {
-    if (timerStatus === OFF) {
+  useEffect(() => {
+    console.log('useEffect1', timerCount, timerStatus);
+
+    if (!timerCount && timerStatus === OFF) {
+      return;
+    }
+
+    if (timerStatus === OFF && timerCount > 0) {
+      if (interval === 0) {
+        return;
+      }
+      console.log('useEffect2', timerCount);
+
       const timerID = setInterval(() => {
+        setTimer(currentValue => (currentValue > 0 ? currentValue - 1 : 0));
         dispatch(handleRunTimer());
       }, interval);
       setIntervalID(timerID);
       const shadowTimerID = setInterval(() => {
-        setShadowTimer(currentTime => currentTime - 1);
-      }, interval * 2);
+        setShadowTimer(currentTime => (currentTime === 0 ? 1 : 0));
+      }, interval);
       setBoxShadowintervalID(shadowTimerID);
       setTimerStatus(ON);
     }
-  }, [interval, timerStatus]);
 
-  useEffect(() => {
-    if (timer === 0) {
+    if (timerCount === 0 && timerStatus === ON) {
+      console.log('useEffect2', timerCount);
       if (intervalID && boxShadowintervalID) {
         clearInterval(intervalID);
         clearInterval(boxShadowintervalID);
@@ -92,19 +100,22 @@ export const useCountDownTimer = ({
       setTimerStatus(OFF);
       return;
     }
-  }, [timer, interval, intervalID, timerStatus, onTimeOut]);
+  }, [timerCount]);
 
   // function resetTimer(newValue: number) {
   //   setTimer(newValue + initialValue);
   // }
+  useEffect(() => {
+    console.log(intervalID);
+  }, [intervalID]);
 
   useEffect(() => {
-    setMinutes(`0${Math.floor(timer / 60)}`.slice(-2));
-    setSeconds(`0${timer % 60}`.slice(-2));
-  }, [timer]);
+    setMinutes(`0${Math.floor(timerCount / 60)}`.slice(-2));
+    setSeconds(`0${timerCount % 60}`.slice(-2));
+  }, [timerCount]);
 
   useEffect(() => {
-    if (shadowTimer % 2 === 0) {
+    if (shadowTimer === 0) {
       hide();
     } else {
       show();
@@ -112,11 +123,10 @@ export const useCountDownTimer = ({
   }, [shadowTimer]);
 
   return {
-    timer,
-
     minutes,
     seconds,
     shadowAnim,
-    startTimer,
+
+    timer,
   };
 };

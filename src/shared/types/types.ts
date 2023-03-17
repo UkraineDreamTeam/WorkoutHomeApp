@@ -14,7 +14,7 @@ export type RootStackParamList = {
   ListOfExercise: undefined;
   Profile: undefined;
   Exercise: WorkoutExercise;
-  WorkoutInProgress: { restTime: number };
+  WorkoutInProgress: { time: number };
 };
 
 export type WorkoutScreenProps = StackScreenProps<
@@ -47,7 +47,7 @@ export type HomeTabParamList = {
   ListOfExercise: { list?: Exercise[] };
   Exercise: WorkoutExercise;
   Filters: undefined;
-  WorkoutInProgress: { restTime: number };
+  WorkoutInProgress: { time: number };
 };
 
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> =

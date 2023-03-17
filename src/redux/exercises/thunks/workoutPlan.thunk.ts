@@ -85,7 +85,7 @@ export const addRoutine = createAsyncThunk<
 
     return { plans: updatedList, addedRoutine: newRoutine, status: true };
   } catch (e) {
-    console.log('create routine', e);
+
     return { status: false };
   }
 });
@@ -121,7 +121,7 @@ export const deleteRoutine = createAsyncThunk<
       plan: updatedList.find(el => el.id === planId),
     };
   } catch (e) {
-    console.log('create routine', e);
+
     return { status: false };
   }
 });
@@ -174,7 +174,7 @@ export const addExercisesToRoutine = createAsyncThunk<
 
     return { plans: updatedList, plan: selectedPlan, routineId, status: true };
   } catch (e) {
-    console.log(e);
+
     return { status: false };
   }
 });
@@ -228,7 +228,7 @@ export const updateExerciseInRoutine = createAsyncThunk<
 
     return { plans: updatedList, plan: selectedPlan, routineId, status: true };
   } catch (e) {
-    console.log(e);
+
     return { status: false };
   }
 });
@@ -278,7 +278,7 @@ export const deleteExerciseFromRoutine = createAsyncThunk<
 
     return { plans: updatedList, plan: selectedPlan, routineId, status: true };
   } catch (e) {
-    console.log(e);
+
     return { status: false };
   }
 });
