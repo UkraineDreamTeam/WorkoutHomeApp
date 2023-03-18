@@ -118,7 +118,7 @@ const SetItemComponent: FC<{
             marginHorizontal: 5,
           }}
           onPress={() => {
-            dispatch(handleCompletedExercise({ id: exerciseId, setId: id }));
+            dispatch(handleCompletedExercise({ id: exerciseId}));
             dispatch(setRestTimer(setRestTimeMS / 1000));
           }}
           disabled={timerCount && rest ? true : false}

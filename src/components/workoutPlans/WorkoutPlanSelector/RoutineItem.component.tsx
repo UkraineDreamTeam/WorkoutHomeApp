@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { ListRenderItem, Pressable, Text, View } from 'react-native';
+import { ListRenderItem, Pressable, View } from 'react-native';
 import { Routine } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
@@ -8,7 +8,7 @@ import {
   selectRoutine,
 } from 'redux/exercises/exercises.slice';
 import { COLORS } from '@shared/theme';
-import TextWrapperComponent from "shared/wrapperComponents/TextWrapper.component";
+import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 
 type Props = {
   item: Routine;
@@ -18,7 +18,9 @@ const RoutineItemComponent: FC<Props> = ({ item }) => {
   const routine = useAppSelector(selectedRoutine);
   const plan = useAppSelector(selectedPlan);
   const handlePress = () => {
-    if (item) dispatch(selectRoutine(item));
+    if (item) {
+      dispatch(selectRoutine(item));
+    }
   };
   useEffect(() => {
     if (!routine) {

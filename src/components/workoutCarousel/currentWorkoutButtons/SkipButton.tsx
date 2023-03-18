@@ -1,14 +1,21 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { TouchableOpacity, View } from 'react-native';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 import { styles } from 'components/workoutCarousel/currentWorkoutButtons/style';
-import { useAppSelector } from 'redux/store';
-import { isRest } from 'redux/workoutTimer/workoutTimer.slice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import {
+  currentExercise,
+  handleSkipExercise,
+  isRest,
+  setRestTimer,
+} from 'redux/workoutTimer/workoutTimer.slice';
 
 const SkipButton = () => {
   const rest = useAppSelector(isRest);
+  const id = useAppSelector(currentExercise);
+  const dispatch = useAppDispatch();
   const getSkipText = useMemo(() => {
     switch (rest) {
       case true:
@@ -19,8 +26,20 @@ const SkipButton = () => {
         break;
     }
   }, [rest]);
+
+  const handleSkip = useCallback(() => {
+    switch (rest) {
+      case true:
+        dispatch(setRestTimer(0));
+        break;
+      case false:
+        console.log('skip');
+        dispatch(handleSkipExercise());
+        break;
+    }
+  }, [rest]);
   return (
-    <TouchableOpacity style={[styles.button]}>
+    <TouchableOpacity style={[styles.button]} onPress={handleSkip}>
       <View
         style={{
           backgroundColor: COLORS.YELLOW,

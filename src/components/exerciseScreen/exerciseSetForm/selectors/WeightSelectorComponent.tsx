@@ -3,7 +3,7 @@ import { Keyboard, View } from 'react-native';
 import { styles } from './styles';
 import { TYPOGRAPHY } from 'shared/theme';
 import TextInputWrapperComponent from 'shared/wrapperComponents/TextInputWrapper.component';
-import {form, setReps, setWeight} from 'redux/workoutForm/workoutForm.slice';
+import { form, setWeight } from 'redux/workoutForm/workoutForm.slice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
 type ChangeEvent = { nativeEvent: { text: string } };
@@ -51,7 +51,7 @@ export const WeightSelectorComponent = () => {
             backgroundColor: 'black',
             borderRadius: TYPOGRAPHY.BORDER_RADIUS.small,
             textAlign: 'center',
-            fontFamily: TYPOGRAPHY.FONTS.medium
+            fontFamily: TYPOGRAPHY.FONTS.medium,
           },
         ]}
         onChange={handleChange}

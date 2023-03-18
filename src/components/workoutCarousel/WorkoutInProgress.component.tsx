@@ -51,8 +51,6 @@ const WorkoutInProgressCarousel: FC<{ time: number }> = ({ time }) => {
     });
   };
 
-
-
   return (
     <View style={[{ width: Dimensions.get('screen').width, paddingTop: 10 }]}>
       <View style={{ height: 80 }}>
@@ -81,7 +79,13 @@ const WorkoutInProgressCarousel: FC<{ time: number }> = ({ time }) => {
         <FlatList
           ref={flatListRef}
           data={routine.data}
-          renderItem={({ item }) => <WorkoutItem workoutItem={item} />}
+          renderItem={({ item, index }) => (
+            <WorkoutItem
+              workoutItem={item}
+              index={index}
+              currentItem={currentExercise}
+            />
+          )}
           keyExtractor={(item, index) => item.routineId || item.id}
           horizontal={true}
           scrollEnabled={true}

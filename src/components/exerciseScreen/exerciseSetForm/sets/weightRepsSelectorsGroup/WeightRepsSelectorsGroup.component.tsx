@@ -1,4 +1,4 @@
-  import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { COLORS, TYPOGRAPHY } from '@shared/theme';
 import { WeightSelectorComponent } from '../../selectors/WeightSelectorComponent';
@@ -6,9 +6,6 @@ import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component
 import { RepsSelectorComponent } from 'components/exerciseScreen/exerciseSetForm/selectors/RepsInput.component';
 
 export const WeightRepsSelectorsGroupComponent = () => {
-
-
-
   return (
     <View style={styles.container}>
       <View style={styles.repsContainer}>
@@ -46,7 +43,7 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     alignSelf: 'center',
     padding: 6,
-    fontFamily: TYPOGRAPHY.FONTS.medium
+    fontFamily: TYPOGRAPHY.FONTS.medium,
   },
   weight: {
     marginLeft: 10,

@@ -4,22 +4,31 @@ import { WorkoutExercise } from 'redux/types';
 import { COLORS, TYPOGRAPHY } from 'shared/theme';
 import SetItemComponent from 'components/workoutCarousel/SetIem.component';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { isRest, setsArray } from 'redux/workoutTimer/workoutTimer.slice';
+import {
+  currentSetId,
+  isRest,
+  setCurrentSetId,
+  setCurrentWorkout,
+  setsArray,
+} from 'redux/workoutTimer/workoutTimer.slice';
 import TextWrapperComponent from 'shared/wrapperComponents/TextWrapper.component';
 import { WorkoutItemInProgress } from 'redux/workoutTimer/types';
 import FullScreenImage from 'components/modals/FullScreenImage.modal';
 
 const WORKOUT_EXERCISE_ITEM_HEIGHT = Dimensions.get('screen').height * 0.7;
-const IMAGE_SIZE = Dimensions.get('screen').height * 0.3;
+const IMAGE_SIZE = 150;
 const SETS_SIZE = WORKOUT_EXERCISE_ITEM_HEIGHT - IMAGE_SIZE - 40;
 
 type Props = {
   workoutItem: WorkoutExercise;
+  index: number;
+  currentItem: number;
 };
 
-const WorkoutItem: FC<Props> = ({ workoutItem }) => {
+const WorkoutItem: FC<Props> = ({ workoutItem, index, currentItem }) => {
   const rest = useAppSelector(isRest);
   const sets = useAppSelector(setsArray);
+  const setId = useAppSelector(currentSetId);
   const [currentSet, setCurrentSet] = useState<
     WorkoutItemInProgress | undefined
   >();
@@ -36,14 +45,23 @@ const WorkoutItem: FC<Props> = ({ workoutItem }) => {
   useEffect(() => {
     if (sets && workoutItem.routineId && sets[workoutItem.routineId]?.length) {
       setCurrentSet(sets[workoutItem.routineId].find(el => !el.isCompleted));
+
+      if (currentSet) {
+        dispatch(setCurrentSetId(currentSet.id));
+      }
     }
   }, [sets]);
 
   useEffect(() => {
-    if (!currentSet) {
-      console.log('finished');
+    if (sets && workoutItem.routineId && sets[workoutItem.routineId]?.length) {
+      if (index === currentItem) {
+        dispatch(setCurrentWorkout(workoutItem.routineId));
+      }
     }
-  }, [currentSet]);
+  }, []);
+  useEffect(() => {
+    console.log('setId', setId, currentSet);
+  }, [setId]);
 
   return (
     <View
